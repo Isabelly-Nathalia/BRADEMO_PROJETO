@@ -179,27 +179,15 @@ class _SecondScreenState extends State<SecondScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            MenuWidget(
-              onHome: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                );
-              },
-              onForm: () {},
-              onMapa: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Mapa()),
-                );
-              },
-              onConta: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Conta()),
-                );
-              },
+            Text(
+              "Nos conte o que você gosta e iremos sugerir ótimos filmes!", 
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            SizedBox(height: 4),
 
             Expanded(
               child: SingleChildScrollView(
@@ -542,6 +530,36 @@ class _SecondScreenState extends State<SecondScreen> {
                           Botao(text: "Enviar", onPressed: enviar),
                           Botao(text: "Limpar", onPressed: limpar),
                         ],
+                      ),
+
+                      const SizedBox(height: 40),
+
+                      MenuWidget(
+                        onHome: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Home(),
+                            ),
+                          );
+                        },
+                        onForm: () {},
+                        onMapa: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Mapa(),
+                            ),
+                          );
+                        },
+                        onConta: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Conta(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
