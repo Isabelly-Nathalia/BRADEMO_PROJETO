@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'inicial.dart';
+import 'screens/inicial.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +11,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const Apresentacao(), 
+ debugShowCheckedModeBanner: false,
+
+  theme: ThemeData(
+    primaryColor: const Color(0xFF222425),
+    scaffoldBackgroundColor: const Color(0xFF222425),
+
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Color(0xFF222425),
+      foregroundColor: Colors.white,
+    ),
+
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: Colors.white),
+    ),
+  ),
+
+  home: const Apresentacao(),
     );
   }
 }

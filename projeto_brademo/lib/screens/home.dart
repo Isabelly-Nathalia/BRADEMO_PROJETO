@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/conta.dart';
-import 'package:projeto_brademo/form.dart';
-import 'package:projeto_brademo/mapa.dart';
+import 'package:projeto_brademo/screens/conta.dart';
+import 'package:projeto_brademo/screens/form.dart';
+import 'package:projeto_brademo/screens/mapa.dart';
 import 'package:projeto_brademo/widgets/headerRotas.dart';
-import 'package:projeto_brademo/detalhe_filme.dart';
+import 'package:projeto_brademo/screens/detalhe_filme.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -86,6 +86,7 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final largura = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Cinza,
       body: SafeArea(
@@ -197,46 +198,90 @@ class HomeState extends State<Home> {
             const SizedBox(height: 15),
 
             // carrossel sugestao
-            Container(
-              height: 320,
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                color: vermelho,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: PageView.builder(
-                controller: controllerFIlmes,
-                padEnds: false,
-                itemCount: filmes.length,
-                itemBuilder: (context, index) {
-                  final filme = filmes[index];
-                  return _cardFilme(
-                    imagem: filme["imagem"]!,
-                    titulo: filme["titulo"]!,
-                    nota: filme["nota"]!,
-                    duracao: filme["duracao"]!,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => DetalheFilme(
-                            titulo: filme["titulo"]!,
+            largura < 600
+                ? Container(
+                    width: double.infinity,
+                    height: 320,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: vermelho,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: PageView.builder(
+                      controller: controllerFIlmes,
+                      padEnds: false,
+                      itemCount: filmes.length,
+                      itemBuilder: (context, index) {
+                        final filme = filmes[index];
+                        return _cardFilme(
+                          imagem: filme["imagem"]!,
+                          titulo: filme["titulo"]!,
+                          nota: filme["nota"]!,
+                          duracao: filme["duracao"]!,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetalheFilme(
+                                  titulo: filme["titulo"]!,
+                                  imagem: filme["imagem"]!,
+                                  descricao: filme["descricao"]!,
+                                  nota: filme["nota"]!,
+                                  duracao: filme["duracao"]!,
+                                  diretor: filme["diretor"]!,
+                                  elenco: List<String>.from(filme["elenco"]),
+                                  fotoDiretor: filme["fotoDiretor"]!,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  )
+                : Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color: vermelho,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      children: filmes.map((filme) {
+                        return Expanded(
+                          child: _cardFilme(
                             imagem: filme["imagem"]!,
-                            descricao: filme["descricao"]!,
+                            titulo: filme["titulo"]!,
                             nota: filme["nota"]!,
                             duracao: filme["duracao"]!,
-                            diretor: filme["diretor"]!,
-                            elenco: List<String>.from(filme["elenco"]),
-                            fotoDiretor: filme["fotoDiretor"]!,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetalheFilme(
+                                    titulo: filme["titulo"]!,
+                                    imagem: filme["imagem"]!,
+                                    descricao: filme["descricao"]!,
+                                    nota: filme["nota"]!,
+                                    duracao: filme["duracao"]!,
+                                    diretor: filme["diretor"]!,
+                                    elenco: List<String>.from(filme["elenco"]),
+                                    fotoDiretor: filme["fotoDiretor"]!,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-
+                        );
+                      }).toList(),
+                    ),
+                  ),
             // footer rotas menu
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

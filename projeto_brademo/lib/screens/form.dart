@@ -3,7 +3,7 @@ import 'package:projeto_brademo/widgets/button.dart';
 import 'mapa.dart';
 import 'home.dart';
 import 'conta.dart';
-import 'widgets/headerRotas.dart';
+import '../widgets/headerRotas.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});

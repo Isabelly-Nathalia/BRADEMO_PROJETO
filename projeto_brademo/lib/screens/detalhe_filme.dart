@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:projeto_brademo/widgets/headerRotas.dart';
-import 'package:projeto_brademo/conta.dart';
-import 'package:projeto_brademo/form.dart';
-import 'package:projeto_brademo/mapa.dart';
+import 'package:projeto_brademo/screens/conta.dart';
+import 'package:projeto_brademo/screens/form.dart';
+import 'package:projeto_brademo/screens/mapa.dart';
 
 class DetalheFilme extends StatelessWidget {
   final String titulo;

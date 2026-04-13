@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/mapa.dart';
-import 'package:projeto_brademo/form.dart';
-import 'package:projeto_brademo/home.dart';
+import 'package:projeto_brademo/screens/mapa.dart';
+import 'package:projeto_brademo/screens/form.dart';
+import 'package:projeto_brademo/screens/home.dart';
 import 'package:projeto_brademo/widgets/headerRotas.dart';
 
 class Conta extends StatelessWidget {
