@@ -3,6 +3,7 @@ import 'package:projeto_brademo/conta.dart';
 import 'package:projeto_brademo/form.dart';
 import 'package:projeto_brademo/mapa.dart';
 import 'package:projeto_brademo/widgets/headerRotas.dart';
+import 'package:projeto_brademo/detalhe_filme.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,7 +16,6 @@ class HomeState extends State<Home> {
   final PageController controladorCarrossel = PageController();
   final PageController controllerFIlmes = PageController(
     viewportFraction: 0.46,
-    
   );
 
   // carrosel ad fotos
@@ -25,13 +25,23 @@ class HomeState extends State<Home> {
   ];
 
   // carrosel sugestao infos
-  final List<Map<String, String>> filmes = [
+  final List<Map<String, dynamic>> filmes = [
     {
       "imagem":
           "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
       "titulo": "Central do Brasil",
       "nota": "5",
       "duracao": "1h50min",
+      "diretor": "Walter Salles",
+      "fotoDiretor":
+          "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
+      "descricao":
+          "Uma ex-professora que escreve cartas para analfabetos conhece um menino que acaba de perder a mãe e decide ajudá-lo a encontrar o pai, iniciando uma jornada emocionante que transforma a vida de ambos.",
+      "elenco": [
+        "Fernanda Montenegro (Dora)",
+        "Vinícius de Oliveira (Josué)",
+        "Marília Pêra (Irene)",
+      ],
     },
     {
       "imagem":
@@ -39,6 +49,16 @@ class HomeState extends State<Home> {
       "titulo": "Ainda Estou Aqui",
       "nota": "5",
       "duracao": "2h17min",
+      "diretor": "Walter Salles",
+      "fotoDiretor":
+          "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
+      "descricao":
+          "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar e traçar um novo caminho para si e para seus filhos depois que a vida de sua família é impactada por um ato violento e arbitrário.",
+      "elenco": [
+        "Fernanda Torres (Eunice Paiva)",
+        "Selton Mello (Rubens Paiva)",
+        "Fernanda Montenegro (Eunice Paiva)",
+      ],
     },
     {
       "imagem":
@@ -46,6 +66,16 @@ class HomeState extends State<Home> {
       "titulo": "Cidade de Deus",
       "nota": "5",
       "duracao": "2h10min",
+      "diretor": "Fernando Meirelles",
+      "fotoDiretor":
+          "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "descricao":
+          "Um jovem cresce em uma comunidade dominada pelo crime no Rio de Janeiro e tenta seguir um caminho diferente, enquanto acompanha a ascensão violenta de traficantes e a dura realidade da favela.",
+      "elenco": [
+        "Alice Braga (Angélica)",
+        "Alexandre Rodrigues (Buscapé)",
+        "Douglas Silva (Zé Pequeno)",
+      ],
     },
   ];
 
@@ -64,7 +94,7 @@ class HomeState extends State<Home> {
           children: [
             const SizedBox(height: 25),
 
-            // header saudaçao icons, verificar icons 
+            // header saudaçao icons, verificar icons
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -84,14 +114,12 @@ class HomeState extends State<Home> {
                       SizedBox(height: 4),
                       Text(
                         "Encontre o filme perfeito para sua noite",
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12,
-                        ),
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
                   ),
-                  Row( //verificar
+                  Row(
+                    //verificar
                     children: [
                       _iconeTopo(Icons.notifications),
                       const SizedBox(width: 10),
@@ -102,11 +130,7 @@ class HomeState extends State<Home> {
               ),
             ),
 
-            const SizedBox(height: 15),
-
-            
-
-            const SizedBox(height: 20),
+            const SizedBox(height: 35),
 
             // carrossel ad
             Padding(
@@ -124,9 +148,7 @@ class HomeState extends State<Home> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             image: DecorationImage(
-                              image: NetworkImage(
-                                imagensCarrossel[index],
-                              ),
+                              image: NetworkImage(imagensCarrossel[index]),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -151,10 +173,7 @@ class HomeState extends State<Home> {
                     right: 10,
                     child: Text(
                       "Publicidade",
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                      ),
+                      style: TextStyle(color: Colors.white70, fontSize: 12),
                     ),
                   ),
                 ],
@@ -196,7 +215,23 @@ class HomeState extends State<Home> {
                     titulo: filme["titulo"]!,
                     nota: filme["nota"]!,
                     duracao: filme["duracao"]!,
-                    onTap: () {}, //rota p detalhamneto
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetalheFilme(
+                            titulo: filme["titulo"]!,
+                            imagem: filme["imagem"]!,
+                            descricao: filme["descricao"]!,
+                            nota: filme["nota"]!,
+                            duracao: filme["duracao"]!,
+                            diretor: filme["diretor"]!,
+                            elenco: List<String>.from(filme["elenco"]),
+                            fotoDiretor: filme["fotoDiretor"]!,
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),
@@ -238,15 +273,8 @@ class HomeState extends State<Home> {
   Widget _iconeTopo(IconData icone) {
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: vermelho,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icone,
-        color: Colors.white,
-        size: 18,
-      ),
+      decoration: BoxDecoration(color: vermelho, shape: BoxShape.circle),
+      child: Icon(icone, color: Colors.white, size: 18),
     );
   }
 
@@ -256,7 +284,7 @@ class HomeState extends State<Home> {
     required String titulo,
     required String nota,
     required String duracao,
-    required VoidCallback onTap, //rota p detalhamento
+    required VoidCallback onTap,
   }) {
     return GestureDetector(
       onTap: onTap,
@@ -268,7 +296,9 @@ class HomeState extends State<Home> {
               height: 220,
               width: 150,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
                 image: DecorationImage(
                   image: NetworkImage(imagem),
                   fit: BoxFit.cover,
@@ -289,20 +319,13 @@ class HomeState extends State<Home> {
                   Text(
                     titulo.toUpperCase(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
                   ),
                   const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.white,
-                        size: 12,
-                      ),
+                      const Icon(Icons.star, color: Colors.white, size: 12),
                       const SizedBox(width: 3),
                       Text(
                         nota,
