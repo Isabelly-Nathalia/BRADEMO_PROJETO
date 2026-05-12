@@ -4,6 +4,7 @@ import 'mapa.dart';
 import 'home.dart';
 import 'conta.dart';
 import '../widgets/headerRotas.dart';
+import 'sugestao.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -527,7 +528,17 @@ class _SecondScreenState extends State<SecondScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Botao(text: "Enviar", onPressed: enviar),
+                          Botao(
+                            text: 'Enviar',
+                            onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SugestaoFilmes(),
+                              ),
+                            );
+                          },
+                        ),
                           Botao(text: "Limpar", onPressed: limpar),
                         ],
                       ),

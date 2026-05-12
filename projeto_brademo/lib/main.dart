@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/inicial.dart';
+import 'screens/transicao.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     ),
   ),
 
-  home: const Apresentacao(),
+  home: const Transicao(),
     );
   }
 }

@@ -1,0 +1,345 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../widgets/button.dart';
+import 'form.dart';
+
+class PaginaCadastro extends StatefulWidget {
+  const PaginaCadastro({super.key});
+
+  @override
+  State<PaginaCadastro> createState() =>
+      _PaginaCadastroState();
+}
+
+class _PaginaCadastroState
+    extends State<PaginaCadastro> {
+
+  final TextEditingController nomeController =
+      TextEditingController();
+
+  final TextEditingController usuarioController =
+      TextEditingController();
+
+  final TextEditingController emailController =
+      TextEditingController();
+
+  final TextEditingController senhaController =
+      TextEditingController();
+
+  bool ocultarSenha = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF1F232B),
+
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding:
+                const EdgeInsets.symmetric(
+              horizontal: 30,
+            ),
+
+            child: Column(
+              children: [
+
+                const SizedBox(height: 20),
+
+                // TÍTULO
+                const Text(
+                  'Crie seu perfil',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                // FOTO
+                Stack(
+                  alignment:
+                      Alignment.bottomRight,
+
+                  children: [
+
+                    CircleAvatar(
+                      radius: 45,
+                      backgroundColor:
+                          Colors.white24,
+
+                      child: Icon(
+                        Icons.person,
+                        size: 50,
+                        color: Colors.white54,
+                      ),
+                    ),
+
+                    Container(
+                      padding:
+                          const EdgeInsets.all(6),
+
+                      decoration: BoxDecoration(
+                        color: Colors.white24,
+                        borderRadius:
+                            BorderRadius.circular(
+                          20,
+                        ),
+                      ),
+
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 30),
+
+                // NOME
+                campoTexto(
+                  titulo: 'Nome',
+                  controller: nomeController,
+                  hint: 'Digite seu nome',
+                ),
+
+                const SizedBox(height: 18),
+
+                // USUARIO
+                campoTexto(
+                  titulo: 'Usuário',
+                  controller:
+                      usuarioController,
+                  hint: '@usuario',
+                ),
+
+                const SizedBox(height: 18),
+
+                // EMAIL
+                campoTexto(
+                  titulo: 'E-mail',
+                  controller: emailController,
+                  hint: 'exemplo@gmail.com',
+                ),
+
+                const SizedBox(height: 18),
+
+                // SENHA
+                const Align(
+                  alignment:
+                      Alignment.centerLeft,
+
+                  child: Text(
+                    'Senha',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                TextField(
+                  controller: senhaController,
+                  obscureText: ocultarSenha,
+
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+
+                  decoration: InputDecoration(
+                    hintText: '••••••••',
+
+                    hintStyle:
+                        const TextStyle(
+                      color: Colors.white38,
+                    ),
+
+                    filled: true,
+                    fillColor: Colors.white24,
+
+                    contentPadding:
+                        const EdgeInsets
+                            .symmetric(
+                      horizontal: 20,
+                      vertical: 15,
+                    ),
+
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(
+                        30,
+                      ),
+
+                      borderSide:
+                          BorderSide.none,
+                    ),
+
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          ocultarSenha =
+                              !ocultarSenha;
+                        });
+                      },
+
+                      icon: Icon(
+                        ocultarSenha
+                            ? Icons.visibility
+                            : Icons
+                                .visibility_off,
+
+                        color:
+                            Colors.white70,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 35),
+
+               Botao(
+                text: 'Entrar',
+                onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SecondScreen(),
+                  ),
+                );
+              },
+              ),
+                const SizedBox(height: 30),
+
+                const Text(
+                  'Ou cadastre-se com:',
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 11,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // ÍCONES
+                Row(
+                  mainAxisAlignment:
+                      MainAxisAlignment.center,
+
+                  children: [
+
+                    IconButton(
+                      onPressed: () {},
+
+                      icon: const FaIcon(
+                        FontAwesomeIcons
+                            .instagram,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+
+                    IconButton(
+                      onPressed: () {},
+
+                      icon: const FaIcon(
+                        FontAwesomeIcons
+                            .facebook,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+
+                    IconButton(
+                      onPressed: () {},
+
+                      icon: const FaIcon(
+                        FontAwesomeIcons
+                            .google,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+
+                    IconButton(
+                      onPressed: () {},
+
+                      icon: const FaIcon(
+                        FontAwesomeIcons.apple,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget campoTexto({
+    required String titulo,
+    required TextEditingController controller,
+    required String hint,
+  }) {
+    return Column(
+      crossAxisAlignment:
+          CrossAxisAlignment.start,
+
+      children: [
+
+        Text(
+          titulo,
+          style: const TextStyle(
+            color: Colors.white70,
+            fontSize: 13,
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        TextField(
+          controller: controller,
+
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+
+          decoration: InputDecoration(
+            hintText: hint,
+
+            hintStyle: const TextStyle(
+              color: Colors.white38,
+            ),
+
+            filled: true,
+            fillColor: Colors.white24,
+
+            contentPadding:
+                const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 15,
+            ),
+
+            border: OutlineInputBorder(
+              borderRadius:
+                  BorderRadius.circular(30),
+
+              borderSide: BorderSide.none,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

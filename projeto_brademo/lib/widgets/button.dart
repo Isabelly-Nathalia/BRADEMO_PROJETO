@@ -13,7 +13,7 @@ class Botao extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 160,
+      width: 180,
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
