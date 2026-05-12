@@ -503,7 +503,7 @@ class _SecondScreenState extends State<SecondScreen> {
                       const SizedBox(height: 20),
 
                       // atores
-                      Text("Atoe, Atriz ou Diretor", style: tituloStyle),
+                      Text("Ator, Atriz ou Diretor", style: tituloStyle),
                       const SizedBox(height: 10),
 
                       TextFormField(

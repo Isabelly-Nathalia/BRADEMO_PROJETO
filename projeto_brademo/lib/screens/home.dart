@@ -282,6 +282,8 @@ class HomeState extends State<Home> {
                       }).toList(),
                     ),
                   ),
+            const SizedBox(height: 70),
+
             // footer rotas menu
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -136,8 +136,8 @@ class MovieCard extends StatelessWidget {
     final largura = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      width: largura * 0.28,
-      height: largura * 0.42,
+      width: largura * 0.34,
+      height: largura * 0.49,
 
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),

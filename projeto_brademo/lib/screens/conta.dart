@@ -28,13 +28,13 @@ class Conta extends StatelessWidget {
     {
       "titulo": "La La Land",
       "imagem":
-          "https://upload.wikimedia.org/wikipedia/pt/c/c3/La_La_Land_%28filme%29.png",
+          "https://i5.walmartimages.com/seo/Rolled-Poster-La-La-Land-Movie-24-x-36-Poster_20f02811-01b4-4aea-9bb2-a79942bd2642_1.856c035d66f8fd216f6d933259bc3dfb.jpeg",
     },
 
     {
       "titulo": "Her",
       "imagem":
-          "https://upload.wikimedia.org/wikipedia/pt/0/0a/Her_poster.jpg",
+          "https://upload.wikimedia.org/wikipedia/pt/9/9b/Her.jpg",
     },
   ];
 
