@@ -18,6 +18,7 @@ class SugestaoFilmes extends StatelessWidget {
       "nota": "5",
       "duracao": "2h17min",
       "diretor": "Walter Salles",
+      "streaming": "GloboPlay",
       "fotoDiretor":
           "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
       "descricao":
@@ -32,6 +33,7 @@ class SugestaoFilmes extends StatelessWidget {
       "nota": "5",
       "duracao": "1h50min",
       "diretor": "Walter Salles",
+      "streaming": "Netflix",
       "fotoDiretor":
           "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
       "descricao": "Uma ex-professora conhece um menino que perdeu a mãe.",
@@ -45,6 +47,7 @@ class SugestaoFilmes extends StatelessWidget {
       "nota": "5",
       "duracao": "2h10min",
       "diretor": "Fernando Meirelles",
+      "streaming": "HBO MAX",
       "fotoDiretor":
           "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
       "descricao": "Um jovem cresce em uma comunidade dominada pelo crime.",
@@ -117,8 +120,7 @@ class SugestaoFilmes extends StatelessWidget {
               Botao(
                 text: "Novas sugestões",
                 onPressed: () {
-                  // depois vocês colocam
-                  // nova lógica aqui
+                  // COLOCAR LOGICA DE REFRESH
                 },
               ),
               const SizedBox(height: 20),
@@ -143,6 +145,7 @@ class SugestaoFilmes extends StatelessWidget {
               nota: filme["nota"],
               duracao: filme["duracao"],
               diretor: filme["diretor"],
+              streaming: filme["streaming"],
               elenco: List<String>.from(filme["elenco"]),
               fotoDiretor: filme["fotoDiretor"],
             ),
@@ -199,6 +202,7 @@ class SugestaoFilmes extends StatelessWidget {
               nota: filme["nota"],
               duracao: filme["duracao"],
               diretor: filme["diretor"],
+              streaming: filme["streaming"],
               elenco: List<String>.from(filme["elenco"]),
               fotoDiretor: filme["fotoDiretor"],
             ),

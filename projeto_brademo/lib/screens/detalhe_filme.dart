@@ -13,6 +13,7 @@ class DetalheFilme extends StatelessWidget {
   final String diretor;
   final List<String> elenco;
   final String fotoDiretor;
+  final String streaming;
 
   const DetalheFilme({
     super.key,
@@ -24,6 +25,7 @@ class DetalheFilme extends StatelessWidget {
     required this.diretor,
     required this.elenco,
     required this.fotoDiretor,
+    required this.streaming,
   });
 
   final Color cinza = const Color(0xFF222425);
@@ -35,9 +37,10 @@ class DetalheFilme extends StatelessWidget {
     return Scaffold(
       backgroundColor: cinza,
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
 
             Stack(
               children: [
@@ -57,17 +60,6 @@ class DetalheFilme extends StatelessWidget {
                   child: GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: const Icon(Icons.arrow_back, color: Colors.white),
-                  ),
-                ),
-
-                Positioned(
-                  right: 16,
-                  child: Row(
-                    children: [
-                      _iconeTopo(Icons.notifications),
-                      const SizedBox(width: 10),
-                      _iconeTopo(Icons.search),
-                    ],
                   ),
                 ),
               ],
@@ -171,7 +163,7 @@ class DetalheFilme extends StatelessWidget {
                     ],
                   ),
 
-                  const Spacer(),
+                  const SizedBox(height: 20),
 
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -220,6 +212,29 @@ class DetalheFilme extends StatelessWidget {
               ),
             ),
 
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  const Text(
+                    "Disponível em: ",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+
+                  Text(
+                    streaming,
+                    style: const TextStyle(
+                      color: Colors.white70, 
+                      fontSize: 15,                      
+                      fontWeight: FontWeight.bold,                      
+                      ),
+                  ),
+                ],
+              ),
+            ),
+
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Divider(color: Colors.white24),
@@ -247,8 +262,6 @@ class DetalheFilme extends StatelessWidget {
             ),
 
             const SizedBox(height: 15),
-
-            const Spacer(),
 
             // footer rotas menu
             Padding(
@@ -280,8 +293,9 @@ class DetalheFilme extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _iconeTopo(IconData icone) {
     return Container(

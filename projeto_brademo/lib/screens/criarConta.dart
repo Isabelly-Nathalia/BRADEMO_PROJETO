@@ -7,24 +7,19 @@ class PaginaCadastro extends StatefulWidget {
   const PaginaCadastro({super.key});
 
   @override
-  State<PaginaCadastro> createState() =>
-      _PaginaCadastroState();
+  State<PaginaCadastro> createState() => _PaginaCadastroState();
 }
 
-class _PaginaCadastroState
-    extends State<PaginaCadastro> {
+class _PaginaCadastroState extends State<PaginaCadastro> {
+  final TextEditingController nomeController = TextEditingController();
 
-  final TextEditingController nomeController =
-      TextEditingController();
+  final TextEditingController usuarioController = TextEditingController();
 
-  final TextEditingController usuarioController =
-      TextEditingController();
+  final TextEditingController nascimentoController = TextEditingController();
 
-  final TextEditingController emailController =
-      TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController senhaController =
-      TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
 
   bool ocultarSenha = true;
 
@@ -36,14 +31,10 @@ class _PaginaCadastroState
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding:
-                const EdgeInsets.symmetric(
-              horizontal: 30,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
 
             child: Column(
               children: [
-
                 const SizedBox(height: 20),
 
                 // TÍTULO
@@ -60,15 +51,12 @@ class _PaginaCadastroState
 
                 // FOTO
                 Stack(
-                  alignment:
-                      Alignment.bottomRight,
+                  alignment: Alignment.bottomRight,
 
                   children: [
-
                     CircleAvatar(
                       radius: 45,
-                      backgroundColor:
-                          Colors.white24,
+                      backgroundColor: Colors.white24,
 
                       child: Icon(
                         Icons.person,
@@ -78,15 +66,11 @@ class _PaginaCadastroState
                     ),
 
                     Container(
-                      padding:
-                          const EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(6),
 
                       decoration: BoxDecoration(
                         color: Colors.white24,
-                        borderRadius:
-                            BorderRadius.circular(
-                          20,
-                        ),
+                        borderRadius: BorderRadius.circular(20),
                       ),
 
                       child: const Icon(
@@ -112,12 +96,75 @@ class _PaginaCadastroState
                 // USUARIO
                 campoTexto(
                   titulo: 'Usuário',
-                  controller:
-                      usuarioController,
+                  controller: usuarioController,
                   hint: '@usuario',
                 ),
 
                 const SizedBox(height: 18),
+
+                // NASCIMENTO
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Data de nascimento',
+                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    TextField(
+                      controller: nascimentoController,
+                      readOnly: true,
+
+                      style: const TextStyle(color: Colors.white),
+
+                      decoration: InputDecoration(
+                        hintText: 'dd/mm/aaaa',
+
+                        hintStyle: const TextStyle(color: Colors.white38),
+
+                        filled: true,
+                        fillColor: Colors.white24,
+
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 15,
+                        ),
+
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
+                        ),
+
+                        suffixIcon: const Icon(
+                          Icons.calendar_today,
+                          color: Colors.white70,
+                        ),
+                      ),
+
+                      onTap: () async {
+                        DateTime? dataSelecionada = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime.now(),
+                        );
+
+                        if (dataSelecionada != null) {
+                          String dataFormatada =
+                              "${dataSelecionada.day.toString().padLeft(2, '0')}/"
+                              "${dataSelecionada.month.toString().padLeft(2, '0')}/"
+                              "${dataSelecionada.year}";
+
+                          setState(() {
+                            nascimentoController.text = dataFormatada;
+                          });
+                        }
+                      },
+                    ),
+                  ],
+                ),
 
                 // EMAIL
                 campoTexto(
@@ -130,15 +177,11 @@ class _PaginaCadastroState
 
                 // SENHA
                 const Align(
-                  alignment:
-                      Alignment.centerLeft,
+                  alignment: Alignment.centerLeft,
 
                   child: Text(
                     'Senha',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                 ),
 
@@ -148,54 +191,38 @@ class _PaginaCadastroState
                   controller: senhaController,
                   obscureText: ocultarSenha,
 
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(color: Colors.white),
 
                   decoration: InputDecoration(
                     hintText: '••••••••',
 
-                    hintStyle:
-                        const TextStyle(
-                      color: Colors.white38,
-                    ),
+                    hintStyle: const TextStyle(color: Colors.white38),
 
                     filled: true,
                     fillColor: Colors.white24,
 
-                    contentPadding:
-                        const EdgeInsets
-                            .symmetric(
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 15,
                     ),
 
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(
-                        30,
-                      ),
+                      borderRadius: BorderRadius.circular(30),
 
-                      borderSide:
-                          BorderSide.none,
+                      borderSide: BorderSide.none,
                     ),
 
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
-                          ocultarSenha =
-                              !ocultarSenha;
+                          ocultarSenha = !ocultarSenha;
                         });
                       },
 
                       icon: Icon(
-                        ocultarSenha
-                            ? Icons.visibility
-                            : Icons
-                                .visibility_off,
+                        ocultarSenha ? Icons.visibility : Icons.visibility_off,
 
-                        color:
-                            Colors.white70,
+                        color: Colors.white70,
                       ),
                     ),
                   ),
@@ -203,42 +230,36 @@ class _PaginaCadastroState
 
                 const SizedBox(height: 35),
 
-               Botao(
-                text: 'Entrar',
-                onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SecondScreen(),
-                  ),
-                );
-              },
-              ),
+                Botao(
+                  text: 'Entrar',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SecondScreen(),
+                      ),
+                    );
+                  },
+                ),
                 const SizedBox(height: 30),
 
                 const Text(
                   'Ou cadastre-se com:',
-                  style: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 11,
-                  ),
+                  style: TextStyle(color: Colors.white54, fontSize: 11),
                 ),
 
                 const SizedBox(height: 20),
 
                 // ÍCONES
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
 
                   children: [
-
                     IconButton(
                       onPressed: () {},
 
                       icon: const FaIcon(
-                        FontAwesomeIcons
-                            .instagram,
+                        FontAwesomeIcons.instagram,
                         color: Colors.white,
                         size: 24,
                       ),
@@ -248,8 +269,7 @@ class _PaginaCadastroState
                       onPressed: () {},
 
                       icon: const FaIcon(
-                        FontAwesomeIcons
-                            .facebook,
+                        FontAwesomeIcons.facebook,
                         color: Colors.white,
                         size: 24,
                       ),
@@ -259,8 +279,7 @@ class _PaginaCadastroState
                       onPressed: () {},
 
                       icon: const FaIcon(
-                        FontAwesomeIcons
-                            .google,
+                        FontAwesomeIcons.google,
                         color: Colors.white,
                         size: 24,
                       ),
@@ -293,17 +312,12 @@ class _PaginaCadastroState
     required String hint,
   }) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
 
       children: [
-
         Text(
           titulo,
-          style: const TextStyle(
-            color: Colors.white70,
-            fontSize: 13,
-          ),
+          style: const TextStyle(color: Colors.white70, fontSize: 13),
         ),
 
         const SizedBox(height: 8),
@@ -311,29 +325,23 @@ class _PaginaCadastroState
         TextField(
           controller: controller,
 
-          style: const TextStyle(
-            color: Colors.white,
-          ),
+          style: const TextStyle(color: Colors.white),
 
           decoration: InputDecoration(
             hintText: hint,
 
-            hintStyle: const TextStyle(
-              color: Colors.white38,
-            ),
+            hintStyle: const TextStyle(color: Colors.white38),
 
             filled: true,
             fillColor: Colors.white24,
 
-            contentPadding:
-                const EdgeInsets.symmetric(
+            contentPadding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 15,
             ),
 
             border: OutlineInputBorder(
-              borderRadius:
-                  BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(30),
 
               borderSide: BorderSide.none,
             ),

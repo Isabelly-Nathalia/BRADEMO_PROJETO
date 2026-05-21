@@ -3,6 +3,7 @@ import 'package:projeto_brademo/widgets/headerRotas.dart';
 import 'home.dart';
 import 'form.dart';
 import 'mapa.dart';
+import 'detalhe_filme.dart';
 
 class Conta extends StatelessWidget {
   const Conta({super.key});
@@ -12,29 +13,53 @@ class Conta extends StatelessWidget {
   final Color vermelho = const Color(0xFF681F10);
 
   // LISTA FILMES
-  final List<Map<String, String>> filmes = const [
+final List<Map<String, dynamic>> filmes = const [
     {
       "titulo": "Cidade de Deus",
-      "imagem":
-          "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
+      "imagem": "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
+      "descricao": "Dois jovens seguem caminhos diferentes em uma favela marcada pela violência.",
+      "nota": "4",
+      "duracao": "2h 10m",
+      "diretor": "Fernando Meirelles",
+      "fotoDiretor": "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "streaming": "Netflix",
+      "elenco": ["Alexandre Rodrigues", "Leandro Firmino", "Seu Jorge"],
     },
 
     {
       "titulo": "Central do Brasil",
-      "imagem":
-          "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
+      "imagem": "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
+      "descricao": "Uma ex-professora ajuda um menino a encontrar o pai pelo interior do Brasil.",
+      "nota": "5",
+      "duracao": "1h 50m",
+      "diretor": "Walter Salles",
+      "fotoDiretor": "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
+      "streaming": "Globoplay",
+      "elenco": ["Fernanda Montenegro", "Vinícius de Oliveira"],
     },
 
     {
       "titulo": "La La Land",
-      "imagem":
-          "https://i5.walmartimages.com/seo/Rolled-Poster-La-La-Land-Movie-24-x-36-Poster_20f02811-01b4-4aea-9bb2-a79942bd2642_1.856c035d66f8fd216f6d933259bc3dfb.jpeg",
+      "imagem": "https://i5.walmartimages.com/seo/Rolled-Poster-La-La-Land-Movie-24-x-36-Poster_20f02811-01b4-4aea-9bb2-a79942bd2642_1.856c035d66f8fd216f6d933259bc3dfb.jpeg",
+      "descricao": "Um pianista e uma atriz vivem um romance enquanto perseguem seus sonhos.",
+      "nota": "4",
+      "duracao": "2h 08m",
+      "diretor": "Damien Chazelle",
+      "fotoDiretor": "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "streaming": "Prime Video",
+      "elenco": ["Ryan Gosling", "Emma Stone"],
     },
 
     {
       "titulo": "Her",
-      "imagem":
-          "https://upload.wikimedia.org/wikipedia/pt/9/9b/Her.jpg",
+      "imagem": "https://upload.wikimedia.org/wikipedia/pt/9/9b/Her.jpg",
+      "descricao": "Um homem solitário desenvolve uma relação com uma inteligência artificial.",
+      "nota": "5",
+      "duracao": "2h 06m",
+      "diretor": "Spike Jonze",
+      "fotoDiretor": "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "streaming": "HBO Max",
+      "elenco": ["Joaquin Phoenix", "Scarlett Johansson"],
     },
   ];
 
@@ -46,31 +71,22 @@ class Conta extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-
             const SizedBox(height: 20),
 
             // TOPO
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
 
               child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment
-                        .spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                 children: [
-
                   // FOTO + INFO
                   Row(
                     children: [
-
                       CircleAvatar(
                         radius: 35,
-                        backgroundColor:
-                            Colors.white24,
+                        backgroundColor: Colors.white24,
 
                         child: Icon(
                           Icons.person,
@@ -82,21 +98,15 @@ class Conta extends StatelessWidget {
                       const SizedBox(width: 15),
 
                       Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: const [
-
                           Text(
                             "Usuario123",
                             style: TextStyle(
-                              color:
-                                  Colors.white,
+                              color: Colors.white,
                               fontSize: 18,
-                              fontWeight:
-                                  FontWeight
-                                      .bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
 
@@ -105,31 +115,13 @@ class Conta extends StatelessWidget {
                           Text(
                             "@usuario123",
                             style: TextStyle(
-                              color: Colors
-                                  .white70,
+                              color: Colors.white70,
                               fontSize: 12,
                             ),
                           ),
                         ],
                       ),
                     ],
-                  ),
-
-                  // NOTIFICAÇÃO
-                  Container(
-                    padding:
-                        const EdgeInsets.all(8),
-
-                    decoration: BoxDecoration(
-                      color: vermelho,
-                      shape: BoxShape.circle,
-                    ),
-
-                    child: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                      size: 18,
-                    ),
                   ),
                 ],
               ),
@@ -139,10 +131,7 @@ class Conta extends StatelessWidget {
 
             // BOTÃO EDITAR
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
 
               child: SizedBox(
                 width: double.infinity,
@@ -151,28 +140,18 @@ class Conta extends StatelessWidget {
                   onPressed: () {},
 
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        vermelho,
+                    backgroundColor: vermelho,
 
-                    padding:
-                        const EdgeInsets.symmetric(
-                      vertical: 14,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
 
-                    shape:
-                        RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(
-                        30,
-                      ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
 
                   child: const Text(
                     "Editar perfil",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -182,22 +161,17 @@ class Conta extends StatelessWidget {
 
             // TÍTULO
             const Padding(
-              padding:
-                  EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 20),
 
               child: Align(
-                alignment:
-                    Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
 
                 child: Text(
                   "Filmes curtidos",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
-                    fontWeight:
-                        FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -208,15 +182,11 @@ class Conta extends StatelessWidget {
             // GRID FILMES
             Expanded(
               child: GridView.builder(
-                padding:
-                    const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
 
                 itemCount: filmes.length,
 
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 20,
@@ -224,47 +194,58 @@ class Conta extends StatelessWidget {
                 ),
 
                 itemBuilder: (context, index) {
+                  final filme = filmes[index];
 
-                  final filme =
-                      filmes[index];
-
-                  return Column(
-                    children: [
-
-                      Container(
-                        height: 250,
-
-                        decoration: BoxDecoration(
-                          borderRadius:
-                              BorderRadius.circular(
-                            15,
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetalheFilme(
+                            titulo: filme["titulo"],
+                            imagem: filme["imagem"],
+                            descricao: filme["descricao"],
+                            nota: filme["nota"],
+                            duracao: filme["duracao"],
+                            diretor: filme["diretor"],
+                            fotoDiretor: filme["fotoDiretor"],
+                            streaming: filme["streaming"],
+                            elenco: List<String>.from(filme["elenco"]),
                           ),
+                        ),
+                      );
+                    },
 
-                          image:
-                              DecorationImage(
-                            image: NetworkImage(
-                              filme["imagem"]!,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 250,
+
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+
+                            image: DecorationImage(
+                              image: NetworkImage(filme["imagem"]),
+
+                              fit: BoxFit.cover,
                             ),
-
-                            fit: BoxFit.cover,
                           ),
                         ),
-                      ),
 
-                      const SizedBox(height: 8),
+                        const SizedBox(height: 8),
 
-                      Text(
-                        filme["titulo"]!,
+                        Text(
+                          filme["titulo"],
 
-                        textAlign:
-                            TextAlign.center,
+                          textAlign: TextAlign.center,
 
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
                 },
               ),
@@ -272,20 +253,13 @@ class Conta extends StatelessWidget {
 
             // MENU
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
 
               child: MenuWidget(
                 onHome: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) =>
-                              const Home(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const Home()),
                   );
                 },
 
@@ -293,9 +267,7 @@ class Conta extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder:
-                          (context) =>
-                              const SecondScreen(),
+                      builder: (context) => const SecondScreen(),
                     ),
                   );
                 },
@@ -303,11 +275,7 @@ class Conta extends StatelessWidget {
                 onMapa: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) =>
-                              const Mapa(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const Mapa()),
                   );
                 },
 

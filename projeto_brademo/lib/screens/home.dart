@@ -33,6 +33,7 @@ class HomeState extends State<Home> {
       "nota": "5",
       "duracao": "1h50min",
       "diretor": "Walter Salles",
+      "streaming": "Netflix",
       "fotoDiretor":
           "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
       "descricao":
@@ -50,6 +51,7 @@ class HomeState extends State<Home> {
       "nota": "5",
       "duracao": "2h17min",
       "diretor": "Walter Salles",
+      "streaming": "GloboPlay",
       "fotoDiretor":
           "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
       "descricao":
@@ -67,6 +69,7 @@ class HomeState extends State<Home> {
       "nota": "5",
       "duracao": "2h10min",
       "diretor": "Fernando Meirelles",
+      "streaming": "HBO MAX",
       "fotoDiretor":
           "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
       "descricao":
@@ -232,6 +235,7 @@ class HomeState extends State<Home> {
                                   nota: filme["nota"]!,
                                   duracao: filme["duracao"]!,
                                   diretor: filme["diretor"]!,
+                                  streaming: filme["streaming"]!,
                                   elenco: List<String>.from(filme["elenco"]),
                                   fotoDiretor: filme["fotoDiretor"]!,
                                 ),
@@ -271,6 +275,7 @@ class HomeState extends State<Home> {
                                     nota: filme["nota"]!,
                                     duracao: filme["duracao"]!,
                                     diretor: filme["diretor"]!,
+                                    streaming: filme["streaming"]!,
                                     elenco: List<String>.from(filme["elenco"]),
                                     fotoDiretor: filme["fotoDiretor"]!,
                                   ),
@@ -282,7 +287,7 @@ class HomeState extends State<Home> {
                       }).toList(),
                     ),
                   ),
-            const SizedBox(height: 70),
+            const SizedBox(height: 20),
 
             // footer rotas menu
             Padding(
