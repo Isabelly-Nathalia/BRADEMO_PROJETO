@@ -3,21 +3,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../widgets/button.dart';
 import 'form.dart';
 import 'criarConta.dart';
+import 'esqueciSenha.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginState extends State<Login> {
+  final TextEditingController emailController = TextEditingController();
 
-  final TextEditingController emailController =
-      TextEditingController();
-
-  final TextEditingController senhaController =
-      TextEditingController();
+  final TextEditingController senhaController = TextEditingController();
 
   bool ocultarSenha = true;
 
@@ -29,13 +27,10 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
 
             child: Column(
               children: [
-
                 const SizedBox(height: 40),
 
                 // TÍTULO
@@ -56,10 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'E-mail',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                 ),
 
@@ -68,29 +60,23 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: emailController,
 
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(color: Colors.white),
 
                   decoration: InputDecoration(
                     hintText: 'exemplo@gmail.com',
 
-                    hintStyle: const TextStyle(
-                      color: Colors.white38,
-                    ),
+                    hintStyle: const TextStyle(color: Colors.white38),
 
                     filled: true,
                     fillColor: Colors.white24,
 
-                    contentPadding:
-                        const EdgeInsets.symmetric(
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 15,
                     ),
 
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30),
 
                       borderSide: BorderSide.none,
                     ),
@@ -104,10 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Senha',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                 ),
 
@@ -117,29 +100,23 @@ class _LoginPageState extends State<LoginPage> {
                   controller: senhaController,
                   obscureText: ocultarSenha,
 
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(color: Colors.white),
 
                   decoration: InputDecoration(
                     hintText: '••••••••',
 
-                    hintStyle: const TextStyle(
-                      color: Colors.white38,
-                    ),
+                    hintStyle: const TextStyle(color: Colors.white38),
 
                     filled: true,
                     fillColor: Colors.white24,
 
-                    contentPadding:
-                        const EdgeInsets.symmetric(
+                    contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 15,
                     ),
 
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(30),
 
                       borderSide: BorderSide.none,
                     ),
@@ -147,15 +124,12 @@ class _LoginPageState extends State<LoginPage> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
-                          ocultarSenha =
-                              !ocultarSenha;
+                          ocultarSenha = !ocultarSenha;
                         });
                       },
 
                       icon: Icon(
-                        ocultarSenha
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                        ocultarSenha ? Icons.visibility : Icons.visibility_off,
 
                         color: Colors.white70,
                       ),
@@ -166,44 +140,60 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 35),
 
                 // BOTÃO ENTRAR
-
-              Botao(
-                text: 'Entrar',
-                onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SecondScreen(),
-                  ),
-                );
-              },
-              ),
+                Botao(
+                  text: 'Entrar',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SecondScreen(),
+                      ),
+                    );
+                  },
+                ),
 
                 const SizedBox(height: 15),
 
-              Botao(
-                text: 'Criar uma conta',
-                onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PaginaCadastro(),
-                  ),
-                );
-              },
-              ),
+                Botao(
+                  text: 'Criar uma conta',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PaginaCadastro(),
+                      ),
+                    );
+                  },
+                ),
 
                 const SizedBox(height: 30),
 
-                GestureDetector(
-                  onTap: () {},
-
-                  child: const Text(
-                    'Esqueceu sua senha? Clique aqui!',
-                    style: TextStyle(
-                      color: Colors.white54,
-                      fontSize: 11,
-                    ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Esqueceu sua senha? ',
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    children: [
+                      WidgetSpan(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const EsqueceuSenha(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Clique aqui!',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -211,21 +201,16 @@ class _LoginPageState extends State<LoginPage> {
 
                 const Text(
                   'Ou entre com:',
-                  style: TextStyle(
-                    color: Colors.white54,
-                    fontSize: 11,
-                  ),
+                  style: TextStyle(color: Colors.white54, fontSize: 11),
                 ),
 
                 const SizedBox(height: 20),
 
                 // ÍCONES
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
 
                   children: [
-
                     IconButton(
                       onPressed: () {},
 
@@ -266,16 +251,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ],
-                ),
-
-                const SizedBox(height: 20),
-
-                const Text(
-                  'Não tem uma conta? Crie sua conta',
-                  style: TextStyle(
-                    color: Colors.white38,
-                    fontSize: 10,
-                  ),
                 ),
               ],
             ),
