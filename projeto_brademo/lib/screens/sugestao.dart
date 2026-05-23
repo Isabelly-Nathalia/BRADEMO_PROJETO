@@ -6,10 +6,6 @@ class SugestaoFilmes extends StatelessWidget {
   const SugestaoFilmes({super.key});
 
   final Color cinza = const Color(0xFF222425);
-  final Color azul = const Color(0xFF001C30);
-  final Color vermelho = const Color(0xFF681F10);
-
-  // LISTA FILMES
   final List<Map<String, dynamic>> filmes = const [
     {
       "imagem":
@@ -57,27 +53,23 @@ class SugestaoFilmes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filmePrincipal = filmes[0];
-    final filme2 = filmes[1];
-    final filme3 = filmes[2];
-
     return Scaffold(
       backgroundColor: cinza,
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
-
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 15),
-
               Row(
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-
-                    child: const Icon(Icons.arrow_back, color: Colors.white),
+                    child: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
                   ),
 
                   const SizedBox(width: 15),
@@ -97,32 +89,46 @@ class SugestaoFilmes extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              // FILME PRINCIPAL
-              _cardGrande(context, filmePrincipal),
-
-              const SizedBox(height: 25),
-
-              // FILMES MENORES
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: [
-                  _cardPequeno(context, filme2),
-
-                  const SizedBox(width: 20),
-
-                  _cardPequeno(context, filme3),
-                ],
+              Column(
+                children: List.generate(filmes.length, (index) {
+                  final filme = filmes[index];
+                  final bool esquerda = index % 2 == 0;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 35),
+                    child: Row(
+                      mainAxisAlignment:
+                          esquerda
+                              ? MainAxisAlignment.start
+                              : MainAxisAlignment.end,
+                      children: [
+                        if (!esquerda)
+                          Expanded(
+                            child: _infoFilme(filme),
+                          ),
+                        if (!esquerda) const SizedBox(width: 20),
+                        _cardFilme(context, filme),
+                        if (esquerda) const SizedBox(width: 20),
+                        if (esquerda)
+                          Expanded(
+                            child: _infoFilme(filme),
+                          ),
+                      ],
+                    ),
+                  );
+                }),
               ),
 
-              const SizedBox(height: 45),
+              const SizedBox(height: 20),
 
-              Botao(
-                text: "Novas sugestões",
-                onPressed: () {
-                  // COLOCAR LOGICA DE REFRESH
-                },
+              Center(
+                child: Botao(
+                  text: "Novas sugestões",
+                  onPressed: () {
+                    // LÓGICA REFRESH
+                  },
+                ),
               ),
+
               const SizedBox(height: 20),
             ],
           ),
@@ -131,118 +137,71 @@ class SugestaoFilmes extends StatelessWidget {
     );
   }
 
-  // CARD GRANDE
-  Widget _cardGrande(BuildContext context, Map<String, dynamic> filme) {
+  Widget _cardFilme(BuildContext context, Map<String, dynamic> filme) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetalheFilme(
-              titulo: filme["titulo"],
-              imagem: filme["imagem"],
-              descricao: filme["descricao"],
-              nota: filme["nota"],
-              duracao: filme["duracao"],
-              diretor: filme["diretor"],
-              streaming: filme["streaming"],
-              elenco: List<String>.from(filme["elenco"]),
-              fotoDiretor: filme["fotoDiretor"],
-            ),
+            builder:
+                (context) => DetalheFilme(
+                  titulo: filme["titulo"],
+                  imagem: filme["imagem"],
+                  descricao: filme["descricao"],
+                  nota: filme["nota"],
+                  duracao: filme["duracao"],
+                  diretor: filme["diretor"],
+                  streaming: filme["streaming"],
+                  elenco: List<String>.from(filme["elenco"]),
+                  fotoDiretor: filme["fotoDiretor"],
+                ),
           ),
         );
       },
 
-      child: Column(
-        children: [
-          Container(
-            height: 280,
-            width: 190,
-
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-
-              image: DecorationImage(
-                image: NetworkImage(filme["imagem"]),
-                fit: BoxFit.cover,
-              ),
-
-              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
-            ),
+      child: Container(
+        height: 200,
+        width: 130,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          image: DecorationImage(
+            image: NetworkImage(filme["imagem"]),
+            fit: BoxFit.cover,
           ),
-
-          const SizedBox(height: 12),
-
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-
-            decoration: BoxDecoration(
-              color: vermelho,
-              borderRadius: BorderRadius.circular(20),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 10,
             ),
-
-            child: Text(filme["titulo"], style: TextStyle(color: Colors.white)),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  // CARD PEQUENO
-  Widget _cardPequeno(BuildContext context, Map<String, dynamic> filme) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetalheFilme(
-              titulo: filme["titulo"],
-              imagem: filme["imagem"],
-              descricao: filme["descricao"],
-              nota: filme["nota"],
-              duracao: filme["duracao"],
-              diretor: filme["diretor"],
-              streaming: filme["streaming"],
-              elenco: List<String>.from(filme["elenco"]),
-              fotoDiretor: filme["fotoDiretor"],
-            ),
+  Widget _infoFilme(Map<String, dynamic> filme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          filme["titulo"],
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
-        );
-      },
+        ),
 
-      child: Column(
-        children: [
-          Container(
-            height: 210,
-            width: 140,
+        const SizedBox(height: 10),
 
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-
-              image: DecorationImage(
-                image: NetworkImage(filme["imagem"]),
-                fit: BoxFit.cover,
-              ),
-            ),
+        Text(
+          "Disponível em ${filme["streaming"]}",
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
           ),
-
-          const SizedBox(height: 10),
-
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-
-            decoration: BoxDecoration(
-              color: azul,
-              borderRadius: BorderRadius.circular(20),
-            ),
-
-            child: Text(
-              filme["titulo"],
-              style: const TextStyle(color: Colors.white, fontSize: 12),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
