@@ -19,18 +19,18 @@ public class Filme {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String titulo;
-    private String descricao;
-    private String diretor;
-    private String imagemDiretor;
-    private String atorEspecifico;
-    private String nacionalidade;
-    private String classificacao;
-    private String streaming;
-    private Float nota;
-    private String linkImagemFilme;
-    private Integer duracao;
+    private Long id_filme;
+    private String titulo_filme;
+    private String descricao_filme;
+    private String linkImagemFilme_filme;
+    private Integer duracao_filme;
+    private String streaming_filme;
+    private String nacionalidade_filme;
+    private String classificacao_filme;
+    private String diretor_filme;
+    private String imagemDiretor_filme;
+    private String atorEspecifico_filme;
+    
 
     @ElementCollection
     private List<String> generos;

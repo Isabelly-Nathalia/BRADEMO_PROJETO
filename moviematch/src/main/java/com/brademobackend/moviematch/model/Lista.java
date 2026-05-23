@@ -20,8 +20,8 @@ public class Lista {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String nome;
+    private Long id_lista;
+    private String nome_lista;
     
     @ManyToOne
     private Usuario usuario;

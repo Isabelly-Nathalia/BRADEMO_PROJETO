@@ -20,13 +20,13 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String nome;
-    private String email;
-    private String nomeDeUsuario;
-    private String senha;
-    private String fotoPerfil; //salva o caminho da imagem
-    private LocalDate dataNascimento;
+    private Long id_usuario;
+    private String nome_usuario;
+    private String email_usuario;
+    private String nomeDeUsuario_usuario;
+    private String senha_usuario;
+    private String fotoPerfil_usuario; //salva o caminho da imagem
+    private LocalDate dataNascimento_usuario;
 
     @ManyToMany
     private List<Filme> filmesCurtidos;
