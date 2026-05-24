@@ -3,6 +3,7 @@ import 'package:projeto_brademo/widgets/headerRotas.dart';
 import 'package:projeto_brademo/screens/conta.dart';
 import 'package:projeto_brademo/screens/form.dart';
 import 'package:projeto_brademo/screens/mapa.dart';
+import 'package:projeto_brademo/widgets/button.dart';
 
 class DetalheFilme extends StatelessWidget {
   final String titulo;
@@ -41,261 +42,304 @@ class DetalheFilme extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 10),
-
-            Stack(
-              children: [
-                const Center(
-                  child: Text(
-                    "BOA ESCOLHA!",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                Positioned(
-                  left: 16,
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(Icons.arrow_back, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 20),
-
-            // img filme
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
+              Stack(
                 children: [
-                  Container(
-                    height: 320,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      ),
-                      image: DecorationImage(
-                        image: NetworkImage(imagem),
-                        fit: BoxFit.cover,
+                  const Center(
+                    child: Text(
+                      "BOA ESCOLHA!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
 
-                  // info filme
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: azul,
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(10),
+                  Positioned(
+                    left: 16,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 450,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                        image: DecorationImage(
+                          image: NetworkImage(imagem),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            titulo.toUpperCase(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: azul,
+                        borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(10),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  titulo.toUpperCase(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              const Icon(
+                                Icons.star,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+
+                              const SizedBox(width: 4),
+
+                              Text(
+                                nota,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+
+                              const SizedBox(width: 15),
+
+                              const Icon(
+                                Icons.access_time,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+
+                              const SizedBox(width: 4),
+
+                              Text(
+                                duracao,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
 
-                        const Icon(Icons.star, color: Colors.white, size: 16),
-                        const SizedBox(width: 4),
-                        Text(nota, style: const TextStyle(color: Colors.white)),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 160,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: vermelho,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.thumb_up, color: Colors.white, size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            "Curtir",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
 
-                        const SizedBox(width: 15),
+                  const SizedBox(width: 15),
 
-                        const Icon(
-                          Icons.access_time,
-                          color: Colors.white,
-                          size: 16,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          duracao,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                      ],
+                  SizedBox(
+                    width: 160,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        color: vermelho,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add, color: Colors.white, size: 18),
+                          SizedBox(width: 8),
+                          Text(
+                            "Minha Lista",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
 
-            const SizedBox(height: 15),
+              const SizedBox(height: 15),
 
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Divider(color: Colors.white24),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage(fotoDiretor),
-                  ),
-                  const SizedBox(width: 10),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Direção",
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
-                      ),
-                      Text(
-                        diretor,
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(fotoDiretor),
                     ),
-                    decoration: BoxDecoration(
-                      color: vermelho,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Row(
+                    const SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.thumb_up, color: Colors.white, size: 14),
-                        SizedBox(width: 5),
+                        const Text(
+                          "Direção",
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
+                        ),
                         Text(
-                          "Curtir",
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          diretor,
+                          style: const TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Divider(color: Colors.white24),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Descrição",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    descricao,
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
-                ],
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Divider(color: Colors.white24),
               ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                children: [
-                  const Text(
-                    "Disponível em: ",
-                    style: TextStyle(
-                      color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Descrição",
+                      style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
-                  ),
-
-                  Text(
-                    streaming,
-                    style: const TextStyle(
-                      color: Colors.white70, 
-                      fontSize: 15,                      
-                      fontWeight: FontWeight.bold,                      
+                    const SizedBox(height: 5),
+                    Text(
+                      descricao,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
                       ),
-                  ),
-                ],
-              ),
-            ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Divider(color: Colors.white24),
-            ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Elenco", style: TextStyle(color: Colors.white)),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: elenco.map((ator) {
-                  return Text(
-                    "• $ator",
-                    style: const TextStyle(color: Colors.white70),
-                  );
-                }).toList(),
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            // footer rotas menu
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MenuWidget(
-                onHome: () => Navigator.pop(context),
-                onForm: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SecondScreen(),
                     ),
-                  );
-                },
-                onMapa: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Mapa()),
-                  );
-                },
-                onConta: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Conta()),
-                  );
-                },
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      "Disponível em: ",
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    Text(
+                      streaming,
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Divider(color: Colors.white24),
+              ),
+
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Elenco", style: TextStyle(color: Colors.white, fontSize: 14)),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: elenco.map((ator) {
+                    return Text(
+                      "• $ator",
+                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              const SizedBox(height: 15),
+
+              // footer rotas menu
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: MenuWidget(
+                  onHome: () => Navigator.pop(context),
+                  onForm: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SecondScreen(),
+                      ),
+                    );
+                  },
+                  onMapa: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Mapa()),
+                    );
+                  },
+                  onConta: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Conta()),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _iconeTopo(IconData icone) {
     return Container(
