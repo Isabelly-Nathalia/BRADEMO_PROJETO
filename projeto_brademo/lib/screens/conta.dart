@@ -4,6 +4,7 @@ import 'home.dart';
 import 'form.dart';
 import 'mapa.dart';
 import 'detalhe_filme.dart';
+import 'editarConta.dart';
 
 class Conta extends StatelessWidget {
   const Conta({super.key});
@@ -13,39 +14,48 @@ class Conta extends StatelessWidget {
   final Color vermelho = const Color(0xFF681F10);
 
   // LISTA FILMES
-final List<Map<String, dynamic>> filmes = const [
+  final List<Map<String, dynamic>> filmes = const [
     {
       "titulo": "Cidade de Deus",
-      "imagem": "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
-      "descricao": "Dois jovens seguem caminhos diferentes em uma favela marcada pela violência.",
+      "imagem":
+          "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
+      "descricao":
+          "Dois jovens seguem caminhos diferentes em uma favela marcada pela violência.",
       "nota": "4",
       "duracao": "2h 10m",
       "diretor": "Fernando Meirelles",
-      "fotoDiretor": "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "fotoDiretor":
+          "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
       "streaming": "Netflix",
       "elenco": ["Alexandre Rodrigues", "Leandro Firmino", "Seu Jorge"],
     },
 
     {
       "titulo": "Central do Brasil",
-      "imagem": "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
-      "descricao": "Uma ex-professora ajuda um menino a encontrar o pai pelo interior do Brasil.",
+      "imagem":
+          "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
+      "descricao":
+          "Uma ex-professora ajuda um menino a encontrar o pai pelo interior do Brasil.",
       "nota": "5",
       "duracao": "1h 50m",
       "diretor": "Walter Salles",
-      "fotoDiretor": "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
+      "fotoDiretor":
+          "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
       "streaming": "Globoplay",
       "elenco": ["Fernanda Montenegro", "Vinícius de Oliveira"],
     },
 
     {
       "titulo": "La La Land",
-      "imagem": "https://i5.walmartimages.com/seo/Rolled-Poster-La-La-Land-Movie-24-x-36-Poster_20f02811-01b4-4aea-9bb2-a79942bd2642_1.856c035d66f8fd216f6d933259bc3dfb.jpeg",
-      "descricao": "Um pianista e uma atriz vivem um romance enquanto perseguem seus sonhos.",
+      "imagem":
+          "https://i5.walmartimages.com/seo/Rolled-Poster-La-La-Land-Movie-24-x-36-Poster_20f02811-01b4-4aea-9bb2-a79942bd2642_1.856c035d66f8fd216f6d933259bc3dfb.jpeg",
+      "descricao":
+          "Um pianista e uma atriz vivem um romance enquanto perseguem seus sonhos.",
       "nota": "4",
       "duracao": "2h 08m",
       "diretor": "Damien Chazelle",
-      "fotoDiretor": "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "fotoDiretor":
+          "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
       "streaming": "Prime Video",
       "elenco": ["Ryan Gosling", "Emma Stone"],
     },
@@ -53,11 +63,13 @@ final List<Map<String, dynamic>> filmes = const [
     {
       "titulo": "Her",
       "imagem": "https://upload.wikimedia.org/wikipedia/pt/9/9b/Her.jpg",
-      "descricao": "Um homem solitário desenvolve uma relação com uma inteligência artificial.",
+      "descricao":
+          "Um homem solitário desenvolve uma relação com uma inteligência artificial.",
       "nota": "5",
       "duracao": "2h 06m",
       "diretor": "Spike Jonze",
-      "fotoDiretor": "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+      "fotoDiretor":
+          "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
       "streaming": "HBO Max",
       "elenco": ["Joaquin Phoenix", "Scarlett Johansson"],
     },
@@ -137,7 +149,14 @@ final List<Map<String, dynamic>> filmes = const [
                 width: double.infinity,
 
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditarConta(),
+                      ),
+                    );
+                  },
 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: vermelho,

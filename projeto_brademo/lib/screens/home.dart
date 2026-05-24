@@ -480,7 +480,6 @@ class HomeState extends State<Home> {
                 child: Image.asset(logo, fit: BoxFit.cover),
               ),
             ),
-            const SizedBox(height: 5),
           ],
         ),
       ),
