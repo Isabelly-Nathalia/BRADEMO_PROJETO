@@ -4,6 +4,7 @@ import 'package:projeto_brademo/screens/form.dart';
 import 'package:projeto_brademo/screens/mapa.dart';
 import 'package:projeto_brademo/widgets/headerRotas.dart';
 import 'package:projeto_brademo/screens/detalhe_filme.dart';
+import 'notificacao.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -123,9 +124,18 @@ class HomeState extends State<Home> {
                     ],
                   ),
                   Row(
-                    //verificar
                     children: [
-                      _iconeTopo(Icons.notifications),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Notificacao(),
+                            ),
+                          );
+                        },
+                        child: _iconeTopo(Icons.notifications),
+                      ),
                       const SizedBox(width: 10),
                       _iconeTopo(Icons.search),
                     ],
