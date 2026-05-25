@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'conta.dart';
 import 'form.dart';
-import 'mapa.dart';
-import 'package:projeto_brademo/widgets/headerRotas.dart';
 import 'detalhe_filme.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
+import '../../widgets/headerRotas.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -394,12 +393,6 @@ class HomeState extends State<Home> {
                     MaterialPageRoute(
                       builder: (context) => const SecondScreen(),
                     ),
-                  );
-                },
-                onMapa: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Mapa()),
                   );
                 },
                 onConta: () {

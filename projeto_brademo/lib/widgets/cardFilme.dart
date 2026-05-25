@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/detalhe_filme.dart';
+import '../../screens/detalhe_filme.dart';
 
 class CardFilme extends StatelessWidget {
   final Map<String, dynamic> filme;

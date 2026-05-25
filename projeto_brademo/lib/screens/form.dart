@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/widgets/button.dart';
-import 'mapa.dart';
 import 'home.dart';
 import 'conta.dart';
-import '../widgets/headerRotas.dart';
 import 'sugestao.dart';
+import '../../widgets/headerRotas.dart';
+import '../../widgets/button.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -555,14 +554,6 @@ class _SecondScreenState extends State<SecondScreen> {
                           );
                         },
                         onForm: () {},
-                        onMapa: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Mapa(),
-                            ),
-                          );
-                        },
                         onConta: () {
                           Navigator.pushReplacement(
                             context,

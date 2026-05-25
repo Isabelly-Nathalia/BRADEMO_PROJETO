@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/widgets/headerRotas.dart';
-import 'package:projeto_brademo/screens/conta.dart';
-import 'package:projeto_brademo/screens/form.dart';
-import 'package:projeto_brademo/screens/mapa.dart';
-import 'package:projeto_brademo/widgets/button.dart';
+import 'conta.dart';
+import 'form.dart';
+import '../../widgets/button.dart';
+import '../../widgets/headerRotas.dart';
 
 class DetalheFilme extends StatefulWidget {
   final String titulo;
@@ -367,12 +366,6 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                     MaterialPageRoute(
                       builder: (context) => const SecondScreen(),
                     ),
-                  );
-                },
-                onMapa: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Mapa()),
                   );
                 },
                 onConta: () {

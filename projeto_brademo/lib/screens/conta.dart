@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/widgets/headerRotas.dart';
 import 'home.dart';
 import 'form.dart';
-import 'mapa.dart';
 import 'detalhe_filme.dart';
 import 'editarConta.dart';
-import 'package:projeto_brademo/widgets/cardFilme.dart';
+import '../../widgets/cardFilme.dart';
+import '../../widgets/headerRotas.dart';
 
 class Conta extends StatefulWidget {
   const Conta({super.key});
@@ -533,12 +532,6 @@ class _ContaState extends State<Conta> {
                     MaterialPageRoute(
                       builder: (context) => const SecondScreen(),
                     ),
-                  );
-                },
-                onMapa: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Mapa()),
                   );
                 },
                 onConta: () {},

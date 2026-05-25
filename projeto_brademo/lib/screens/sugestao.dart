@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/screens/detalhe_filme.dart';
-import 'package:projeto_brademo/widgets/button.dart';
+import 'detalhe_filme.dart';
+import '../../widgets/button.dart';
 
 class SugestaoFilmes extends StatelessWidget {
   const SugestaoFilmes({super.key});

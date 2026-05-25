@@ -42,10 +42,6 @@ class MenuWidget extends StatelessWidget {
               icon: const Icon(Icons.description, color: Colors.white),
             ),
             IconButton(
-              onPressed: onMapa,
-              icon: const Icon(Icons.location_on_sharp, color: Colors.white),
-            ),
-            IconButton(
               onPressed: onConta,
               icon: const Icon(Icons.person, color: Colors.white),
             ),

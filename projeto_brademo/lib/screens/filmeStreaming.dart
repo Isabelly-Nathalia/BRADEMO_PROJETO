@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/widgets/headerRotas.dart';
-import 'package:projeto_brademo/screens/home.dart';
-import 'package:projeto_brademo/screens/form.dart';
-import 'package:projeto_brademo/screens/mapa.dart';
-import 'package:projeto_brademo/screens/conta.dart';
+import '../../widgets/headerRotas.dart';
+import 'home.dart';
+import 'form.dart';
+import 'conta.dart';
 
 class FilmeStreaming extends StatelessWidget {
   final String nomeStreaming;
@@ -156,12 +155,6 @@ class FilmeStreaming extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => const SecondScreen(),
                     ),
-                  );
-                },
-                onMapa: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Mapa()),
                   );
                 },
                 onConta: () {
