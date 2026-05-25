@@ -63,102 +63,117 @@ class FilmeStreaming extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF222425),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: const Icon(Icons.arrow_back, color: Colors.white),
-                    ),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(
+                              Icons.arrow_back,
+                              color: Colors.white,
+                            ),
+                          ),
 
-                    const SizedBox(width: 15),
+                          const SizedBox(width: 15),
 
-                    const Expanded(
-                      child: Text(
-                        "Últimos lançamentos no catálogo",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                          const Expanded(
+                            child: Text(
+                              "Últimos lançamentos no catálogo",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      Center(
+                        child: Text(
+                          nomeStreaming,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
 
-                const SizedBox(height: 10),
+                      const SizedBox(height: 25),
 
-                Center(
-                  child: Text(
-                    nomeStreaming,
-                    style: const TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: filmes.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 20,
-                    crossAxisSpacing: 15,
-                    childAspectRatio: 0.58,
-                  ),
-                  itemBuilder: (context, index) {
-                    final filme = filmes[index];
-                    return _cardFilme(
-                      imagem: filme["imagem"]!,
-                      titulo: filme["titulo"]!,
-                      nota: filme["nota"]!,
-                      duracao: filme["duracao"]!,
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 30),
-
-                MenuWidget(
-                  onHome: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Home()),
-                    );
-                  },
-                  onForm: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SecondScreen(),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: filmes.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 15,
+                              childAspectRatio: 0.58,
+                            ),
+                        itemBuilder: (context, index) {
+                          final filme = filmes[index];
+                          return _cardFilme(
+                            imagem: filme["imagem"]!,
+                            titulo: filme["titulo"]!,
+                            nota: filme["nota"]!,
+                            duracao: filme["duracao"]!,
+                          );
+                        },
                       ),
-                    );
-                  },
-                  onMapa: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Mapa()),
-                    );
-                  },
-                  onConta: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Conta()),
-                    );
-                  },
-                ),
 
-                const SizedBox(height: 20),
-              ],
+                      const SizedBox(height: 30),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: MenuWidget(
+                onHome: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Home()),
+                  );
+                },
+                onForm: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SecondScreen(),
+                    ),
+                  );
+                },
+                onMapa: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Mapa()),
+                  );
+                },
+                onConta: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Conta()),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );
