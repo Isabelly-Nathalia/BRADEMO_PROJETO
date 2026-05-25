@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_brademo/screens/conta.dart';
-import 'package:projeto_brademo/screens/form.dart';
-import 'package:projeto_brademo/screens/mapa.dart';
+import 'conta.dart';
+import 'form.dart';
+import 'mapa.dart';
 import 'package:projeto_brademo/widgets/headerRotas.dart';
-import 'package:projeto_brademo/screens/detalhe_filme.dart';
+import 'detalhe_filme.dart';
 import 'notificacao.dart';
+import 'pesquisa.dart';
 import 'filmeStreaming.dart';
 
 class Home extends StatefulWidget {
@@ -144,7 +145,17 @@ class HomeState extends State<Home> {
                                 child: _iconeTopo(Icons.notifications),
                               ),
                               const SizedBox(width: 10),
-                              _iconeTopo(Icons.search),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Pesquisa(),
+                                    ),
+                                  );
+                                },
+                                child: _iconeTopo(Icons.search),
+                              ),
                             ],
                           ),
                         ],
