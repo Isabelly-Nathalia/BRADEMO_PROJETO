@@ -5,7 +5,7 @@ import 'package:projeto_brademo/screens/form.dart';
 import 'package:projeto_brademo/screens/mapa.dart';
 import 'package:projeto_brademo/widgets/button.dart';
 
-class DetalheFilme extends StatelessWidget {
+class DetalheFilme extends StatefulWidget {
   final String titulo;
   final String imagem;
   final String descricao;
@@ -29,9 +29,19 @@ class DetalheFilme extends StatelessWidget {
     required this.streaming,
   });
 
+  @override
+  State<DetalheFilme> createState() => _DetalheFilmeState();
+}
+
+class _DetalheFilmeState extends State<DetalheFilme> {
   final Color cinza = const Color(0xFF222425);
   final Color vermelho = const Color(0xFF681F10);
   final Color azul = const Color(0xFF001C30);
+  final TextEditingController controllerLista = TextEditingController();
+
+  List<String> listas = ["Favoritos", "Assistir depois"];
+  bool mostrarCampo = false;
+  String? listaSelecionada;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +64,6 @@ class DetalheFilme extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   Positioned(
                     left: 16,
                     child: GestureDetector(
@@ -79,12 +88,11 @@ class DetalheFilme extends StatelessWidget {
                           top: Radius.circular(20),
                         ),
                         image: DecorationImage(
-                          image: NetworkImage(imagem),
+                          image: NetworkImage(widget.imagem),
                           fit: BoxFit.cover,
                         ),
                       ),
                     ),
-
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),
@@ -100,7 +108,7 @@ class DetalheFilme extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  titulo.toUpperCase(),
+                                  widget.titulo.toUpperCase(),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -117,7 +125,7 @@ class DetalheFilme extends StatelessWidget {
                               const SizedBox(width: 4),
 
                               Text(
-                                nota,
+                                widget.nota,
                                 style: const TextStyle(color: Colors.white),
                               ),
 
@@ -132,7 +140,7 @@ class DetalheFilme extends StatelessWidget {
                               const SizedBox(width: 4),
 
                               Text(
-                                duracao,
+                                widget.duracao,
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ],
@@ -145,6 +153,7 @@ class DetalheFilme extends StatelessWidget {
               ),
 
               const SizedBox(height: 15),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -174,22 +183,30 @@ class DetalheFilme extends StatelessWidget {
 
                   SizedBox(
                     width: 160,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: vermelho,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add, color: Colors.white, size: 18),
-                          SizedBox(width: 8),
-                          Text(
-                            "Minha Lista",
-                            style: TextStyle(color: Colors.white, fontSize: 15),
-                          ),
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        abrirMinhasListas();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: vermelho,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.add, color: Colors.white, size: 18),
+                            SizedBox(width: 8),
+                            Text(
+                              "Minha Lista",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -207,7 +224,7 @@ class DetalheFilme extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 25,
-                      backgroundImage: NetworkImage(fotoDiretor),
+                      backgroundImage: NetworkImage(widget.fotoDiretor),
                     ),
                     const SizedBox(width: 10),
                     Column(
@@ -218,20 +235,21 @@ class DetalheFilme extends StatelessWidget {
                           style: TextStyle(color: Colors.white70, fontSize: 14),
                         ),
                         Text(
-                          diretor,
-                          style: const TextStyle(color: Colors.white, fontSize: 14),
+                          widget.diretor,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Divider(color: Colors.white24),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -246,7 +264,7 @@ class DetalheFilme extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      descricao,
+                      widget.descricao,
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 14,
@@ -255,7 +273,6 @@ class DetalheFilme extends StatelessWidget {
                   ],
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16,
@@ -268,7 +285,7 @@ class DetalheFilme extends StatelessWidget {
                       style: TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     Text(
-                      streaming,
+                      widget.streaming,
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 14,
@@ -278,28 +295,31 @@ class DetalheFilme extends StatelessWidget {
                   ],
                 ),
               ),
-
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Divider(color: Colors.white24),
               ),
-
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Elenco", style: TextStyle(color: Colors.white, fontSize: 14)),
+                  child: Text(
+                    "Elenco",
+                    style: TextStyle(color: Colors.white, fontSize: 14),
+                  ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: elenco.map((ator) {
+                  children: widget.elenco.map((ator) {
                     return Text(
                       "• $ator",
-                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14,
+                      ),
                     );
                   }).toList(),
                 ),
@@ -338,6 +358,139 @@ class DetalheFilme extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void abrirMinhasListas() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Dialog(
+              backgroundColor: cinza,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        "Minhas Listas",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      ...listas.map((lista) {
+                        final selecionada = listaSelecionada == lista;
+                        return ListTile(
+                          leading: Icon(
+                            selecionada
+                                ? Icons.check_circle
+                                : Icons.radio_button_unchecked,
+                            color: selecionada ? azul : Colors.white54,
+                          ),
+                          title: Text(
+                            lista,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          onTap: () {
+                            setModalState(() {
+                              listaSelecionada = lista;
+                            });
+                          },
+                        );
+                      }),
+                      ListTile(
+                        leading: const Icon(Icons.add, color: Colors.white),
+                        title: const Text(
+                          "Criar nova lista",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onTap: () {
+                          setModalState(() {
+                            mostrarCampo = !mostrarCampo;
+                            listaSelecionada = null;
+                          });
+                        },
+                      ),
+                      if (mostrarCampo) ...[
+                        const SizedBox(height: 10),
+                        TextField(
+                          controller: controllerLista,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: "Nome da lista",
+                            hintStyle: const TextStyle(color: Colors.white54),
+                            filled: true,
+                            fillColor: azul,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+
+                      Botao(
+                        text: "Salvar",
+                        onPressed: () {
+                          if (controllerLista.text.isNotEmpty) {
+                            setState(() {
+                              listas.add(controllerLista.text);
+                              listaSelecionada = controllerLista.text;
+                            });
+                            controllerLista.clear();
+                          }
+                          if (listaSelecionada != null) {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: this.context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  backgroundColor: cinza,
+                                  title: const Text(
+                                    'Filme salvo!',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  content: Text(
+                                    'O filme foi adicionado em "$listaSelecionada".',
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text(
+                                        'OK',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
