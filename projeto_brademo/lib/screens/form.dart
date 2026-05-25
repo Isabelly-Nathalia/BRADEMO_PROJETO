@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/button.dart';
 import 'sugestao.dart';
+import 'home.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -151,6 +152,16 @@ class _SecondScreenState extends State<SecondScreen> {
           const SizedBox(height: 50),
 
           Botao(text: "COMEÇAR", onPressed: proximaPagina),
+          const SizedBox(height: 20),
+          Botao(
+            text: "PÁGINA INICIAL",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Home()),
+              );
+            },
+          ),
         ],
       ),
     );
