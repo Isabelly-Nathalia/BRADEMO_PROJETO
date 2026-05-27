@@ -5,6 +5,7 @@ import 'form.dart';
 import 'criarConta.dart';
 import 'esqueciSenha.dart';
 import 'loginDesenvolvedor.dart';
+import 'semLogin.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,7 +20,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1F232B),
+      backgroundColor: const Color(0xFF222425),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -241,7 +242,35 @@ class _LoginState extends State<Login> {
                   ),
                 ),
 
+                const SizedBox(height: 40),
 
+                RichText(
+                  text: TextSpan(
+                    text: 'MODO DE TESTE PARA',
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    children: [
+                      WidgetSpan(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SemLogin(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'PAGINA SEM LOGIN',
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),

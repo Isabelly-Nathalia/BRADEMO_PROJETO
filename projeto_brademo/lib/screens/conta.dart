@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'form.dart';
-import 'detalhe_filme.dart';
+import 'detalheFilme.dart';
 import 'editarConta.dart';
 import '../../widgets/cardFilme.dart';
 import '../../widgets/headerRotas.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'detalhe_filme.dart';
+import 'detalheFilme.dart';
 import '../../widgets/button.dart';
 
 class SugestaoFilmes extends StatelessWidget {

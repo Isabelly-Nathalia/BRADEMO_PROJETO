@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'conta.dart';
 import 'form.dart';
-import 'detalhe_filme.dart';
+import 'detalheFilme.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
