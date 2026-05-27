@@ -4,7 +4,7 @@ import '../../../widgets/button.dart';
 import '../form/form.dart';
 import 'criarConta.dart';
 import 'esqueciSenha.dart';
-import '../adm/loginDesenvolvedor.dart';
+import '../adm/acessoDesenvolvedor.dart';
 import 'semLogin.dart';
 
 class Login extends StatefulWidget {

@@ -8,6 +8,26 @@ class AdminFilmes extends StatefulWidget {
 }
 
 class _AdminFilmesState extends State<AdminFilmes> {
+  String filtroStreaming = "Todos";
+  final List<String> streamings = [
+    "Todos",
+    "Netflix",
+    "HBO Max",
+    "Apple TV",
+    "Globoplay",
+    "Prime Video",
+    "Disney+",
+  ];
+  List<Map<String, dynamic>> get filmesFiltrados {
+    if (filtroStreaming == "Todos") {
+      return filmes;
+    }
+
+    return filmes
+        .where((filme) => filme["streaming"] == filtroStreaming)
+        .toList();
+  }
+
   List<Map<String, dynamic>> filmes = [
     {
       "titulo": "Cidade de Deus",
@@ -117,10 +137,62 @@ class _AdminFilmesState extends State<AdminFilmes> {
               "Gerencie os filmes do aplicativo",
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
+
+            Center(
+              child: Container(
+                width: 220,
+                height: 50,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF681F10),
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    dropdownColor: const Color(0xFF681F10),
+                    value: filtroStreaming,
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    items: streamings.map((streaming) {
+                      return DropdownMenuItem(
+                        value: streaming,
+                        child: Center(
+                          child: Text(
+                            streaming,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+                              // fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        filtroStreaming = value!;
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 25),
+        
             Expanded(
               child: GridView.builder(
-                itemCount: filmes.length,
+                itemCount: filmesFiltrados.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 20,
@@ -128,7 +200,7 @@ class _AdminFilmesState extends State<AdminFilmes> {
                   childAspectRatio: 0.55,
                 ),
                 itemBuilder: (context, index) {
-                  final filme = filmes[index];
+                  final filme = filmesFiltrados[index];
                   return Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFF001C30),
