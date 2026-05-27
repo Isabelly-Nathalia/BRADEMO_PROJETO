@@ -4,36 +4,29 @@ import '../../widgets/button.dart';
 import 'form.dart';
 import 'criarConta.dart';
 import 'esqueciSenha.dart';
+import 'loginDesenvolvedor.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
-
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController senhaController = TextEditingController();
-
   bool ocultarSenha = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF1F232B),
-
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 30),
-
             child: Column(
               children: [
                 const SizedBox(height: 40),
-
-                // TÍTULO
                 const Text(
                   'LOGIN',
                   style: TextStyle(
@@ -46,7 +39,6 @@ class _LoginState extends State<Login> {
 
                 const SizedBox(height: 50),
 
-                // EMAIL
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -54,30 +46,21 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                 ),
-
                 const SizedBox(height: 8),
-
                 TextField(
                   controller: emailController,
-
                   style: const TextStyle(color: Colors.white),
-
                   decoration: InputDecoration(
                     hintText: 'exemplo@gmail.com',
-
                     hintStyle: const TextStyle(color: Colors.white38),
-
                     filled: true,
                     fillColor: Colors.white24,
-
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 15,
                     ),
-
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -85,7 +68,6 @@ class _LoginState extends State<Login> {
 
                 const SizedBox(height: 20),
 
-                // SENHA
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -93,44 +75,32 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                 ),
-
                 const SizedBox(height: 8),
-
                 TextField(
                   controller: senhaController,
                   obscureText: ocultarSenha,
-
                   style: const TextStyle(color: Colors.white),
-
                   decoration: InputDecoration(
                     hintText: '••••••••',
-
                     hintStyle: const TextStyle(color: Colors.white38),
-
                     filled: true,
                     fillColor: Colors.white24,
-
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 15,
                     ),
-
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
-
                       borderSide: BorderSide.none,
                     ),
-
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
                           ocultarSenha = !ocultarSenha;
                         });
                       },
-
                       icon: Icon(
                         ocultarSenha ? Icons.visibility : Icons.visibility_off,
-
                         color: Colors.white70,
                       ),
                     ),
@@ -139,7 +109,6 @@ class _LoginState extends State<Login> {
 
                 const SizedBox(height: 35),
 
-                // BOTÃO ENTRAR
                 Botao(
                   text: 'Entrar',
                   onPressed: () {
@@ -203,47 +172,36 @@ class _LoginState extends State<Login> {
                   'Ou entre com:',
                   style: TextStyle(color: Colors.white54, fontSize: 11),
                 ),
-
                 const SizedBox(height: 20),
-
-                // ÍCONES
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-
                   children: [
                     IconButton(
                       onPressed: () {},
-
                       icon: const FaIcon(
                         FontAwesomeIcons.instagram,
                         color: Colors.white,
                         size: 28,
                       ),
                     ),
-
                     IconButton(
                       onPressed: () {},
-
                       icon: const FaIcon(
                         FontAwesomeIcons.facebook,
                         color: Colors.white,
                         size: 28,
                       ),
                     ),
-
                     IconButton(
                       onPressed: () {},
-
                       icon: const FaIcon(
                         FontAwesomeIcons.google,
                         color: Colors.white,
                         size: 28,
                       ),
                     ),
-
                     IconButton(
                       onPressed: () {},
-
                       icon: const FaIcon(
                         FontAwesomeIcons.apple,
                         color: Colors.white,
@@ -252,6 +210,38 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
+
+                const SizedBox(height: 40),
+
+                RichText(
+                  text: TextSpan(
+                    text: 'Para acessar modo desenvolvedor ',
+                    style: const TextStyle(color: Colors.white54, fontSize: 11),
+                    children: [
+                      WidgetSpan(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginDesenvolvedor(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'clique aqui!',
+                            style: TextStyle(
+                              color: Colors.white54,
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+
               ],
             ),
           ),
