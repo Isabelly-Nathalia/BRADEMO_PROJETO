@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'conta.dart';
-import 'form.dart';
-import '../../widgets/button.dart';
-import '../../widgets/headerRotas.dart';
+import '../perfil/conta.dart';
+import '../form/form.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/headerRotas.dart';
 
 class DetalheFilme extends StatefulWidget {
   final String titulo;

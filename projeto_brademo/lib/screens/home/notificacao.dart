@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'form.dart';
+import '../form/form.dart';
 
 class Notificacao extends StatelessWidget {
   const Notificacao({super.key});

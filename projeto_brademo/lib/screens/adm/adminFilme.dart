@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'addFilme.dart';
+import 'adicionarFilme.dart';
 
 class AdminFilmes extends StatefulWidget {
   const AdminFilmes({super.key});

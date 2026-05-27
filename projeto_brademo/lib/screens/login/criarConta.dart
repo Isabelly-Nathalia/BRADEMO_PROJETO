@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../widgets/button.dart';
-import 'form.dart';
+import '../../../widgets/button.dart';
+import '../form/form.dart';
 
 class PaginaCadastro extends StatefulWidget {
   const PaginaCadastro({super.key});

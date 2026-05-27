@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'conta.dart';
-import 'form.dart';
+import '../perfil/conta.dart';
+import '../form/form.dart';
 import 'detalheFilme.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
-import '../../widgets/headerRotas.dart';
+import '../../../widgets/headerRotas.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

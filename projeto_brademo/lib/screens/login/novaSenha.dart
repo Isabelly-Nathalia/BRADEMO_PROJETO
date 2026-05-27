@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../widgets/button.dart';
+import '../../../widgets/button.dart';
 import 'login.dart';
-import 'form.dart';
+import '../form/form.dart';
 
 class NovaSenha extends StatefulWidget {
   const NovaSenha({super.key});

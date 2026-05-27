@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../widgets/button.dart';
-import 'login.dart';
-import 'form.dart';
+import '../../../widgets/button.dart';
+import '../login/login.dart';
+import '../form/form.dart';
 
 class Apresentacao extends StatelessWidget {
   const Apresentacao({super.key});

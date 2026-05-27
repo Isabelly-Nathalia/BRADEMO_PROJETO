@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../widgets/button.dart';
+import '../../../widgets/button.dart';
 import 'sugestao.dart';
-import 'home.dart';
+import '../home/home.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});

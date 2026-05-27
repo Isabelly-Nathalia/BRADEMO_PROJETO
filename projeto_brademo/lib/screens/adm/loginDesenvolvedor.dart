@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../widgets/button.dart';
-import 'login.dart';
+import '../../../widgets/button.dart';
+import '../login/login.dart';
 import 'adminFilme.dart';
 
 class LoginDesenvolvedor extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../widgets/headerRotas.dart';
+import '../../../widgets/headerRotas.dart';
 import 'home.dart';
-import 'form.dart';
-import 'conta.dart';
+import '../form/form.dart';
+import '../perfil/conta.dart';
 
 class FilmeStreaming extends StatelessWidget {
   final String nomeStreaming;

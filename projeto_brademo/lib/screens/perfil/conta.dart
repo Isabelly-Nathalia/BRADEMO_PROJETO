@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
-import 'form.dart';
-import 'detalheFilme.dart';
+import '../home/home.dart';
+import '../form/form.dart';
+import '../home/detalheFilme.dart';
 import 'editarConta.dart';
-import '../../widgets/cardFilme.dart';
-import '../../widgets/headerRotas.dart';
+import '../../../widgets/cardFilme.dart';
+import '../../../widgets/headerRotas.dart';
 
 class Conta extends StatefulWidget {
   const Conta({super.key});

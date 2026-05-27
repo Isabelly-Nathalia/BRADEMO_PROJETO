@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/button.dart';
+import '../../../widgets/button.dart';
 
 class EditarConta extends StatefulWidget {
   const EditarConta({super.key});
