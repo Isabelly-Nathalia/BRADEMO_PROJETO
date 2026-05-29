@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/button.dart';
+import '../inicio/inicial.dart';
+import '../login/esqueciSenha.dart';
 
 class EditarConta extends StatefulWidget {
   const EditarConta({super.key});
@@ -150,7 +152,7 @@ class _EditarContaState extends State<EditarConta> {
                     context: context,
                     builder: (context) {
                       return AlertDialog(
-                        backgroundColor: const Color(0xFF222425),
+                        backgroundColor: cinza,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -158,19 +160,14 @@ class _EditarContaState extends State<EditarConta> {
                           "As alterações foram salvas!",
                           style: TextStyle(color: Colors.white),
                         ),
-
                         actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              "OK",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          Center(
+                            child: Botao(
+                              text: "OK",
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
                             ),
                           ),
                         ],
@@ -180,7 +177,159 @@ class _EditarContaState extends State<EditarConta> {
                 },
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
+
+              Botao(
+                text: 'Deletar conta',
+                onPressed: () {
+                  final TextEditingController senhaController =
+                      TextEditingController();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: cinza,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        title: const Text(
+                          "Confirme sua senha",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        content: TextField(
+                          controller: senhaController,
+                          obscureText: true,
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: "Digite sua senha",
+                            hintStyle: const TextStyle(color: Colors.white54),
+                            filled: true,
+                            fillColor: Colors.white24,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: Botao(
+                                  text: "Cancelar",
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Botao(
+                                  text: "Confirmar",
+                                  onPressed: () {
+                                    String senhaDigitada = senhaController.text;
+                                    if (senhaDigitada == "123456") {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            backgroundColor: const Color(
+                                              0xFF222425,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            content: const Text(
+                                              "Conta excluída com sucesso!",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            actions: [
+                                              Center(
+                                                child: Botao(
+                                                  text: "OK",
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Apresentacao(),
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            backgroundColor: const Color(
+                                              0xFF222425,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            content: const Text(
+                                              "Senha incorreta! Tente novamente ou recupere sua senha.",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            actions: [
+                                              Center(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Botao(
+                                                      text: "Tentar novamente",
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Botao(
+                                                      text: "Esqueci a senha",
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const EsqueceuSenha(),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
