@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'adicionarFilme.dart';
+import '../inicio/inicial.dart';
 
 class AdminFilmes extends StatefulWidget {
   const AdminFilmes({super.key});
@@ -111,7 +112,31 @@ class _AdminFilmesState extends State<AdminFilmes> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF222425),
         foregroundColor: Colors.white,
-        title: const Text("Painel do Desenvolvedor"),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "Painel do Desenvolvedor",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Apresentacao()),
+                );
+              },
+              child: const Text(
+                "Sair",
+                style: TextStyle(
+                  color: Color(0xFF681F10),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xFF681F10),
@@ -189,7 +214,7 @@ class _AdminFilmesState extends State<AdminFilmes> {
             ),
 
             const SizedBox(height: 25),
-        
+
             Expanded(
               child: GridView.builder(
                 itemCount: filmesFiltrados.length,
