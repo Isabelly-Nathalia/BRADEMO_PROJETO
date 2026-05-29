@@ -42,6 +42,7 @@ class _DetalheFilmeState extends State<DetalheFilme> {
   List<String> listas = ["Favoritos", "Assistir depois"];
   bool mostrarCampo = false;
   String? listaSelecionada;
+  bool curtido = false;
 
   @override
   Widget build(BuildContext context) {
@@ -169,29 +170,48 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                       children: [
                         SizedBox(
                           width: 160,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            decoration: BoxDecoration(
-                              color: vermelho,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.thumb_up,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  "Curtir",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                curtido = !curtido;
+                              });
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: azul,
+                                  content: Text(
+                                    curtido
+                                        ? 'Filme adicionado aos curtidos'
+                                        : 'Filme removido dos curtidos',
                                   ),
+                                  duration: const Duration(seconds: 2),
                                 ),
-                              ],
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              decoration: BoxDecoration(
+                                color: vermelho,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.thumb_up,
+                                    color: curtido ? azul : Colors.white,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    curtido ? "Curtido" : "Curtir",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
