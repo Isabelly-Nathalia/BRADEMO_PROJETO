@@ -6,6 +6,7 @@ import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
 import '../../../widgets/headerRotas.dart';
+import '../../../widgets/cardFilme.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -249,32 +250,7 @@ class HomeState extends State<Home> {
                               itemCount: filmes.length,
                               itemBuilder: (context, index) {
                                 final filme = filmes[index];
-                                return _cardFilme(
-                                  imagem: filme["imagem"]!,
-                                  titulo: filme["titulo"]!,
-                                  nota: filme["nota"]!,
-                                  duracao: filme["duracao"]!,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetalheFilme(
-                                          titulo: filme["titulo"]!,
-                                          imagem: filme["imagem"]!,
-                                          descricao: filme["descricao"]!,
-                                          nota: filme["nota"]!,
-                                          duracao: filme["duracao"]!,
-                                          diretor: filme["diretor"]!,
-                                          streaming: filme["streaming"]!,
-                                          elenco: List<String>.from(
-                                            filme["elenco"],
-                                          ),
-                                          fotoDiretor: filme["fotoDiretor"]!,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
+                                return CardFilme(filme: filme);
                               },
                             ),
                           )
@@ -290,34 +266,7 @@ class HomeState extends State<Home> {
                             ),
                             child: Row(
                               children: filmes.map((filme) {
-                                return Expanded(
-                                  child: _cardFilme(
-                                    imagem: filme["imagem"]!,
-                                    titulo: filme["titulo"]!,
-                                    nota: filme["nota"]!,
-                                    duracao: filme["duracao"]!,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetalheFilme(
-                                            titulo: filme["titulo"]!,
-                                            imagem: filme["imagem"]!,
-                                            descricao: filme["descricao"]!,
-                                            nota: filme["nota"]!,
-                                            duracao: filme["duracao"]!,
-                                            diretor: filme["diretor"]!,
-                                            streaming: filme["streaming"]!,
-                                            elenco: List<String>.from(
-                                              filme["elenco"],
-                                            ),
-                                            fotoDiretor: filme["fotoDiretor"]!,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
+                                return Expanded(child: CardFilme(filme: filme));
                               }).toList(),
                             ),
                           ),
@@ -415,86 +364,6 @@ class HomeState extends State<Home> {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(color: vermelho, shape: BoxShape.circle),
       child: Icon(icone, color: Colors.white, size: 18),
-    );
-  }
-
-  Widget _cardFilme({
-    required String imagem,
-    required String titulo,
-    required String nota,
-    required String duracao,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(right: 15),
-        child: Column(
-          children: [
-            Container(
-              height: 220,
-              width: 150,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(imagem),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Container(
-              width: 150,
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Azul,
-                borderRadius: const BorderRadius.vertical(
-                  bottom: Radius.circular(10),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    titulo.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.star, color: Colors.white, size: 12),
-                      const SizedBox(width: 3),
-                      Text(
-                        nota,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Icon(
-                        Icons.access_time,
-                        color: Colors.white,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 3),
-                      Text(
-                        duracao,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 

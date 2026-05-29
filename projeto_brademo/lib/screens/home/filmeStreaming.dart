@@ -3,6 +3,7 @@ import '../../../widgets/headerRotas.dart';
 import 'home.dart';
 import '../form/form.dart';
 import '../perfil/conta.dart';
+import '../../../widgets/cardFilme.dart';
 
 class FilmeStreaming extends StatelessWidget {
   final String nomeStreaming;
@@ -10,20 +11,24 @@ class FilmeStreaming extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> filmes = [
+    final List<Map<String, dynamic>> filmes = [
       {
         "imagem":
             "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
         "titulo": "Central do Brasil",
         "nota": "5",
         "duracao": "1h50min",
-      },
-      {
-        "imagem":
-            "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
-        "titulo": "Cidade de Deus",
-        "nota": "5",
-        "duracao": "2h10min",
+        "diretor": "Walter Salles",
+        "streaming": "Netflix",
+        "fotoDiretor":
+            "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
+        "descricao":
+            "Uma ex-professora que escreve cartas para analfabetos conhece um menino que acaba de perder a mãe e decide ajudá-lo a encontrar o pai, iniciando uma jornada emocionante que transforma a vida de ambos.",
+        "elenco": [
+          "Fernanda Montenegro (Dora)",
+          "Vinícius de Oliveira (Josué)",
+          "Marília Pêra (Irene)",
+        ],
       },
       {
         "imagem":
@@ -31,6 +36,35 @@ class FilmeStreaming extends StatelessWidget {
         "titulo": "Ainda Estou Aqui",
         "nota": "5",
         "duracao": "2h17min",
+        "diretor": "Walter Salles",
+        "streaming": "GloboPlay",
+        "fotoDiretor":
+            "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
+        "descricao":
+            "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar e traçar um novo caminho para si e para seus filhos depois que a vida de sua família é impactada por um ato violento e arbitrário.",
+        "elenco": [
+          "Fernanda Torres (Eunice Paiva)",
+          "Selton Mello (Rubens Paiva)",
+          "Fernanda Montenegro (Eunice Paiva)",
+        ],
+      },
+      {
+        "imagem":
+            "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
+        "titulo": "Cidade de Deus",
+        "nota": "5",
+        "duracao": "2h10min",
+        "diretor": "Fernando Meirelles",
+        "streaming": "HBO MAX",
+        "fotoDiretor":
+            "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
+        "descricao":
+            "Um jovem cresce em uma comunidade dominada pelo crime no Rio de Janeiro e tenta seguir um caminho diferente, enquanto acompanha a ascensão violenta de traficantes e a dura realidade da favela.",
+        "elenco": [
+          "Alice Braga (Angélica)",
+          "Alexandre Rodrigues (Buscapé)",
+          "Douglas Silva (Zé Pequeno)",
+        ],
       },
       {
         "titulo": "La La Land",
@@ -44,6 +78,7 @@ class FilmeStreaming extends StatelessWidget {
         "fotoDiretor":
             "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
         "streaming": "Prime Video",
+        "elenco": ["Ryan Gosling", "Emma Stone"],
       },
       {
         "titulo": "Her",
@@ -56,6 +91,7 @@ class FilmeStreaming extends StatelessWidget {
         "fotoDiretor":
             "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
         "streaming": "HBO Max",
+        "elenco": ["Joaquin Phoenix", "Scarlett Johansson"],
       },
     ];
 
@@ -124,12 +160,7 @@ class FilmeStreaming extends StatelessWidget {
                             ),
                         itemBuilder: (context, index) {
                           final filme = filmes[index];
-                          return _cardFilme(
-                            imagem: filme["imagem"]!,
-                            titulo: filme["titulo"]!,
-                            nota: filme["nota"]!,
-                            duracao: filme["duracao"]!,
-                          );
+                          return CardFilme(filme: filme);
                         },
                       ),
 
@@ -169,70 +200,6 @@ class FilmeStreaming extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _cardFilme({
-    required String imagem,
-    required String titulo,
-    required String nota,
-    required String duracao,
-  }) {
-    return Column(
-      children: [
-        Container(
-          height: 220,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            image: DecorationImage(
-              image: NetworkImage(imagem),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(8),
-          decoration: const BoxDecoration(
-            color: Color(0xFF001C30),
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
-          ),
-          child: Column(
-            children: [
-              Text(
-                titulo.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 10),
-              ),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.star, color: Colors.white, size: 12),
-
-                  const SizedBox(width: 3),
-
-                  Text(
-                    nota,
-                    style: const TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-
-                  const SizedBox(width: 10),
-
-                  const Icon(Icons.access_time, color: Colors.white, size: 12),
-
-                  const SizedBox(width: 3),
-
-                  Text(
-                    duracao,
-                    style: const TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }
