@@ -595,10 +595,10 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget telaPaises() {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -688,32 +688,32 @@ class _SecondScreenState extends State<SecondScreen> {
                 ],
               ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.previousPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                ),
-                IconButton(
-                  onPressed: proximaPagina,
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      controller.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   ),
-                ),
-              ],
+                  IconButton(
+                    onPressed: proximaPagina,
+                    icon: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -721,93 +721,96 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget telaAtor() {
     return Padding(
       padding: const EdgeInsets.all(25),
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Algum ator ou diretor favorito?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    const Text(
+                      "Isso ajuda a personalizar ainda mais suas recomendações.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    TextField(
+                      controller: atorController,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: "Ex: Fernanda Montenegro",
+                        hintStyle: const TextStyle(color: Colors.white),
+                        filled: true,
+                        fillColor: vermelho,
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 25),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Botao(
+                            text: "LIMPAR",
+                            onPressed: limparFormulario,
+                          ),
+                        ),
+                        const SizedBox(width: 15),
+                        Expanded(
+                          child: Botao(
+                            text: "FINALIZAR",
+                            onPressed: () {
+                              enviarFormulario();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Algum ator ou diretor favorito?",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  const Text(
-                    "Isso ajuda a personalizar ainda mais suas recomendações.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  TextField(
-                    controller: atorController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: "Ex: Fernanda Montenegro",
-                      hintStyle: const TextStyle(color: Colors.white),
-                      filled: true,
-                      fillColor: vermelho,
-                      prefixIcon: const Icon(Icons.search, color: Colors.white),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Botao(
-                          text: "LIMPAR",
-                          onPressed: limparFormulario,
-                        ),
-                      ),
-                      const SizedBox(width: 15),
-                      Expanded(
-                        child: Botao(
-                          text: "FINALIZAR",
-                          onPressed: () {
-                            enviarFormulario();
-                          },
-                        ),
-                      ),
-                    ],
+                  IconButton(
+                    onPressed: () {
+                      controller.previousPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   ),
                 ],
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.previousPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
     );
   }
 
