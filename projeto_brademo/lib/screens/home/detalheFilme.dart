@@ -3,6 +3,7 @@ import '../perfil/conta.dart';
 import '../form/form.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/headerRotas.dart';
+import 'home.dart';
 
 class DetalheFilme extends StatefulWidget {
   final String titulo;
@@ -359,7 +360,12 @@ class _DetalheFilmeState extends State<DetalheFilme> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: MenuWidget(
-                onHome: () => Navigator.pop(context),
+                onHome: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Home()),
+                  );
+                },
                 onForm: () {
                   Navigator.pushReplacement(
                     context,

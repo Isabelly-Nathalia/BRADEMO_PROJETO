@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import '../home/detalheFilme.dart';
-import '../../../widgets/button.dart';
+import '../perfil/conta.dart';
+import '../form/form.dart';
+import '../home/home.dart';
+import '../../../widgets/headerRotas.dart';
 
 class SugestaoFilmes extends StatelessWidget {
   const SugestaoFilmes({super.key});
-
   final Color cinza = const Color(0xFF222425);
   final List<Map<String, dynamic>> filmes = const [
     {
@@ -21,7 +23,6 @@ class SugestaoFilmes extends StatelessWidget {
           "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar.",
       "elenco": ["Fernanda Torres", "Selton Mello"],
     },
-
     {
       "imagem":
           "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
@@ -35,7 +36,6 @@ class SugestaoFilmes extends StatelessWidget {
       "descricao": "Uma ex-professora conhece um menino que perdeu a mãe.",
       "elenco": ["Fernanda Montenegro", "Vinícius de Oliveira"],
     },
-
     {
       "imagem":
           "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
@@ -56,82 +56,97 @@ class SugestaoFilmes extends StatelessWidget {
     return Scaffold(
       backgroundColor: cinza,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 15),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                  ),
-
-                  const SizedBox(width: 15),
-
-                  const Expanded(
-                    child: Text(
-                      "Sugestões com base nas suas respostas",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 40),
-
-              Column(
-                children: List.generate(filmes.length, (index) {
-                  final filme = filmes[index];
-                  final bool esquerda = index % 2 == 0;
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 35),
-                    child: Row(
-                      mainAxisAlignment:
-                          esquerda
-                              ? MainAxisAlignment.start
-                              : MainAxisAlignment.end,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 15),
+                    Row(
                       children: [
-                        if (!esquerda)
-                          Expanded(
-                            child: _infoFilme(filme),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
                           ),
-                        if (!esquerda) const SizedBox(width: 20),
-                        _cardFilme(context, filme),
-                        if (esquerda) const SizedBox(width: 20),
-                        if (esquerda)
-                          Expanded(
-                            child: _infoFilme(filme),
+                        ),
+
+                        const SizedBox(width: 15),
+
+                        const Expanded(
+                          child: Text(
+                            "Sugestões com base nas suas respostas",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                        ),
                       ],
                     ),
-                  );
-                }),
-              ),
 
-              const SizedBox(height: 20),
+                    const SizedBox(height: 40),
 
-              Center(
-                child: Botao(
-                  text: "Novas sugestões",
-                  onPressed: () {
-                    // LÓGICA REFRESH
-                  },
+                    Column(
+                      children: List.generate(filmes.length, (index) {
+                        final filme = filmes[index];
+                        final bool esquerda = index % 2 == 0;
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 35),
+                          child: Row(
+                            mainAxisAlignment: esquerda
+                                ? MainAxisAlignment.start
+                                : MainAxisAlignment.end,
+                            children: [
+                              if (!esquerda) Expanded(child: _infoFilme(filme)),
+                              if (!esquerda) const SizedBox(width: 20),
+                              _cardFilme(context, filme),
+                              if (esquerda) const SizedBox(width: 20),
+                              if (esquerda) Expanded(child: _infoFilme(filme)),
+                            ],
+                          ),
+                        );
+                      }),
+                    ),
+
+                    const SizedBox(height: 25),
+                  ],
                 ),
               ),
+            ),
 
-              const SizedBox(height: 20),
-            ],
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: MenuWidget(
+                onHome: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Home()),
+                  );
+                },
+                onForm: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SecondScreen(),
+                    ),
+                  );
+                },
+                onConta: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Conta()),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );
@@ -143,18 +158,17 @@ class SugestaoFilmes extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder:
-                (context) => DetalheFilme(
-                  titulo: filme["titulo"],
-                  imagem: filme["imagem"],
-                  descricao: filme["descricao"],
-                  nota: filme["nota"],
-                  duracao: filme["duracao"],
-                  diretor: filme["diretor"],
-                  streaming: filme["streaming"],
-                  elenco: List<String>.from(filme["elenco"]),
-                  fotoDiretor: filme["fotoDiretor"],
-                ),
+            builder: (context) => DetalheFilme(
+              titulo: filme["titulo"],
+              imagem: filme["imagem"],
+              descricao: filme["descricao"],
+              nota: filme["nota"],
+              duracao: filme["duracao"],
+              diretor: filme["diretor"],
+              streaming: filme["streaming"],
+              elenco: List<String>.from(filme["elenco"]),
+              fotoDiretor: filme["fotoDiretor"],
+            ),
           ),
         );
       },
@@ -168,12 +182,7 @@ class SugestaoFilmes extends StatelessWidget {
             image: NetworkImage(filme["imagem"]),
             fit: BoxFit.cover,
           ),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black,
-              blurRadius: 10,
-            ),
-          ],
+          boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 10)],
         ),
       ),
     );
@@ -196,10 +205,7 @@ class SugestaoFilmes extends StatelessWidget {
 
         Text(
           "Disponível em ${filme["streaming"]}",
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 16),
         ),
       ],
     );
