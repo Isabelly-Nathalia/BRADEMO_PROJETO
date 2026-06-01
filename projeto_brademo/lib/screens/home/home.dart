@@ -93,16 +93,21 @@ class HomeState extends State<Home> {
   final Color vermelho = const Color(0xFF681F10);
 
   bool notificacaoEnviada = false;
+  static bool notificacaoJaEnviada = false;
+
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!notificacaoEnviada) {
+void initState() {
+  super.initState();
+  if (!notificacaoJaEnviada) {
+    notificacaoJaEnviada = true;
+    Future.delayed(
+      const Duration(seconds: 3),
+      () {
         mostrarNotificacao();
-        notificacaoEnviada = true;
-      }
-    });
+      },
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
