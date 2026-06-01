@@ -515,13 +515,12 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                   actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text(
-                                        'OK',
-                                        style: TextStyle(color: Colors.white),
+                                    Center(
+                                      child: Botao(
+                                        text: "OK",
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
                                       ),
                                     ),
                                   ],

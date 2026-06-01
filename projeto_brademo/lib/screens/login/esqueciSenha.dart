@@ -29,10 +29,7 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
+                    child: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
 
                   const SizedBox(width: 15),
@@ -57,10 +54,7 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                       const Text(
                         'Digite seu e-mail para receber o código de recuperação.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white54,
-                          fontSize: 13,
-                        ),
+                        style: TextStyle(color: Colors.white54, fontSize: 13),
                       ),
 
                       const SizedBox(height: 40),
@@ -69,10 +63,7 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'E-mail',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 13),
                         ),
                       ),
 
@@ -83,9 +74,7 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'exemplo@gmail.com',
-                          hintStyle: const TextStyle(
-                            color: Colors.white38,
-                          ),
+                          hintStyle: const TextStyle(color: Colors.white38),
                           filled: true,
                           fillColor: Colors.white24,
                           contentPadding: const EdgeInsets.symmetric(
@@ -118,22 +107,19 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NovaSenha(),
-                                        ),
-                                      );
-                                    },
-                                    child: const Text(
-                                      'OK',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
+                                  Center(
+                                    child: Botao(
+                                      text: "OK",
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NovaSenha(),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],

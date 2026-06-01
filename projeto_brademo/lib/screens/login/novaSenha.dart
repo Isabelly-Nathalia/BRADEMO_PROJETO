@@ -71,7 +71,7 @@ class _NovaSenhaState extends State<NovaSenha> {
                 ),
 
                 const SizedBox(height: 40),
-                
+
                 const Text(
                   'Digite sua nova senha.',
                   style: TextStyle(color: Colors.white54, fontSize: 13),
@@ -191,20 +191,20 @@ class _NovaSenhaState extends State<NovaSenha> {
                             style: TextStyle(color: Colors.white),
                           ),
                           actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SecondScreen(),
-                                  ),
-                                  (route) => false,
-                                );
-                              },
-                              child: const Text(
-                                'OK',
-                                style: TextStyle(color: Colors.white),
+                            Center(
+                              child: Botao(
+                                text: "OK",
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SecondScreen(),
+                                    ),
+                                    (route) => false,
+                                  );
+                                },
                               ),
                             ),
                           ],
