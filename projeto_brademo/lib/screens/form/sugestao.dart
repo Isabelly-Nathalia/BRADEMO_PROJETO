@@ -105,7 +105,7 @@ class SugestaoFilmes extends StatelessWidget {
                             children: [
                               if (!esquerda) Expanded(child: _infoFilme(filme)),
                               if (!esquerda) const SizedBox(width: 20),
-                              _cardFilme(context, filme),
+                              _cardFilmeSugestao(context, filme),
                               if (esquerda) const SizedBox(width: 20),
                               if (esquerda) Expanded(child: _infoFilme(filme)),
                             ],
@@ -152,7 +152,7 @@ class SugestaoFilmes extends StatelessWidget {
     );
   }
 
-  Widget _cardFilme(BuildContext context, Map<String, dynamic> filme) {
+  Widget _cardFilmeSugestao(BuildContext context, Map<String, dynamic> filme) {
     return GestureDetector(
       onTap: () {
         Navigator.push(

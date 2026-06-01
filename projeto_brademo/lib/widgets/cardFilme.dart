@@ -33,7 +33,7 @@ class CardFilme extends StatelessWidget {
 
       child: Container(
         width: 150,
-        margin: const EdgeInsets.only(right: 15),
+        margin: const EdgeInsets.only(right:6, left:6),
 
         child: Column(
           children: [

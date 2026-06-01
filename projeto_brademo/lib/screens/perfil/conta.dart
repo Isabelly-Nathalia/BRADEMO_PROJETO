@@ -5,6 +5,7 @@ import '../home/detalheFilme.dart';
 import 'editarConta.dart';
 import '../../../widgets/cardFilme.dart';
 import '../../../widgets/headerRotas.dart';
+import '../../../widgets/button.dart';
 
 class Conta extends StatefulWidget {
   const Conta({super.key});
@@ -19,7 +20,7 @@ class _ContaState extends State<Conta> {
   final Color vermelho = const Color(0xFF681F10);
 
   int abaSelecionada = 0;
-  bool editandoLista = false;
+  int? listaEditando;
 
   final List<Map<String, dynamic>> filmes = const [
     {
@@ -426,9 +427,9 @@ class _ContaState extends State<Conta> {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            crossAxisSpacing: 15,
+                            crossAxisSpacing: 10,
                             mainAxisSpacing: 20,
-                            childAspectRatio: 0.60,
+                            childAspectRatio: 0.62,
                           ),
                       itemBuilder: (context, index) {
                         return CardFilme(filme: filmes[index]);
@@ -441,8 +442,8 @@ class _ContaState extends State<Conta> {
                         final lista = minhasListas[index];
                         final filmesLista = lista["filmes"] as List;
                         return Container(
-                          margin: const EdgeInsets.only(bottom: 25),
-                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.only(bottom: 40),
+                          padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
                             color: lista["cor"],
                             borderRadius: BorderRadius.circular(15),
@@ -465,16 +466,95 @@ class _ContaState extends State<Conta> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        editandoLista = !editandoLista;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      editandoLista ? Icons.check : Icons.edit,
-                                      color: Colors.white,
-                                    ),
+
+                                  Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            listaEditando =
+                                                listaEditando == index
+                                                ? null
+                                                : index;
+                                          });
+                                        },
+                                        icon: Icon(
+                                          listaEditando == index
+                                              ? Icons.check
+                                              : Icons.edit,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+
+                                      IconButton(
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                backgroundColor: cinza,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                title: const Text(
+                                                  "Excluir lista",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                content: const Text(
+                                                  "Deseja realmente excluir esta lista?",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Botao(
+                                                          text: "Cancelar",
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                              context,
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+
+                                                      const SizedBox(width: 10),
+
+                                                      Expanded(
+                                                        child: Botao(
+                                                          text: "Excluir",
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              minhasListas
+                                                                  .removeAt(
+                                                                    index,
+                                                                  );
+                                                            });
+
+                                                            Navigator.pop(
+                                                              context,
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -482,7 +562,7 @@ class _ContaState extends State<Conta> {
                               const SizedBox(height: 15),
 
                               SizedBox(
-                                height: 320,
+                                height: 280,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: filmesLista.length,
@@ -490,7 +570,7 @@ class _ContaState extends State<Conta> {
                                     return Stack(
                                       children: [
                                         CardFilme(filme: filmesLista[i]),
-                                        if (editandoLista)
+                                        if (listaEditando == index)
                                           Positioned(
                                             top: 5,
                                             right: 10,
@@ -537,7 +617,6 @@ class _ContaState extends State<Conta> {
                 onConta: () {},
               ),
             ),
-
             const SizedBox(height: 10),
           ],
         ),

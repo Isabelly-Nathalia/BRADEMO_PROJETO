@@ -180,7 +180,7 @@ class _EditarContaState extends State<EditarConta> {
               const SizedBox(height: 15),
 
               Botao(
-                text: 'Deletar conta',
+                text: 'Excluir conta',
                 onPressed: () {
                   final TextEditingController senhaController =
                       TextEditingController();

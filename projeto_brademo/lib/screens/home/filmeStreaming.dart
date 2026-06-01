@@ -154,17 +154,15 @@ class FilmeStreaming extends StatelessWidget {
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              mainAxisSpacing: 20,
+                              mainAxisSpacing: 10,
                               crossAxisSpacing: 15,
-                              childAspectRatio: 0.58,
+                              childAspectRatio: 0.62,
                             ),
                         itemBuilder: (context, index) {
                           final filme = filmes[index];
                           return CardFilme(filme: filme);
                         },
                       ),
-
-                      const SizedBox(height: 30),
                     ],
                   ),
                 ),

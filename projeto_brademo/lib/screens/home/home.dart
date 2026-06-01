@@ -23,6 +23,7 @@ class HomeState extends State<Home> {
 
   // carrosel ad fotos
   final List<String> imagensCarrossel = [
+    "https://www.gov.br/cultura/pt-br/assuntos/noticias/tela-brasil-a-plataforma-publica-de-streaming-comeca-a-funcionar-neste-sabado-30/37ebd366-06a1-4075-91b1-a031b8ed8451.png",
     "https://www.gamersegames.com.br/wp-content/uploads/2026/03/O-Agente-Secreto-na-Netflix-.webp",
     "https://img.youtube.com/vi/E2xtmPkuksA/maxresdefault.jpg",
   ];
@@ -322,11 +323,19 @@ class HomeState extends State<Home> {
                             "PrimeVideo",
                             "assets/prime.png",
                           ),
+                          _streamingLogo(
+                            context,
+                            "Tela Brasil",
+                            "assets/telaBrasil.png",
+                          ),
+                          _streamingLogo(
+                            context,
+                            "Outros Streamings",
+                            "assets/outros.png",
+                          ),
                         ],
                       ),
                     ),
-
-                    const SizedBox(height: 25),
                   ],
                 ),
               ),
