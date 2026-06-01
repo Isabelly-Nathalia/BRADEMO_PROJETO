@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../widgets/button.dart';
 import '../form/form.dart';
+import '../../../service/usuarioService.dart';
 
 class PaginaCadastro extends StatefulWidget {
   const PaginaCadastro({super.key});
@@ -11,6 +12,8 @@ class PaginaCadastro extends StatefulWidget {
 }
 
 class _PaginaCadastroState extends State<PaginaCadastro> {
+  final UsuarioService usuarioService = UsuarioService();
+
   final TextEditingController nomeController = TextEditingController();
 
   final TextEditingController usuarioController = TextEditingController();
@@ -227,20 +230,55 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 35),
-
+                
                 Botao(
                   text: 'Entrar',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SecondScreen(),
-                      ),
+                  onPressed: () async {
+                    if (nomeController.text.isEmpty ||
+                        usuarioController.text.isEmpty ||
+                        nascimentoController.text.isEmpty ||
+                        emailController.text.isEmpty ||
+                        senhaController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Preencha todos os campos'),
+                        ),
+                      );
+
+                      return;
+                    }
+                    bool sucesso = await usuarioService.cadastrarUsuario(
+                      nome: nomeController.text,
+                      email: emailController.text,
+                      nomeUsuario: usuarioController.text,
+                      senha: senhaController.text,
+                      dataNascimento: nascimentoController.text,
                     );
+
+                    if (sucesso) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Usuário cadastrado com sucesso!'),
+                        ),
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SecondScreen(),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Erro ao cadastrar usuário'),
+                        ),
+                      );
+                    }
                   },
                 ),
+
                 const SizedBox(height: 30),
 
                 const Text(
