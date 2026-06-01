@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../widgets/button.dart';
 import '../inicio/inicial.dart';
 import '../login/esqueciSenha.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class EditarConta extends StatefulWidget {
   const EditarConta({super.key});
@@ -20,6 +22,60 @@ class _EditarContaState extends State<EditarConta> {
   final TextEditingController nascimentoController = TextEditingController(
     text: "10/05/2005",
   );
+
+  File? fotoPerfil;
+  final ImagePicker picker = ImagePicker();
+
+  Future<void> selecionarImagem(ImageSource source) async {
+    final XFile? imagem = await picker.pickImage(
+      source: source,
+      imageQuality: 80,
+    );
+
+    if (imagem != null) {
+      setState(() {
+        fotoPerfil = File(imagem.path);
+      });
+    }
+  }
+
+  void mostrarOpcoesFoto() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1F232B),
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_camera, color: Colors.white),
+                title: const Text(
+                  "Tirar foto",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  selecionarImagem(ImageSource.camera);
+                },
+              ),
+
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Colors.white),
+                title: const Text(
+                  "Escolher da galeria",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  selecionarImagem(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,32 +98,41 @@ class _EditarContaState extends State<EditarConta> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white24,
-                    child: const Icon(
-                      Icons.person,
-                      size: 55,
-                      color: Colors.white54,
-                    ),
-                  ),
 
-                  Container(
-                    padding: const EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      color: Colors.white24,
-                      borderRadius: BorderRadius.circular(20),
+              GestureDetector(
+                onTap: mostrarOpcoesFoto,
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white24,
+                      backgroundImage: fotoPerfil != null
+                          ? FileImage(fotoPerfil!)
+                          : null,
+                      child: fotoPerfil == null
+                          ? const Icon(
+                              Icons.person,
+                              size: 55,
+                              color: Colors.white54,
+                            )
+                          : null,
                     ),
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                      size: 18,
+
+                    Container(
+                      padding: const EdgeInsets.all(7),
+                      decoration: BoxDecoration(
+                        color: Colors.white24,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
 
               const SizedBox(height: 35),

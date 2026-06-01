@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../widgets/button.dart';
 import '../form/form.dart';
 import '../../../service/usuarioService.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class PaginaCadastro extends StatefulWidget {
   const PaginaCadastro({super.key});
@@ -25,6 +27,60 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
   final TextEditingController senhaController = TextEditingController();
 
   bool ocultarSenha = true;
+
+  File? fotoPerfil;
+  final ImagePicker picker = ImagePicker();
+
+  Future<void> selecionarImagem(ImageSource source) async {
+    final XFile? imagem = await picker.pickImage(
+      source: source,
+      imageQuality: 80,
+    );
+
+    if (imagem != null) {
+      setState(() {
+        fotoPerfil = File(imagem.path);
+      });
+    }
+  }
+
+  void mostrarOpcoesFoto() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1F232B),
+      builder: (context) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_camera, color: Colors.white),
+                title: const Text(
+                  "Tirar foto",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  selecionarImagem(ImageSource.camera);
+                },
+              ),
+
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Colors.white),
+                title: const Text(
+                  "Escolher da galeria",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  selecionarImagem(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,36 +109,40 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                 const SizedBox(height: 25),
 
                 // FOTO
-                Stack(
-                  alignment: Alignment.bottomRight,
+                GestureDetector(
+                  onTap: mostrarOpcoesFoto,
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      CircleAvatar(
+                        radius: 45,
+                        backgroundColor: Colors.white24,
+                        backgroundImage: fotoPerfil != null
+                            ? FileImage(fotoPerfil!)
+                            : null,
 
-                  children: [
-                    CircleAvatar(
-                      radius: 45,
-                      backgroundColor: Colors.white24,
-
-                      child: Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.white54,
+                        child: fotoPerfil == null
+                            ? const Icon(
+                                Icons.person,
+                                size: 50,
+                                color: Colors.white54,
+                              )
+                            : null,
                       ),
-                    ),
-
-                    Container(
-                      padding: const EdgeInsets.all(6),
-
-                      decoration: BoxDecoration(
-                        color: Colors.white24,
-                        borderRadius: BorderRadius.circular(20),
+                      Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.white24,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 18,
+                        ),
                       ),
-
-                      child: const Icon(
-                        Icons.edit,
-                        color: Colors.white,
-                        size: 18,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: 30),
@@ -231,7 +291,7 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                   ),
                 ),
                 const SizedBox(height: 35),
-                
+
                 Botao(
                   text: 'Entrar',
                   onPressed: () async {
