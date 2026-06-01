@@ -5,6 +5,7 @@ import 'detalheFilme.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
+import 'notificacaoService.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../widgets/cardFilme.dart';
 
@@ -90,6 +91,18 @@ class HomeState extends State<Home> {
   final Color Azul = const Color(0xFF001C30);
   final Color vermelhoEscuro = const Color(0xFF250203);
   final Color vermelho = const Color(0xFF681F10);
+
+  bool notificacaoEnviada = false;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!notificacaoEnviada) {
+        mostrarNotificacao();
+        notificacaoEnviada = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

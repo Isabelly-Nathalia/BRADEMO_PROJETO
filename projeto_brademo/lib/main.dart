@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'screens/inicio/transicao.dart';
+import 'screens/home/notificacaoService.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await inicializarNotificacoes();
   runApp(const MyApp());
 }
 
@@ -11,23 +14,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
- debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
 
-  theme: ThemeData(
-    primaryColor: const Color(0xFF222425),
-    scaffoldBackgroundColor: const Color(0xFF222425),
+      theme: ThemeData(
+        primaryColor: const Color(0xFF222425),
+        scaffoldBackgroundColor: const Color(0xFF222425),
 
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xFF222425),
-      foregroundColor: Colors.white,
-    ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF222425),
+          foregroundColor: Colors.white,
+        ),
 
-    textTheme: const TextTheme(
-      bodyMedium: TextStyle(color: Colors.white),
-    ),
-  ),
+        textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+      ),
 
-  home: const Transicao(),
+      home: const Transicao(),
     );
   }
 }
