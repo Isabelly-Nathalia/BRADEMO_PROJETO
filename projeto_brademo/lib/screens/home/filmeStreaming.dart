@@ -156,7 +156,7 @@ class FilmeStreaming extends StatelessWidget {
                               crossAxisCount: 2,
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 15,
-                              childAspectRatio: 0.62,
+                              childAspectRatio: 0.66,
                             ),
                         itemBuilder: (context, index) {
                           final filme = filmes[index];

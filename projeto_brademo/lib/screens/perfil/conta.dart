@@ -446,7 +446,7 @@ class _ContaState extends State<Conta> {
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 20,
-                            childAspectRatio: 0.62,
+                            childAspectRatio: 0.68,
                           ),
                       itemBuilder: (context, index) {
                         return CardFilme(filme: filmes[index]);

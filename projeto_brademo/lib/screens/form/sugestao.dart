@@ -59,7 +59,7 @@ class SugestaoFilmes extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
+              child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +90,7 @@ class SugestaoFilmes extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
 
                     Column(
                       children: List.generate(filmes.length, (index) {
@@ -113,8 +113,6 @@ class SugestaoFilmes extends StatelessWidget {
                         );
                       }),
                     ),
-
-                    const SizedBox(height: 25),
                   ],
                 ),
               ),
@@ -174,15 +172,15 @@ class SugestaoFilmes extends StatelessWidget {
       },
 
       child: Container(
-        height: 200,
-        width: 130,
+        height: 193,
+        width: 125,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             image: NetworkImage(filme["imagem"]),
             fit: BoxFit.cover,
           ),
-          boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 10)],
+          boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 20)],
         ),
       ),
     );
