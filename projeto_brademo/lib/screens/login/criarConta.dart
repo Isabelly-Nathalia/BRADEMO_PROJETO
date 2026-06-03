@@ -5,6 +5,8 @@ import '../form/form.dart';
 import '../../../service/usuarioService.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../../../model/usuario.dart';
+import '../../../config/sessaoUsuario.dart';
 
 class PaginaCadastro extends StatefulWidget {
   const PaginaCadastro({super.key});
@@ -308,7 +310,8 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
 
                       return;
                     }
-                    bool sucesso = await usuarioService.cadastrarUsuario(
+                    
+                    Usuario? usuario = await usuarioService.cadastrarUsuario(
                       nome: nomeController.text,
                       email: emailController.text,
                       nomeUsuario: usuarioController.text,
@@ -317,7 +320,8 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                       dataNascimento: nascimentoController.text,
                     );
 
-                    if (sucesso) {
+                    if (usuario != null) {
+                      SessaoUsuario.usuarioLogado = usuario;
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Usuário cadastrado com sucesso!'),

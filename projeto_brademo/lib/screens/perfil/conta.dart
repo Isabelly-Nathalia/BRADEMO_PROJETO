@@ -6,6 +6,8 @@ import 'editarConta.dart';
 import '../../../widgets/cardFilme.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../widgets/button.dart';
+import '../../../config/sessaoUsuario.dart';
+import 'dart:io';
 
 class Conta extends StatefulWidget {
   const Conta({super.key});
@@ -296,6 +298,8 @@ class _ContaState extends State<Conta> {
 
   @override
   Widget build(BuildContext context) {
+    final usuario = SessaoUsuario.usuarioLogado;
+
     return Scaffold(
       backgroundColor: cinza,
       body: SafeArea(
@@ -309,15 +313,25 @@ class _ContaState extends State<Conta> {
                   CircleAvatar(
                     radius: 35,
                     backgroundColor: Colors.white24,
-                    child: Icon(Icons.person, size: 40, color: Colors.white54),
+                    backgroundImage:
+                        usuario != null && usuario.fotoPerfil.isNotEmpty
+                        ? FileImage(File(usuario.fotoPerfil))
+                        : null,
+                    child: usuario == null || usuario.fotoPerfil.isEmpty
+                        ? const Icon(
+                            Icons.person,
+                            size: 40,
+                            color: Colors.white54,
+                          )
+                        : null,
                   ),
                   const SizedBox(width: 15),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        "Usuario123",
-                        style: TextStyle(
+                        usuario?.nome ?? "Usuário",
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -325,8 +339,11 @@ class _ContaState extends State<Conta> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        "@usuario123",
-                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                        "@${usuario?.nomeUsuario ?? ""}",
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),

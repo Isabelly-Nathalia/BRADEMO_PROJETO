@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../config/apiConfig.dart';
+import '../model/usuario.dart';
 
 class UsuarioService {
   String converterData(String dataForm) {
@@ -8,7 +9,7 @@ class UsuarioService {
     return '${partes[2]}-${partes[1]}-${partes[0]}';
   }
 
-  Future<bool> cadastrarUsuario({
+  Future<Usuario?> cadastrarUsuario({
     required String nome,
     required String email,
     required String nomeUsuario,
@@ -31,13 +32,16 @@ class UsuarioService {
       );
 
       //REMOVER DEPOSI SOMENTE VERIFICAÇÃO DE ERROS //REMOVER
-      // print('STATUS: ${response.statusCode}'); 
-      // print('BODY: ${response.body}');
+      print('STATUS: ${response.statusCode}');
+      print('BODY: ${response.body}');
 
-      return response.statusCode == 200 || response.statusCode == 201;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return Usuario.fromJson(jsonDecode(response.body));
+      }
+
+      return null;
     } catch (e) {
-       print('erro: $e');
-      return false;
+      return null;
     }
   }
 }
