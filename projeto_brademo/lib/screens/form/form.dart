@@ -231,31 +231,7 @@ class _SecondScreenState extends State<SecondScreen> {
               ),
             ),
           ),
-
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.previousPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                ),
-                IconButton(
-                  onPressed: proximaPagina,
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          navegacao(),
         ],
       ),
     );
@@ -319,128 +295,128 @@ class _SecondScreenState extends State<SecondScreen> {
               ),
             ),
           ),
-
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.previousPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                ),
-                IconButton(
-                  onPressed: proximaPagina,
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          navegacao(),
         ],
       ),
     );
   }
 
-  Widget telaStreaming() {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Onde você costuma assistir?",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
+Widget telaStreaming() {
+  return Padding(
+    padding: const EdgeInsets.all(20),
+    child: Column(
+      children: [
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
                   ),
-
-                  const SizedBox(height: 40),
-
-                  Column(
-                    children: streamings.map((streaming) {
-                      bool selecionado = streamingSelecionados.contains(
-                        streaming,
-                      );
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (selecionado) {
-                              streamingSelecionados.remove(streaming);
-                            } else {
-                              streamingSelecionados.add(streaming);
-                            }
-                          });
-                        },
-
-                        child: Container(
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(bottom: 15),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: selecionado ? azul : vermelho,
-                            borderRadius: BorderRadius.circular(20),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Onde você costuma assistir?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
                           ),
+                        ),
+
+                        const SizedBox(height: 40),
+
+                        GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 2.8,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: streamings.map((streaming) {
+                            bool selecionado =
+                                streamingSelecionados.contains(streaming);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (selecionado) {
+                                    streamingSelecionados.remove(streaming);
+                                  } else {
+                                    streamingSelecionados.add(streaming);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: selecionado ? azul : vermelho,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  streaming,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+
+                        const SizedBox(height: 25),
+
+                        const Align(
+                          alignment: Alignment.centerLeft,
                           child: Text(
-                            streaming,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
+                            "Outro streaming",
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
-            ),
-          ),
 
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.previousPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                ),
-                IconButton(
-                  onPressed: proximaPagina,
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
+                        const SizedBox(height: 10),
+
+                        TextField(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: "Digite outra plataforma de streaming...",
+                            hintStyle:
+                                const TextStyle(color: Colors.white54),
+                            filled: true,
+                            fillColor: vermelho,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
+              );
+            },
           ),
-        ],
-      ),
-    );
-  }
+        ),
+        navegacao(),
+      ],
+    ),
+  );
+}
 
   Widget telaOpcional() {
     return Padding(
@@ -562,11 +538,204 @@ class _SecondScreenState extends State<SecondScreen> {
               ),
             ),
           ),
+          navegacao(),
+        ],
+      ),
+    );
+  }
 
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+Widget telaPaises() {
+  return Padding(
+    padding: const EdgeInsets.all(20),
+    child: Column(
+      children: [
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Tem preferência por algum país?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 40),
+
+                        GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 2.8,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: paises.map((pais) {
+                            bool selecionado =
+                                paisesSelecionados.contains(pais);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (selecionado) {
+                                    paisesSelecionados.remove(pais);
+                                  } else {
+                                    paisesSelecionados.add(pais);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  color: selecionado ? azul : vermelho,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  pais,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+
+                        const SizedBox(height: 25),
+
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Outro país",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        TextField(
+                          style: const TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            hintText: "Digite outro país...",
+                            hintStyle:
+                                const TextStyle(color: Colors.white54),
+                            filled: true,
+                            fillColor: vermelho,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none,
+                            ),
+                            contentPadding:
+                                const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        navegacao(),
+      ],
+    ),
+  );
+}
+
+  Widget telaAtor() {
+    return Padding(
+      padding: const EdgeInsets.all(25),
+      child: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "Algum ator ou diretor favorito?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  const Text(
+                    "Isso ajuda a personalizar ainda mais suas recomendações.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  TextField(
+                    controller: atorController,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: "Ex: Fernanda Montenegro",
+                      hintStyle: const TextStyle(color: Colors.white),
+                      filled: true,
+                      fillColor: vermelho,
+                      prefixIcon: const Icon(Icons.search, color: Colors.white),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Botao(
+                          text: "LIMPAR",
+                          onPressed: limparFormulario,
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                        child: Botao(
+                          text: "FINALIZAR",
+                          onPressed: () {
+                            enviarFormulario();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 IconButton(
                   onPressed: () {
@@ -577,240 +746,11 @@ class _SecondScreenState extends State<SecondScreen> {
                   },
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                 ),
-                IconButton(
-                  onPressed: proximaPagina,
-                  icon: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.white,
-                  ),
-                ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget telaPaises() {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "Tem preferência por algum país?",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 2.8,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: paises.map((pais) {
-                      bool selecionado = paisesSelecionados.contains(pais);
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (selecionado) {
-                              paisesSelecionados.remove(pais);
-                            } else {
-                              paisesSelecionados.add(pais);
-                            }
-                          });
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: selecionado ? azul : vermelho,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            pais,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-
-                  const SizedBox(height: 25),
-
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Outro país",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  TextField(
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: "Digite outro país...",
-                      hintStyle: const TextStyle(color: Colors.white54),
-                      filled: true,
-                      fillColor: vermelho,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 18,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      controller.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                  ),
-                  IconButton(
-                    onPressed: proximaPagina,
-                    icon: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget telaAtor() {
-    return Padding(
-      padding: const EdgeInsets.all(25),
-        child: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      "Algum ator ou diretor favorito?",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 15),
-
-                    const Text(
-                      "Isso ajuda a personalizar ainda mais suas recomendações.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    TextField(
-                      controller: atorController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: "Ex: Fernanda Montenegro",
-                        hintStyle: const TextStyle(color: Colors.white),
-                        filled: true,
-                        fillColor: vermelho,
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.white,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Botao(
-                            text: "LIMPAR",
-                            onPressed: limparFormulario,
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: Botao(
-                            text: "FINALIZAR",
-                            onPressed: () {
-                              enviarFormulario();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      controller.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
     );
   }
 
@@ -860,5 +800,36 @@ class _SecondScreenState extends State<SecondScreen> {
       atorController.clear();
     });
     controller.jumpToPage(0);
+  }
+
+  Widget navegacao({bool mostrarVoltar = true, bool mostrarAvancar = true}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 15),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          mostrarVoltar
+              ? IconButton(
+                  onPressed: () {
+                    controller.previousPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  },
+                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                )
+              : const SizedBox(width: 48),
+          mostrarAvancar
+              ? IconButton(
+                  onPressed: proximaPagina,
+                  icon: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.white,
+                  ),
+                )
+              : const SizedBox(width: 48),
+        ],
+      ),
+    );
   }
 }

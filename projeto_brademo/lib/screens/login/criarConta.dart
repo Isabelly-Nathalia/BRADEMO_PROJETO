@@ -231,6 +231,8 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                   ],
                 ),
 
+                const SizedBox(height: 18),
+
                 // EMAIL
                 campoTexto(
                   titulo: 'E-mail',
