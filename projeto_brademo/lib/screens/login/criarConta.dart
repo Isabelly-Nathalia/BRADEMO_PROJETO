@@ -313,6 +313,7 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                       email: emailController.text,
                       nomeUsuario: usuarioController.text,
                       senha: senhaController.text,
+                      fotoPerfil: fotoPerfil?.path,
                       dataNascimento: nascimentoController.text,
                     );
 
