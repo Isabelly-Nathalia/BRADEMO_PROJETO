@@ -26,6 +26,13 @@ public class UsuarioController {
         return usuarioService.salvarUsuario(usuario);
     }
 
+    @PostMapping("/login")
+    public Usuario login(@RequestBody Usuario usuario) {
+        return usuarioService.login(
+                usuario.getEmail_usuario(),
+                usuario.getSenha_usuario());
+    }
+
     @GetMapping
     public Iterable<Usuario> listarUsuarios() {
         return usuarioService.listarUsuarios();
@@ -51,5 +58,4 @@ public class UsuarioController {
         usuarioService.deletarUsuario(id);
     }
 
-    
 }

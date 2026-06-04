@@ -44,4 +44,22 @@ class UsuarioService {
       return null;
     }
   }
+
+  Future<Usuario?> login({required String email, required String senha}) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/usuarios/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email_usuario': email, 'senha_usuario': senha}),
+      );
+
+      if (response.statusCode == 200 && response.body != 'null') {
+        return Usuario.fromJson(jsonDecode(response.body));
+      }
+
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 }

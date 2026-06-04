@@ -312,7 +312,7 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
 
                       return;
                     }
-                    
+        
                     Usuario? usuario = await usuarioService.cadastrarUsuario(
                       nome: nomeController.text,
                       email: emailController.text,

@@ -6,6 +6,9 @@ import 'criarConta.dart';
 import 'esqueciSenha.dart';
 import '../adm/acessoDesenvolvedor.dart';
 import 'semLogin.dart';
+import '../../../service/usuarioService.dart';
+import '../../../model/usuario.dart';
+import '../../../config/sessaoUsuario.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,6 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final UsuarioService usuarioService = UsuarioService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
   bool ocultarSenha = true;
@@ -109,19 +113,50 @@ class _LoginState extends State<Login> {
                 ),
 
                 const SizedBox(height: 35),
-
+                
                 Botao(
                   text: 'Entrar',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SecondScreen(),
-                      ),
+                  onPressed: () async {
+                    if (emailController.text.isEmpty ||
+                        senhaController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Preencha todos os campos'),
+                        ),
+                      );
+
+                      return;
+                    }
+
+                    Usuario? usuario = await usuarioService.login(
+                      email: emailController.text,
+                      senha: senhaController.text,
                     );
+
+                    if (usuario != null) {
+                      SessaoUsuario.usuarioLogado = usuario;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Login realizado com sucesso!'),
+                        ),
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SecondScreen(),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('E-mail ou senha inválidos'),
+                        ),
+                      );
+                    }
                   },
                 ),
-
                 const SizedBox(height: 15),
 
                 Botao(
@@ -225,7 +260,8 @@ class _LoginState extends State<Login> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const LoginDesenvolvedor(),
+                                builder: (context) =>
+                                    const LoginDesenvolvedor(),
                               ),
                             );
                           },

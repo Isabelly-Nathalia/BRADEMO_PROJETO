@@ -2,7 +2,7 @@ package com.brademobackend.moviematch.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Optional; 
+import java.util.Optional;
 
 import com.brademobackend.moviematch.model.Usuario;
 import com.brademobackend.moviematch.repository.UsuarioRepository;
@@ -18,13 +18,13 @@ public class UsuarioService {
     }
 
     public Iterable<Usuario> listarUsuarios() {
-    return usuarioRepository.findAll();
+        return usuarioRepository.findAll();
     }
 
     public Optional<Usuario> buscarUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id);      
+        return usuarioRepository.findById(id);
     }
-    
+
     public Usuario atualizarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
@@ -32,7 +32,10 @@ public class UsuarioService {
     public void deletarUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
-    
 
+    public Usuario login(String email, String senha) {
+    Optional<Usuario> usuario =usuarioRepository.login(email, senha);
+    return usuario.orElse(null);
 }
 
+}
