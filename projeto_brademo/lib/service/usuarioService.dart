@@ -5,9 +5,12 @@ import '../model/usuario.dart';
 
 class UsuarioService {
   String converterData(String dataForm) {
-    final partes = dataForm.split('/');
-    return '${partes[2]}-${partes[1]}-${partes[0]}';
+  if (dataForm.contains('-')) {
+    return dataForm;
   }
+  final partes = dataForm.split('/');
+  return '${partes[2]}-${partes[1]}-${partes[0]}';
+}
 
   Future<Usuario?> cadastrarUsuario({
     required String nome,
@@ -31,7 +34,7 @@ class UsuarioService {
         }),
       );
 
-      //REMOVER DEPOSI SOMENTE VERIFICAÇÃO DE ERROS //REMOVER
+      //REMOVER DEPOSI SOMENTE VERIFICAÇÃO DE ERROS
       print('STATUS: ${response.statusCode}');
       print('BODY: ${response.body}');
 
@@ -41,7 +44,7 @@ class UsuarioService {
 
       return null;
     } catch (e) {
-  print('ERRO CADASTRO: $e');
+      print('ERRO CADASTRO: $e');
       return null;
     }
   }
@@ -60,7 +63,7 @@ class UsuarioService {
 
       return null;
     } catch (e) {
-  print('ERRO LOGIN: $e');
+      print('ERRO LOGIN: $e');
       return null;
     }
   }
@@ -88,6 +91,9 @@ class UsuarioService {
           'dataNascimento_usuario': converterData(dataNascimento),
         }),
       );
+
+      print("UPDATE STATUS: ${response.statusCode}");
+      print("UPDATE BODY: ${response.body}");
 
       if (response.statusCode == 200) {
         return Usuario.fromJson(jsonDecode(response.body));

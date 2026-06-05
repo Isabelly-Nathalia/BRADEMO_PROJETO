@@ -358,13 +358,15 @@ class _ContaState extends State<Conta> {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    await Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const EditarConta(),
                       ),
                     );
+
+                    setState(() {});
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: vermelho,

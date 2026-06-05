@@ -222,37 +222,6 @@ class _EditarContaState extends State<EditarConta> {
 
               const SizedBox(height: 40),
 
-              // Botao(
-              //   text: 'Salvar alterações',
-              //   onPressed: () {
-              //     showDialog(
-              //       context: context,
-              //       builder: (context) {
-              //         return AlertDialog(
-              //           backgroundColor: cinza,
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //           content: const Text(
-              //             "As alterações foram salvas!",
-              //             style: TextStyle(color: Colors.white),
-              //           ),
-              //           actions: [
-              //             Center(
-              //               child: Botao(
-              //                 text: "OK",
-              //                 onPressed: () {
-              //                   Navigator.pop(context);
-              //                   Navigator.pop(context);
-              //                 },
-              //               ),
-              //             ),
-              //           ],
-              //         );
-              //       },
-              //     );
-              //   },
-              // ),
               Botao(
                 text: 'Salvar alterações',
                 onPressed: () async {
@@ -279,7 +248,11 @@ class _EditarContaState extends State<EditarConta> {
                         dataNascimento: nascimentoController.text,
                       );
 
+                  print("usuario inserido");
+                  print(usuarioAtualizado);
+
                   if (usuarioAtualizado != null) {
+                    print("update passou");
                     SessaoUsuario.usuarioLogado = usuarioAtualizado;
 
                     showDialog(

@@ -322,21 +322,6 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                       dataNascimento: nascimentoController.text,
                     );
 
-                    // if (usuario != null) {
-                    //   SessaoUsuario.usuarioLogado = usuario;
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text('Usuário cadastrado com sucesso!'),
-                    //     ),
-                    //   );
-
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => const SecondScreen(),
-                    //     ),
-                    //   );
-                    // }
                     if (usuario != null) {
                       SessaoUsuario.usuarioLogado = usuario;
                       if (!mounted) return;
