@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviematch/screens/login/semLogin.dart';
 import '../home/home.dart';
 import '../form/form.dart';
 import '../home/detalheFilme.dart';
@@ -359,6 +360,15 @@ class _ContaState extends State<Conta> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
+                    if (SessaoUsuario.usuarioLogado == null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SemLogin(),
+                        ),
+                      );
+                      return;
+                    }
                     await Navigator.push(
                       context,
                       MaterialPageRoute(

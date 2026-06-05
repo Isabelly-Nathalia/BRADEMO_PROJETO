@@ -5,12 +5,12 @@ import '../model/usuario.dart';
 
 class UsuarioService {
   String converterData(String dataForm) {
-  if (dataForm.contains('-')) {
-    return dataForm;
+    if (dataForm.contains('-')) {
+      return dataForm;
+    }
+    final partes = dataForm.split('/');
+    return '${partes[2]}-${partes[1]}-${partes[0]}';
   }
-  final partes = dataForm.split('/');
-  return '${partes[2]}-${partes[1]}-${partes[0]}';
-}
 
   Future<Usuario?> cadastrarUsuario({
     required String nome,
@@ -34,9 +34,6 @@ class UsuarioService {
         }),
       );
 
-      //REMOVER DEPOSI SOMENTE VERIFICAÇÃO DE ERROS
-      print('STATUS: ${response.statusCode}');
-      print('BODY: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         return Usuario.fromJson(jsonDecode(response.body));
@@ -44,7 +41,6 @@ class UsuarioService {
 
       return null;
     } catch (e) {
-      print('ERRO CADASTRO: $e');
       return null;
     }
   }
@@ -63,7 +59,6 @@ class UsuarioService {
 
       return null;
     } catch (e) {
-      print('ERRO LOGIN: $e');
       return null;
     }
   }
@@ -91,18 +86,24 @@ class UsuarioService {
           'dataNascimento_usuario': converterData(dataNascimento),
         }),
       );
-
-      print("UPDATE STATUS: ${response.statusCode}");
-      print("UPDATE BODY: ${response.body}");
-
       if (response.statusCode == 200) {
         return Usuario.fromJson(jsonDecode(response.body));
       }
-
       return null;
     } catch (e) {
-      print('ERRO UPDATE: $e');
       return null;
+    }
+  }
+
+  Future<bool> excluirUsuario(int id) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${ApiConfig.baseUrl}/usuarios/$id'),
+      );
+
+      return response.statusCode == 200 || response.statusCode == 204;
+    } catch (e) {
+      return false;
     }
   }
 }

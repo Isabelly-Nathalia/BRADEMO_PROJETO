@@ -341,9 +341,29 @@ class _EditarContaState extends State<EditarConta> {
                               Expanded(
                                 child: Botao(
                                   text: "Confirmar",
-                                  onPressed: () {
+                                  onPressed: () async {
                                     String senhaDigitada = senhaController.text;
-                                    if (senhaDigitada == "123456") {
+                                    if (senhaDigitada ==
+                                        SessaoUsuario.usuarioLogado!.senha) {
+                                      bool excluido = await usuarioService
+                                          .excluirUsuario(
+                                            SessaoUsuario
+                                                .usuarioLogado!
+                                                .idUsuario,
+                                          );
+                                      if (!excluido) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Erro ao excluir conta',
+                                            ),
+                                          ),
+                                        );
+                                        return;
+                                      }
+                                      SessaoUsuario.usuarioLogado = null;
                                       showDialog(
                                         context: context,
                                         builder: (context) {
@@ -367,12 +387,13 @@ class _EditarContaState extends State<EditarConta> {
                                                   text: "OK",
                                                   onPressed: () {
                                                     Navigator.pop(context);
-                                                    Navigator.push(
+                                                    Navigator.pushAndRemoveUntil(
                                                       context,
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             const Apresentacao(),
                                                       ),
+                                                      (route) => false,
                                                     );
                                                   },
                                                 ),
