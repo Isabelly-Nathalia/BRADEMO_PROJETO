@@ -41,6 +41,7 @@ class UsuarioService {
 
       return null;
     } catch (e) {
+  print('ERRO CADASTRO: $e');
       return null;
     }
   }
@@ -59,6 +60,42 @@ class UsuarioService {
 
       return null;
     } catch (e) {
+  print('ERRO LOGIN: $e');
+      return null;
+    }
+  }
+
+  Future<Usuario?> atualizarUsuario({
+    required int id,
+    required String nome,
+    required String nomeUsuario,
+    required String email,
+    required String senha,
+    String? fotoPerfil,
+    required String dataNascimento,
+  }) async {
+    try {
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}/usuarios/$id'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'id_usuario': id,
+          'nome_usuario': nome,
+          'email_usuario': email,
+          'nomeDeUsuario_usuario': nomeUsuario,
+          'senha_usuario': senha,
+          'fotoPerfil_usuario': fotoPerfil ?? '',
+          'dataNascimento_usuario': converterData(dataNascimento),
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return Usuario.fromJson(jsonDecode(response.body));
+      }
+
+      return null;
+    } catch (e) {
+      print('ERRO UPDATE: $e');
       return null;
     }
   }

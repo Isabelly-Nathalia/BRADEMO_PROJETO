@@ -113,7 +113,7 @@ class _LoginState extends State<Login> {
                 ),
 
                 const SizedBox(height: 35),
-                
+
                 Botao(
                   text: 'Entrar',
                   onPressed: () async {
@@ -135,13 +135,7 @@ class _LoginState extends State<Login> {
 
                     if (usuario != null) {
                       SessaoUsuario.usuarioLogado = usuario;
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Login realizado com sucesso!'),
-                        ),
-                      );
-
+                      if (!mounted) return;
                       Navigator.push(
                         context,
                         MaterialPageRoute(

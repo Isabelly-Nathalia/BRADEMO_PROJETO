@@ -4,6 +4,9 @@ import '../inicio/inicial.dart';
 import '../login/esqueciSenha.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import '../../../config/sessaoUsuario.dart';
+import '../../../model/usuario.dart';
+import '../../../service/usuarioService.dart';
 
 class EditarConta extends StatefulWidget {
   const EditarConta({super.key});
@@ -13,18 +16,27 @@ class EditarConta extends StatefulWidget {
 
 class _EditarContaState extends State<EditarConta> {
   final Color cinza = const Color(0xFF222425);
-  final TextEditingController nomeController = TextEditingController(
-    text: "Usuario123",
-  );
-  final TextEditingController usuarioController = TextEditingController(
-    text: "@usuario123",
-  );
-  final TextEditingController nascimentoController = TextEditingController(
-    text: "10/05/2005",
-  );
+  final UsuarioService usuarioService = UsuarioService();
+
+  late TextEditingController nomeController;
+  late TextEditingController usuarioController;
+  late TextEditingController nascimentoController;
 
   File? fotoPerfil;
   final ImagePicker picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final usuario = SessaoUsuario.usuarioLogado!;
+
+    nomeController = TextEditingController(text: usuario.nome);
+
+    usuarioController = TextEditingController(text: usuario.nomeUsuario);
+
+    nascimentoController = TextEditingController(text: usuario.dataNascimento);
+  }
 
   Future<void> selecionarImagem(ImageSource source) async {
     final XFile? imagem = await picker.pickImage(
@@ -210,35 +222,99 @@ class _EditarContaState extends State<EditarConta> {
 
               const SizedBox(height: 40),
 
+              // Botao(
+              //   text: 'Salvar alterações',
+              //   onPressed: () {
+              //     showDialog(
+              //       context: context,
+              //       builder: (context) {
+              //         return AlertDialog(
+              //           backgroundColor: cinza,
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(20),
+              //           ),
+              //           content: const Text(
+              //             "As alterações foram salvas!",
+              //             style: TextStyle(color: Colors.white),
+              //           ),
+              //           actions: [
+              //             Center(
+              //               child: Botao(
+              //                 text: "OK",
+              //                 onPressed: () {
+              //                   Navigator.pop(context);
+              //                   Navigator.pop(context);
+              //                 },
+              //               ),
+              //             ),
+              //           ],
+              //         );
+              //       },
+              //     );
+              //   },
+              // ),
               Botao(
                 text: 'Salvar alterações',
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        backgroundColor: cinza,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        content: const Text(
-                          "As alterações foram salvas!",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        actions: [
-                          Center(
-                            child: Botao(
-                              text: "OK",
-                              onPressed: () {
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                        ],
+                onPressed: () async {
+                  if (nomeController.text.isEmpty ||
+                      usuarioController.text.isEmpty ||
+                      nascimentoController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Preencha todos os campos')),
+                    );
+
+                    return;
+                  }
+
+                  final usuarioAtualizado = await usuarioService
+                      .atualizarUsuario(
+                        id: SessaoUsuario.usuarioLogado!.idUsuario,
+                        nome: nomeController.text,
+                        nomeUsuario: usuarioController.text,
+                        email: SessaoUsuario.usuarioLogado!.email,
+                        senha: SessaoUsuario.usuarioLogado!.senha,
+                        fotoPerfil:
+                            fotoPerfil?.path ??
+                            SessaoUsuario.usuarioLogado!.fotoPerfil,
+                        dataNascimento: nascimentoController.text,
                       );
-                    },
-                  );
+
+                  if (usuarioAtualizado != null) {
+                    SessaoUsuario.usuarioLogado = usuarioAtualizado;
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: cinza,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          content: const Text(
+                            "As alterações foram salvas!",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          actions: [
+                            Center(
+                              child: Botao(
+                                text: "OK",
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Erro ao atualizar usuário'),
+                      ),
+                    );
+                  }
                 },
               ),
 

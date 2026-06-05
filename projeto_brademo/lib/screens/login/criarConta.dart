@@ -312,7 +312,7 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
 
                       return;
                     }
-        
+
                     Usuario? usuario = await usuarioService.cadastrarUsuario(
                       nome: nomeController.text,
                       email: emailController.text,
@@ -322,14 +322,24 @@ class _PaginaCadastroState extends State<PaginaCadastro> {
                       dataNascimento: nascimentoController.text,
                     );
 
+                    // if (usuario != null) {
+                    //   SessaoUsuario.usuarioLogado = usuario;
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       content: Text('Usuário cadastrado com sucesso!'),
+                    //     ),
+                    //   );
+
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const SecondScreen(),
+                    //     ),
+                    //   );
+                    // }
                     if (usuario != null) {
                       SessaoUsuario.usuarioLogado = usuario;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Usuário cadastrado com sucesso!'),
-                        ),
-                      );
-
+                      if (!mounted) return;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
