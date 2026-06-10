@@ -9,6 +9,9 @@ import 'notificacaoService.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../widgets/cardFilme.dart';
 
+import '../../../service/filmeService.dart';
+import '../../../model/filme.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -22,6 +25,18 @@ class HomeState extends State<Home> {
     viewportFraction: 0.46,
   );
 
+  final FilmeService filmeService = FilmeService();
+
+  List<Filme> filmes = [];
+
+  Future<void> carregarFilmes() async {
+
+    final resultado = await filmeService.buscarFilmes();
+    setState(() {
+       filmes = resultado;
+    });
+  }
+
   // carrosel ad fotos
   final List<String> imagensCarrossel = [
     "https://www.gov.br/cultura/pt-br/assuntos/noticias/tela-brasil-a-plataforma-publica-de-streaming-comeca-a-funcionar-neste-sabado-30/37ebd366-06a1-4075-91b1-a031b8ed8451.png",
@@ -29,63 +44,6 @@ class HomeState extends State<Home> {
     "https://img.youtube.com/vi/E2xtmPkuksA/maxresdefault.jpg",
   ];
 
-  // carrosel sugestao infos
-  final List<Map<String, dynamic>> filmes = [
-    {
-      "imagem":
-          "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
-      "titulo": "Central do Brasil",
-      "nota": "5",
-      "duracao": "1h50min",
-      "diretor": "Walter Salles",
-      "streaming": "Netflix",
-      "fotoDiretor":
-          "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-      "descricao":
-          "Uma ex-professora que escreve cartas para analfabetos conhece um menino que acaba de perder a mãe e decide ajudá-lo a encontrar o pai, iniciando uma jornada emocionante que transforma a vida de ambos.",
-      "elenco": [
-        "Fernanda Montenegro (Dora)",
-        "Vinícius de Oliveira (Josué)",
-        "Marília Pêra (Irene)",
-      ],
-    },
-    {
-      "imagem":
-          "https://upload.wikimedia.org/wikipedia/pt/thumb/5/57/Ainda_Estou_Aqui_2024_poster.jpg/250px-Ainda_Estou_Aqui_2024_poster.jpg",
-      "titulo": "Ainda Estou Aqui",
-      "nota": "5",
-      "duracao": "2h17min",
-      "diretor": "Walter Salles",
-      "streaming": "GloboPlay",
-      "fotoDiretor":
-          "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-      "descricao":
-          "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar e traçar um novo caminho para si e para seus filhos depois que a vida de sua família é impactada por um ato violento e arbitrário.",
-      "elenco": [
-        "Fernanda Torres (Eunice Paiva)",
-        "Selton Mello (Rubens Paiva)",
-        "Fernanda Montenegro (Eunice Paiva)",
-      ],
-    },
-    {
-      "imagem":
-          "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
-      "titulo": "Cidade de Deus",
-      "nota": "5",
-      "duracao": "2h10min",
-      "diretor": "Fernando Meirelles",
-      "streaming": "HBO MAX",
-      "fotoDiretor":
-          "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
-      "descricao":
-          "Um jovem cresce em uma comunidade dominada pelo crime no Rio de Janeiro e tenta seguir um caminho diferente, enquanto acompanha a ascensão violenta de traficantes e a dura realidade da favela.",
-      "elenco": [
-        "Alice Braga (Angélica)",
-        "Alexandre Rodrigues (Buscapé)",
-        "Douglas Silva (Zé Pequeno)",
-      ],
-    },
-  ];
 
   final Color Cinza = const Color(0xFF222425);
   final Color Azul = const Color(0xFF001C30);
@@ -96,19 +54,20 @@ class HomeState extends State<Home> {
   static bool notificacaoJaEnviada = false;
 
   @override
-void initState() {
-  super.initState();
-  if (!notificacaoJaEnviada) {
-    notificacaoJaEnviada = true;
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        mostrarNotificacao();
-      },
-    );
-  }
-}
+  void initState() {
+    super.initState();
 
+    carregarFilmes();
+
+    if (!notificacaoJaEnviada) {
+      notificacaoJaEnviada = true;
+      Future.delayed(const Duration(seconds: 3), () {
+        mostrarNotificacao();
+      });
+    }
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     final largura = MediaQuery.of(context).size.width;
@@ -251,44 +210,74 @@ void initState() {
 
                     const SizedBox(height: 15),
 
-                    largura < 600
-                        ? Container(
-                            width: double.infinity,
-                            height: 320,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 20,
-                              horizontal: 16,
+                    if (filmes.isEmpty)
+                      const Center(child: CircularProgressIndicator())
+                    else
+                      largura < 600
+                          ? Container(
+                              width: double.infinity,
+                              height: 320,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 20,
+                                horizontal: 16,
+                              ),
+                              decoration: BoxDecoration(
+                                color: vermelho,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: PageView.builder(
+                                controller: controllerFIlmes,
+                                padEnds: false,
+                                itemCount: filmes.length,
+                                itemBuilder: (context, index) {
+                                  final filme = filmes[index];
+                                  return CardFilme(
+                                    filme: {
+                                      "titulo": filme.titulo,
+                                      "imagem": filme.imagem,
+                                      "descricao": filme.descricao,
+                                      "nota": filme.nota.toString(),
+                                      "duracao": "${filme.duracao} min",
+                                      "diretor": filme.diretor,
+                                      "fotoDiretor": filme.fotoDiretor,
+                                      "streaming": filme.streaming,
+
+                                      "elenco": [filme.atores],
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                          : Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 20,
+                                horizontal: 16,
+                              ),
+                              decoration: BoxDecoration(
+                                color: vermelho,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: filmes.map((filme) {
+                                  return Expanded(
+                                    child: CardFilme(
+                                      filme: {
+                                        "titulo": filme.titulo,
+                                        "imagem": filme.imagem,
+                                        "descricao": filme.descricao,
+                                        "nota": filme.nota.toString(),
+                                        "duracao": "${filme.duracao} min",
+                                        "diretor": filme.diretor,
+                                        "fotoDiretor": filme.fotoDiretor,
+                                        "streaming": filme.streaming,
+                                        "elenco": [filme.atores],
+                                      },
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
                             ),
-                            decoration: BoxDecoration(
-                              color: vermelho,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: PageView.builder(
-                              controller: controllerFIlmes,
-                              padEnds: false,
-                              itemCount: filmes.length,
-                              itemBuilder: (context, index) {
-                                final filme = filmes[index];
-                                return CardFilme(filme: filme);
-                              },
-                            ),
-                          )
-                        : Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 20,
-                              horizontal: 16,
-                            ),
-                            decoration: BoxDecoration(
-                              color: vermelho,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              children: filmes.map((filme) {
-                                return Expanded(child: CardFilme(filme: filme));
-                              }).toList(),
-                            ),
-                          ),
                     const SizedBox(height: 20),
 
                     const Padding(

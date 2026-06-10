@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import '../screens/home/detalheFilme.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CardFilme extends StatelessWidget {
   final Map<String, dynamic> filme;
 
-  const CardFilme({
-    super.key,
-    required this.filme,
-  });
+  const CardFilme({super.key, required this.filme});
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +31,25 @@ class CardFilme extends StatelessWidget {
 
       child: Container(
         width: 150,
-        margin: const EdgeInsets.only(right:6, left:6),
+        margin: const EdgeInsets.only(right: 6, left: 6),
 
         child: Column(
           children: [
-            Container(
-              height: 220,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(20),
-                ),
-                image: DecorationImage(
-                  image: NetworkImage(filme["imagem"]),
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+              child: CachedNetworkImage(
+                imageUrl: filme["imagem"],
+                height: 220,
+                width: double.infinity,
+                fit: BoxFit.cover,
+
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator()),
+
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.broken_image, color: Colors.white),
               ),
             ),
 
@@ -64,10 +67,7 @@ class CardFilme extends StatelessWidget {
                   Text(
                     filme["titulo"].toUpperCase(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                    ),
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
                   ),
 
                   const SizedBox(height: 5),
@@ -75,11 +75,7 @@ class CardFilme extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.white,
-                        size: 12,
-                      ),
+                      const Icon(Icons.star, color: Colors.white, size: 12),
 
                       const SizedBox(width: 3),
 

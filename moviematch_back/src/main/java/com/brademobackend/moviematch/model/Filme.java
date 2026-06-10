@@ -22,14 +22,15 @@ public class Filme {
     private Long id_filme;
     private String titulo_filme;
     private String descricao_filme;
-    private String linkImagemFilme_filme;
+    private String imagemDiretor_filme;
     private Integer duracao_filme;
     private String streaming_filme;
     private String nacionalidade_filme;
     private String classificacao_filme;
     private String diretor_filme;
-    private String imagemDiretor_filme;
+    private String linkImagemFilme_filme;
     private String atorEspecifico_filme;
+    private double nota_filme;
     
 
     @ElementCollection
