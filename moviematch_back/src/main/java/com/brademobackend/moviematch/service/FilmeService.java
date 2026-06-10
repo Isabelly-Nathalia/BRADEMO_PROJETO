@@ -20,10 +20,19 @@ public class FilmeService {
     }
 
     public List<Filme> buscarFilmesAleatorios() {
-    List<Filme> filmes = (List<Filme>) filmeRepository.findAll();
-    Collections.shuffle(filmes);
-    return filmes.stream()
-            .limit(5)
-            .toList();
-}
+        List<Filme> filmes = (List<Filme>) filmeRepository.findAll();
+        Collections.shuffle(filmes);
+        return filmes.stream()
+                .limit(5)
+                .toList();
+    }
+
+    public List<Filme> buscarPorStreaming(String streaming) {
+        return filmeRepository.buscarPorStreaming(streaming);
+    }
+
+    public List<Filme> buscarOutrosStreamings() {
+        return filmeRepository.buscarOutrosStreamings();
+    }
+
 }

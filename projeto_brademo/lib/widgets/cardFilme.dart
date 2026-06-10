@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/home/detalheFilme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../service/filmeService.dart';
 
 class CardFilme extends StatelessWidget {
   final Map<String, dynamic> filme;
@@ -98,7 +99,9 @@ class CardFilme extends StatelessWidget {
                       const SizedBox(width: 3),
 
                       Text(
-                        filme["duracao"] ?? "",
+                        FilmeService.formatarDuracao(
+                          filme["duracao"],
+                        ),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,

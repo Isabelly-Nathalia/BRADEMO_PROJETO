@@ -4,13 +4,14 @@ import '../form/form.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/headerRotas.dart';
 import 'home.dart';
+import '../../../service/filmeService.dart';
 
 class DetalheFilme extends StatefulWidget {
   final String titulo;
   final String imagem;
   final String descricao;
   final String nota;
-  final String duracao;
+  final int duracao;
   final String diretor;
   final List<String> elenco;
   final String fotoDiretor;
@@ -149,7 +150,9 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                                     const SizedBox(width: 4),
 
                                     Text(
-                                      widget.duracao,
+                                      FilmeService.formatarDuracao(
+                                        widget.duracao,
+                                      ),
                                       style: const TextStyle(
                                         color: Colors.white,
                                       ),

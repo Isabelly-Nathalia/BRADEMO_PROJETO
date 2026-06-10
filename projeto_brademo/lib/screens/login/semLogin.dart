@@ -27,7 +27,7 @@ class SemLogin extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  "Você não está logado",
+                  "Você não está logado", 
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

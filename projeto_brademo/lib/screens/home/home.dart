@@ -5,7 +5,7 @@ import 'detalheFilme.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
-import 'notificacaoService.dart';
+import '../../service/notificacaoService.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../widgets/cardFilme.dart';
 
@@ -237,7 +237,7 @@ class HomeState extends State<Home> {
                                       "imagem": filme.imagem,
                                       "descricao": filme.descricao,
                                       "nota": filme.nota.toString(),
-                                      "duracao": "${filme.duracao} min",
+                                      "duracao": filme.duracao,
                                       "diretor": filme.diretor,
                                       "fotoDiretor": filme.fotoDiretor,
                                       "streaming": filme.streaming,
@@ -267,7 +267,7 @@ class HomeState extends State<Home> {
                                         "imagem": filme.imagem,
                                         "descricao": filme.descricao,
                                         "nota": filme.nota.toString(),
-                                        "duracao": "${filme.duracao} min",
+                                        "duracao": filme.duracao,
                                         "diretor": filme.diretor,
                                         "fotoDiretor": filme.fotoDiretor,
                                         "streaming": filme.streaming,
@@ -317,7 +317,7 @@ class HomeState extends State<Home> {
                           ),
                           _streamingLogo(
                             context,
-                            "AppleTV",
+                            "Apple TV",
                             "assets/appletv.png",
                           ),
                           _streamingLogo(
@@ -327,7 +327,7 @@ class HomeState extends State<Home> {
                           ),
                           _streamingLogo(
                             context,
-                            "PrimeVideo",
+                            "Prime Video",
                             "assets/prime.png",
                           ),
                           _streamingLogo(
