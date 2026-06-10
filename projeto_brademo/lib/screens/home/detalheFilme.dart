@@ -5,6 +5,8 @@ import '../../../widgets/button.dart';
 import '../../../widgets/headerRotas.dart';
 import 'home.dart';
 import '../../../service/filmeService.dart';
+import '../../../config/sessaoUsuario.dart';
+import '../login/semLogin.dart';
 
 class DetalheFilme extends StatefulWidget {
   final String titulo;
@@ -175,6 +177,16 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                           width: 160,
                           child: GestureDetector(
                             onTap: () {
+                              if (SessaoUsuario.usuarioLogado == null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SemLogin(),
+                                  ),
+                                );
+                                return;
+                              }
+
                               setState(() {
                                 curtido = !curtido;
                               });
@@ -225,6 +237,15 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                           width: 160,
                           child: GestureDetector(
                             onTap: () {
+                              if (SessaoUsuario.usuarioLogado == null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SemLogin(),
+                                  ),
+                                );
+                                return;
+                              }
                               abrirMinhasListas();
                             },
                             child: Container(
@@ -398,6 +419,14 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                   );
                 },
                 onConta: () {
+                  if (SessaoUsuario.usuarioLogado == null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SemLogin()),
+                    );
+                    return;
+                  }
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Conta()),

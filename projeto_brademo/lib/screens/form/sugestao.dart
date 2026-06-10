@@ -4,6 +4,8 @@ import '../perfil/conta.dart';
 import '../form/form.dart';
 import '../home/home.dart';
 import '../../../widgets/headerRotas.dart';
+import '../../../config/sessaoUsuario.dart';
+import '../login/semLogin.dart';
 
 class SugestaoFilmes extends StatelessWidget {
   const SugestaoFilmes({super.key});
@@ -136,6 +138,14 @@ class SugestaoFilmes extends StatelessWidget {
                   );
                 },
                 onConta: () {
+                  if (SessaoUsuario.usuarioLogado == null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SemLogin()),
+                    );
+                    return;
+                  }
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Conta()),

@@ -6,6 +6,8 @@ import '../perfil/conta.dart';
 import '../../../widgets/cardFilme.dart';
 import '../../../service/filmeService.dart';
 import '../../../model/filme.dart';
+import '../../../config/sessaoUsuario.dart';
+import '../login/semLogin.dart';
 
 class FilmeStreaming extends StatefulWidget {
   final String nomeStreaming;
@@ -149,6 +151,14 @@ class _FilmeStreamingState extends State<FilmeStreaming> {
                   );
                 },
                 onConta: () {
+                  if (SessaoUsuario.usuarioLogado == null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SemLogin()),
+                    );
+                    return;
+                  }
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Conta()),

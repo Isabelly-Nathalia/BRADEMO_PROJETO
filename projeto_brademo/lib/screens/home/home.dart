@@ -12,6 +12,9 @@ import '../../../widgets/cardFilme.dart';
 import '../../../service/filmeService.dart';
 import '../../../model/filme.dart';
 
+import '../../../config/sessaoUsuario.dart';
+import '../login/semLogin.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -30,10 +33,9 @@ class HomeState extends State<Home> {
   List<Filme> filmes = [];
 
   Future<void> carregarFilmes() async {
-
     final resultado = await filmeService.buscarFilmes();
     setState(() {
-       filmes = resultado;
+      filmes = resultado;
     });
   }
 
@@ -43,7 +45,6 @@ class HomeState extends State<Home> {
     "https://www.gamersegames.com.br/wp-content/uploads/2026/03/O-Agente-Secreto-na-Netflix-.webp",
     "https://img.youtube.com/vi/E2xtmPkuksA/maxresdefault.jpg",
   ];
-
 
   final Color Cinza = const Color(0xFF222425);
   final Color Azul = const Color(0xFF001C30);
@@ -67,7 +68,6 @@ class HomeState extends State<Home> {
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
     final largura = MediaQuery.of(context).size.width;
@@ -361,6 +361,14 @@ class HomeState extends State<Home> {
                   );
                 },
                 onConta: () {
+                  if (SessaoUsuario.usuarioLogado == null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SemLogin()),
+                    );
+                    return;
+                  }
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => const Conta()),
