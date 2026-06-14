@@ -248,13 +248,9 @@ class _EditarContaState extends State<EditarConta> {
                         dataNascimento: nascimentoController.text,
                       );
 
-                  print("usuario inserido");
-                  print(usuarioAtualizado);
 
                   if (usuarioAtualizado != null) {
-                    print("update passou");
                     SessaoUsuario.usuarioLogado = usuarioAtualizado;
-
                     showDialog(
                       context: context,
                       builder: (context) {

@@ -16,6 +16,7 @@ class CardFilme extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => DetalheFilme(
+              idFilme: filme["idFilme"],
               titulo: filme["titulo"] ?? "",
               imagem: filme["imagem"] ?? "",
               descricao: filme["descricao"] ?? "",

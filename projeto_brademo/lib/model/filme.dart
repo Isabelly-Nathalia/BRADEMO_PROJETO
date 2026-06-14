@@ -1,5 +1,5 @@
 class Filme {
-  final int id;
+  final int idFilme;
   final String titulo;
   final String descricao;
   final String imagem;
@@ -11,7 +11,7 @@ class Filme {
   final double nota;
 
   Filme({
-    required this.id,
+    required this.idFilme,
     required this.titulo,
     required this.descricao,
     required this.imagem,
@@ -25,7 +25,7 @@ class Filme {
 
   factory Filme.fromJson(Map<String, dynamic> json) {
     return Filme(
-      id: json['id_filme'],
+      idFilme: json['id_filme'],
       titulo: json['titulo_filme'],
       descricao: json['descricao_filme'],
       imagem: json['linkImagemFilme_filme'],

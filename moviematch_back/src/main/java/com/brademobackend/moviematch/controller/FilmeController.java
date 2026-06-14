@@ -38,4 +38,12 @@ public class FilmeController {
     public List<Filme> buscarOutrosStreamings() {
         return filmeService.buscarOutrosStreamings();
     }
+
+    @GetMapping("/pesquisa/{titulo}")
+    public List<Filme> pesquisarFilmes(
+            @PathVariable String titulo) {
+
+        return filmeService.pesquisarFilmes(titulo);
+    }
+
 }

@@ -7,8 +7,11 @@ import 'home.dart';
 import '../../../service/filmeService.dart';
 import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
+import '../../../service/usuarioService.dart';
+import '../../../config/sessaoUsuario.dart';
 
 class DetalheFilme extends StatefulWidget {
+  final int idFilme;
   final String titulo;
   final String imagem;
   final String descricao;
@@ -21,6 +24,7 @@ class DetalheFilme extends StatefulWidget {
 
   const DetalheFilme({
     super.key,
+    required this.idFilme,
     required this.titulo,
     required this.imagem,
     required this.descricao,
@@ -41,11 +45,31 @@ class _DetalheFilmeState extends State<DetalheFilme> {
   final Color vermelho = const Color(0xFF681F10);
   final Color azul = const Color(0xFF001C30);
   final TextEditingController controllerLista = TextEditingController();
+  final UsuarioService usuarioService = UsuarioService();
 
   List<String> listas = ["Favoritos", "Assistir depois"];
   bool mostrarCampo = false;
   String? listaSelecionada;
   bool curtido = false;
+
+  @override
+  void initState() {
+    super.initState();
+    verificarCurtida();
+  }
+
+  Future<void> verificarCurtida() async {
+    if (SessaoUsuario.usuarioLogado == null) {
+      return;
+    }
+    bool resultado = await usuarioService.filmeJaCurtido(
+      SessaoUsuario.usuarioLogado!.idUsuario,
+      widget.idFilme,
+    );
+    setState(() {
+      curtido = resultado;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,33 +200,93 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                         SizedBox(
                           width: 160,
                           child: GestureDetector(
-                            onTap: () {
-                              if (SessaoUsuario.usuarioLogado == null) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SemLogin(),
-                                  ),
-                                );
-                                return;
-                              }
+                            // onTap: () {
+                            //   if (SessaoUsuario.usuarioLogado == null) {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //         builder: (context) => const SemLogin(),
+                            //       ),
+                            //     );
+                            //     return;
+                            //   }
 
-                              setState(() {
-                                curtido = !curtido;
-                              });
+                            //   setState(() {
+                            //     curtido = !curtido;
+                            //   });
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: azul,
-                                  content: Text(
-                                    curtido
-                                        ? 'Filme adicionado aos curtidos'
-                                        : 'Filme removido dos curtidos',
-                                  ),
-                                  duration: const Duration(seconds: 2),
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(
+                            //       backgroundColor: azul,
+                            //       content: Text(
+                            //         curtido
+                            //             ? 'Filme adicionado aos curtidos'
+                            //             : 'Filme removido dos curtidos',
+                            //       ),
+                            //       duration: const Duration(seconds: 2),
+                            //     ),
+                            //   );
+                            // },
+                            onTap: () async {
+                            if (SessaoUsuario.usuarioLogado == null) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SemLogin(),
                                 ),
                               );
-                            },
+                              return;
+                            }
+
+                            bool sucesso;
+
+                            if (curtido) {
+
+                              sucesso =
+                                  await usuarioService.removerCurtida(
+                                SessaoUsuario.usuarioLogado!.idUsuario,
+                                widget.idFilme,
+                              );
+
+                              if (sucesso) {
+                                setState(() {
+                                  curtido = false;
+                                });
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: azul,
+                                    content: const Text(
+                                      'Filme removido dos curtidos',
+                                    ),
+                                  ),
+                                );
+                              }
+
+                            } else {
+
+                              sucesso =
+                                  await usuarioService.curtirFilme(
+                                SessaoUsuario.usuarioLogado!.idUsuario,
+                                widget.idFilme,
+                              );
+
+                              if (sucesso) {
+                                setState(() {
+                                  curtido = true;
+                                });
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: azul,
+                                    content: const Text(
+                                      'Filme adicionado aos curtidos',
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               decoration: BoxDecoration(

@@ -167,6 +167,7 @@ class SugestaoFilmes extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => DetalheFilme(
+              idFilme: filme["id"],
               titulo: filme["titulo"],
               imagem: filme["imagem"],
               descricao: filme["descricao"],

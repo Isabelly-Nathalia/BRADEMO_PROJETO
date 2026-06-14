@@ -114,6 +114,7 @@ class _FilmeStreamingState extends State<FilmeStreaming> {
 
                                 return CardFilme(
                                   filme: {
+                                    "idFilme": filme.idFilme,
                                     "titulo": filme.titulo,
                                     "imagem": filme.imagem,
                                     "descricao": filme.descricao,

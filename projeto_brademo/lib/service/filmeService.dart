@@ -29,27 +29,44 @@ class FilmeService {
       return [];
     }
   }
+
   Future<List<Filme>> buscarOutrosStreamings() async {
-  try {
-    final response = await http.get(
-      Uri.parse('${ApiConfig.baseUrl}/filmes/streaming/outros'),
-    );
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/filmes/streaming/outros'),
+      );
 
-    if (response.statusCode == 200) {
-      final List<dynamic> dados = jsonDecode(response.body);
-      return dados.map((filme) => Filme.fromJson(filme)).toList();
+      if (response.statusCode == 200) {
+        final List<dynamic> dados = jsonDecode(response.body);
+        return dados.map((filme) => Filme.fromJson(filme)).toList();
+      }
+
+      return [];
+    } catch (e) {
+      return [];
     }
-
-    return [];
-  } catch (e) {
-    return [];
   }
-}
 
- static String formatarDuracao(int minutos) {
+  static String formatarDuracao(int minutos) {
     int horas = minutos ~/ 60;
     int minutosRestantes = minutos % 60;
 
     return "${horas}h${minutosRestantes}min";
+  }
+
+  Future<List<Filme>> pesquisarFilmes(String titulo) async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl}/filmes/pesquisa/$titulo'),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> dados = jsonDecode(response.body);
+        return dados.map((filme) => Filme.fromJson(filme)).toList();
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
   }
 }

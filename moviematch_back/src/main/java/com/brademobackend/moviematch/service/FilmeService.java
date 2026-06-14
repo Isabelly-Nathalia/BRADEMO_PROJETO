@@ -35,4 +35,8 @@ public class FilmeService {
         return filmeRepository.buscarOutrosStreamings();
     }
 
+    public List<Filme> pesquisarFilmes(String titulo) {
+        return filmeRepository.pesquisarFilmes(titulo);
+    }
+
 }

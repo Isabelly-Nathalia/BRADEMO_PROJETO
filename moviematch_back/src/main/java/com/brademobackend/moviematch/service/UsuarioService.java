@@ -2,16 +2,23 @@ package com.brademobackend.moviematch.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
+import com.brademobackend.moviematch.model.Filme;
 import com.brademobackend.moviematch.model.Usuario;
 import com.brademobackend.moviematch.repository.UsuarioRepository;
+import com.brademobackend.moviematch.repository.FilmeRepository;
 
 @Service
 public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private FilmeRepository filmeRepository;
 
     public Usuario salvarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
@@ -34,8 +41,33 @@ public class UsuarioService {
     }
 
     public Usuario login(String email, String senha) {
-    Optional<Usuario> usuario =usuarioRepository.login(email, senha);
-    return usuario.orElse(null);
-}
+        Optional<Usuario> usuario = usuarioRepository.login(email, senha);
+        return usuario.orElse(null);
+    }
 
+    public Usuario curtirFilme(Long idUsuario, Long idFilme) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
+        Filme filme = filmeRepository.findById(idFilme).orElseThrow();
+        boolean jaCurtido = usuario.getFilmesCurtidos().stream().anyMatch(f -> f.getId_filme().equals(idFilme));
+        if (!jaCurtido) {
+            usuario.getFilmesCurtidos().add(filme);
+        }
+        return usuarioRepository.save(usuario);
+    }
+
+    public List<Filme> buscarCurtidos(Long idUsuario) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
+        return usuario.getFilmesCurtidos();
+    }
+
+    public boolean filmeJaCurtido(Long idUsuario, Long idFilme) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
+        return usuario.getFilmesCurtidos().stream().anyMatch(f -> f.getId_filme().equals(idFilme));
+    }
+
+    public Usuario removerCurtida(Long idUsuario, Long idFilme) {
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
+        usuario.getFilmesCurtidos().removeIf(filme -> filme.getId_filme().equals(idFilme));
+        return usuarioRepository.save(usuario);
+    }
 }

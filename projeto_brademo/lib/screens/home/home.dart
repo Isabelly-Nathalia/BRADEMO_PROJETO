@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../perfil/conta.dart';
 import '../form/form.dart';
-import 'detalheFilme.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
@@ -47,8 +46,6 @@ class HomeState extends State<Home> {
   ];
 
   final Color Cinza = const Color(0xFF222425);
-  final Color Azul = const Color(0xFF001C30);
-  final Color vermelhoEscuro = const Color(0xFF250203);
   final Color vermelho = const Color(0xFF681F10);
 
   bool notificacaoEnviada = false;
@@ -233,6 +230,7 @@ class HomeState extends State<Home> {
                                   final filme = filmes[index];
                                   return CardFilme(
                                     filme: {
+                                      "idFilme": filme.idFilme,
                                       "titulo": filme.titulo,
                                       "imagem": filme.imagem,
                                       "descricao": filme.descricao,
@@ -263,6 +261,7 @@ class HomeState extends State<Home> {
                                   return Expanded(
                                     child: CardFilme(
                                       filme: {
+                                        "idFilme": filme.idFilme,
                                         "titulo": filme.titulo,
                                         "imagem": filme.imagem,
                                         "descricao": filme.descricao,
