@@ -45,5 +45,4 @@ public class FilmeController {
 
         return filmeService.pesquisarFilmes(titulo);
     }
-
 }

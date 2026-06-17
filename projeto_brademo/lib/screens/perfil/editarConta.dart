@@ -38,6 +38,166 @@ class _EditarContaState extends State<EditarConta> {
     nascimentoController = TextEditingController(text: usuario.dataNascimento);
   }
 
+  void abrirRecuperacaoSenha() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EsqueceuSenha(exclusao: true),
+      ),
+    ).then((resultado) {
+      if (resultado == true) {
+        mostrarPopupConfirmarSenha();
+      }
+    });
+  }
+
+  void mostrarPopupConfirmarSenha() {
+    final TextEditingController senhaController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: cinza,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text(
+            "Confirme sua senha",
+            style: TextStyle(color: Colors.white),
+          ),
+          content: TextField(
+            controller: senhaController,
+            obscureText: true,
+            style: const TextStyle(color: Colors.white),
+            decoration: InputDecoration(
+              hintText: "Digite sua senha",
+              hintStyle: const TextStyle(color: Colors.white54),
+              filled: true,
+              fillColor: Colors.white24,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+          actions: [
+            Row(
+              children: [
+                Expanded(
+                  child: Botao(
+                    text: "Cancelar",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+
+                const SizedBox(width: 10),
+
+                Expanded(
+                  child: Botao(
+                    text: "Confirmar",
+                    onPressed: () async {
+                      String senhaDigitada = senhaController.text;
+                      if (senhaDigitada == SessaoUsuario.usuarioLogado!.senha) {
+                        bool excluido = await usuarioService.excluirUsuario(
+                          SessaoUsuario.usuarioLogado!.idUsuario,
+                        );
+                        if (!excluido) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Erro ao excluir conta'),
+                            ),
+                          );
+                          return;
+                        }
+                        SessaoUsuario.usuarioLogado = null;
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: const Color(0xFF222425),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              content: const Text(
+                                "Conta excluída com sucesso!",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              actions: [
+                                Center(
+                                  child: Botao(
+                                    text: "OK",
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Apresentacao(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: const Color(0xFF222425),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              content: const Text(
+                                "Senha incorreta! Tente novamente ou recupere sua senha.",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              actions: [
+                                Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Botao(
+                                        text: "Tentar novamente",
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+
+                                      const SizedBox(height: 10),
+
+                                      Botao(
+                                        text: "Esqueci a senha",
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          abrirRecuperacaoSenha();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> selecionarImagem(ImageSource source) async {
     final XFile? imagem = await picker.pickImage(
       source: source,
@@ -248,7 +408,6 @@ class _EditarContaState extends State<EditarConta> {
                         dataNascimento: nascimentoController.text,
                       );
 
-
                   if (usuarioAtualizado != null) {
                     SessaoUsuario.usuarioLogado = usuarioAtualizado;
                     showDialog(
@@ -292,173 +451,7 @@ class _EditarContaState extends State<EditarConta> {
               Botao(
                 text: 'Excluir conta',
                 onPressed: () {
-                  final TextEditingController senhaController =
-                      TextEditingController();
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        backgroundColor: cinza,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        title: const Text(
-                          "Confirme sua senha",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        content: TextField(
-                          controller: senhaController,
-                          obscureText: true,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Digite sua senha",
-                            hintStyle: const TextStyle(color: Colors.white54),
-                            filled: true,
-                            fillColor: Colors.white24,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide.none,
-                            ),
-                          ),
-                        ),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: Botao(
-                                  text: "Cancelar",
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Expanded(
-                                child: Botao(
-                                  text: "Confirmar",
-                                  onPressed: () async {
-                                    String senhaDigitada = senhaController.text;
-                                    if (senhaDigitada ==
-                                        SessaoUsuario.usuarioLogado!.senha) {
-                                      bool excluido = await usuarioService
-                                          .excluirUsuario(
-                                            SessaoUsuario
-                                                .usuarioLogado!
-                                                .idUsuario,
-                                          );
-                                      if (!excluido) {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Erro ao excluir conta',
-                                            ),
-                                          ),
-                                        );
-                                        return;
-                                      }
-                                      SessaoUsuario.usuarioLogado = null;
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            backgroundColor: const Color(
-                                              0xFF222425,
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            content: const Text(
-                                              "Conta excluída com sucesso!",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            actions: [
-                                              Center(
-                                                child: Botao(
-                                                  text: "OK",
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                    Navigator.pushAndRemoveUntil(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const Apresentacao(),
-                                                      ),
-                                                      (route) => false,
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            backgroundColor: const Color(
-                                              0xFF222425,
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
-                                            content: const Text(
-                                              "Senha incorreta! Tente novamente ou recupere sua senha.",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            actions: [
-                                              Center(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Botao(
-                                                      text: "Tentar novamente",
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                    const SizedBox(height: 10),
-                                                    Botao(
-                                                      text: "Esqueci a senha",
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                const EsqueceuSenha(),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  mostrarPopupConfirmarSenha();
                 },
               ),
             ],

@@ -4,7 +4,10 @@ import 'login.dart';
 import '../form/form.dart';
 
 class NovaSenha extends StatefulWidget {
-  const NovaSenha({super.key});
+  final bool exclusao;
+
+  const NovaSenha({super.key, this.exclusao = false});
+
   @override
   State<NovaSenha> createState() => _NovaSenhaState();
 }
@@ -196,14 +199,24 @@ class _NovaSenhaState extends State<NovaSenha> {
                                 text: "OK",
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SecondScreen(),
-                                    ),
-                                    (route) => false,
-                                  );
+                                  if (widget.exclusao) {
+                                    Navigator.pop(
+                                      context,
+                                    );
+                                    Navigator.pop(
+                                      context,
+                                      true,
+                                    );
+                                  } else {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SecondScreen(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  }
                                 },
                               ),
                             ),

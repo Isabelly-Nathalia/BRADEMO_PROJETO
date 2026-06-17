@@ -3,7 +3,9 @@ import '../../../widgets/button.dart';
 import 'novaSenha.dart';
 
 class EsqueceuSenha extends StatefulWidget {
-  const EsqueceuSenha({super.key});
+  final bool exclusao;
+
+  const EsqueceuSenha({super.key, this.exclusao = false});
 
   @override
   State<EsqueceuSenha> createState() => _EsqueceuSenhaState();
@@ -115,8 +117,9 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NovaSenha(),
+                                            builder: (context) => NovaSenha(
+                                              exclusao: widget.exclusao,
+                                            ),
                                           ),
                                         );
                                       },
