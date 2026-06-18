@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../home/detalheFilme.dart';
 import '../perfil/conta.dart';
 import '../form/form.dart';
@@ -6,6 +7,7 @@ import '../home/home.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
+import '../../../providers/formProvider.dart';
 
 class SugestaoFilmes extends StatelessWidget {
   const SugestaoFilmes({super.key});
@@ -53,16 +55,72 @@ class SugestaoFilmes extends StatelessWidget {
     },
   ];
 
+  int calcularPontuacao(Map<String, dynamic> filme, FormProvider form) {
+    int pontos = 0;
+    // Gênero → 3 pontos
+    if ((filme["generos"] as List).any(
+      (g) => form.generosSelecionados.contains(g),
+    )) {
+      pontos += 3;
+    }
+    // Duração → 2 pontos
+    if (filme["duracao"] == form.duracaoSelecionada) {
+      pontos += 2;
+    }
+    // Streaming → 3 pontos
+    if (form.streamingSelecionados.contains(filme["streaming"])) {
+      pontos += 3;
+    }
+    // Classificação → 2 pontos
+    if (filme["classificacao"] == form.classificacaoSelecionada) {
+      pontos += 2;
+    }
+    // País → 1 ponto
+    if (form.paisesSelecionados.contains(filme["pais"])) {
+      pontos += 1;
+    }
+    // Ator ou diretor → 1 ponto
+    if (form.ator.isNotEmpty) {
+      final busca = form.ator.toLowerCase();
+      final diretor = filme["diretor"].toString().toLowerCase();
+      final elenco = (filme["elenco"] as List)
+          .map((e) => e.toString().toLowerCase())
+          .toList();
+      if (diretor.contains(busca) ||
+          elenco.any((ator) => ator.contains(busca))) {
+        pontos += 1;
+      }
+    }
+    return pontos;
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cinza,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20),
+Widget build(BuildContext context) {
+  final formProvider = context.watch<FormProvider>();
+  final filmesOrdenados = filmes.map((filme) {
+    return {
+      ...filme,
+      "pontuacao": calcularPontuacao(
+        filme,
+        formProvider,
+      ),
+    };
+  }).toList();
+
+  filmesOrdenados.sort(
+    (a, b) => (b["pontuacao"] as int)
+        .compareTo(a["pontuacao"] as int),
+  );
+
+  return Scaffold(
+    backgroundColor: cinza,
+    body: SafeArea(
+      child: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -95,70 +153,97 @@ class SugestaoFilmes extends StatelessWidget {
                     const SizedBox(height: 30),
 
                     Column(
-                      children: List.generate(filmes.length, (index) {
-                        final filme = filmes[index];
-                        final bool esquerda = index % 2 == 0;
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 35),
-                          child: Row(
-                            mainAxisAlignment: esquerda
-                                ? MainAxisAlignment.start
-                                : MainAxisAlignment.end,
-                            children: [
-                              if (!esquerda) Expanded(child: _infoFilme(filme)),
-                              if (!esquerda) const SizedBox(width: 20),
-                              _cardFilmeSugestao(context, filme),
-                              if (esquerda) const SizedBox(width: 20),
-                              if (esquerda) Expanded(child: _infoFilme(filme)),
-                            ],
-                          ),
-                        );
-                      }),
+                      children: List.generate(
+                        filmesOrdenados.length,
+                        (index) {
+                          final filme = filmesOrdenados[index];
+                          final bool esquerda = index % 2 == 0;
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 35,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: esquerda
+                                  ? MainAxisAlignment.start
+                                  : MainAxisAlignment.end,
+                              children: [
+                                if (!esquerda)
+                                  Expanded(
+                                    child: _infoFilme(filme),
+                                  ),
+                                if (!esquerda)
+                                  const SizedBox(width: 20),
+                                _cardFilmeSugestao(
+                                  context,
+                                  filme,
+                                ),
+                                if (esquerda)
+                                  const SizedBox(width: 20),
+                                if (esquerda)
+                                  Expanded(
+                                    child: _infoFilme(filme),
+                                  ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: MenuWidget(
-                onHome: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Home()),
-                  );
-                },
-                onForm: () {
-                  Navigator.pushReplacement(
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: MenuWidget(
+              onHome: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Home(),
+                  ),
+                );
+              },
+              onForm: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SecondScreen(),
+                  ),
+                );
+              },
+              onConta: () {
+                if (SessaoUsuario.usuarioLogado ==
+                    null) {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SecondScreen(),
+                      builder: (context) =>
+                          const SemLogin(),
                     ),
                   );
-                },
-                onConta: () {
-                  if (SessaoUsuario.usuarioLogado == null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const SemLogin()),
-                    );
-                    return;
-                  }
-
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Conta()),
-                  );
-                },
-              ),
+                  return;
+                }
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const Conta(),
+                  ),
+                );
+              },
             ),
-            const SizedBox(height: 10),
-          ],
-        ),
+          ),
+          const SizedBox(height: 10),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _cardFilmeSugestao(BuildContext context, Map<String, dynamic> filme) {
     return GestureDetector(

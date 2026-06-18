@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/inicio/transicao.dart';
 import 'service/notificacaoService.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +8,8 @@ import 'providers/formProvider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await inicializarNotificacoes();
+  await Hive.initFlutter();
+  await Hive.openBox('formulario');
   runApp(
   ChangeNotifierProvider(
     create: (_) => FormProvider(),
