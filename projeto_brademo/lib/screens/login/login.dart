@@ -240,67 +240,7 @@ class _LoginState extends State<Login> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 40),
-
-                RichText(
-                  text: TextSpan(
-                    text: 'Para acessar modo desenvolvedor ',
-                    style: const TextStyle(color: Colors.white54, fontSize: 11),
-                    children: [
-                      WidgetSpan(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const LoginDesenvolvedor(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'clique aqui!',
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 40),
-
-                RichText(
-                  text: TextSpan(
-                    text: 'MODO DE TESTE PARA',
-                    style: const TextStyle(color: Colors.white54, fontSize: 11),
-                    children: [
-                      WidgetSpan(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SemLogin(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'PAGINA SEM LOGIN',
-                            style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 11,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
