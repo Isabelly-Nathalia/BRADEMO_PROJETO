@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'screens/inicio/transicao.dart';
 import 'service/notificacaoService.dart';
+import 'package:provider/provider.dart';
+import 'providers/formProvider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await inicializarNotificacoes();
-  runApp(const MyApp());
+  runApp(
+  ChangeNotifierProvider(
+    create: (_) => FormProvider(),
+    child: const MyApp(),
+  ),
+);
 }
 
 class MyApp extends StatelessWidget {

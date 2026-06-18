@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../widgets/button.dart';
 import 'sugestao.dart';
 import '../home/home.dart';
+import '../../../providers/formProvider.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -14,12 +16,6 @@ class _SecondScreenState extends State<SecondScreen> {
   final PageController controller = PageController();
 
   int paginaAtual = 0;
-  List<String> generosSelecionados = [];
-  List<String> streamingSelecionados = [];
-  List<String> paisesSelecionados = [];
-  String? duracaoSelecionada;
-  String? classificacaoSelecionada;
-  TextEditingController atorController = TextEditingController();
 
   final List<String> generos = [
     "Ação",
@@ -81,48 +77,76 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cinza,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: LinearProgressIndicator(
-                value: (paginaAtual + 1) / 8,
-                backgroundColor: Colors.white24,
-                color: vermelho,
-              ),
-            ),
+@override
+Widget build(BuildContext context) {
+  final formProvider = context.watch<FormProvider>();
 
-            Expanded(
-              child: PageView(
-                controller: controller,
-                physics: const NeverScrollableScrollPhysics(),
-                onPageChanged: (value) {
-                  setState(() {
-                    paginaAtual = value;
-                  });
+  return Scaffold(
+    backgroundColor: cinza,
+    body: SafeArea(
+      child: Stack(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: LinearProgressIndicator(
+                  value: (paginaAtual + 1) / 8,
+                  backgroundColor: Colors.white24,
+                  color: vermelho,
+                ),
+              ),
+
+              Expanded(
+                child: PageView(
+                  controller: controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  onPageChanged: (value) {
+                    setState(() {
+                      paginaAtual = value;
+                    });
+                  },
+                  children: [
+                    telaIntro(),
+                    telaGeneros(),
+                    telaDuracao(),
+                    telaStreaming(),
+                    telaOpcional(),
+                    telaClassificacao(),
+                    telaPaises(),
+                    telaAtor(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          if (paginaAtual > 0)
+            Positioned(
+              top: 25,
+              left: 10,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Home(),
+                    ),
+                    (route) => false,
+                  );
                 },
-                children: [
-                  telaIntro(),
-                  telaGeneros(),
-                  telaDuracao(),
-                  telaStreaming(),
-                  telaOpcional(),
-                  telaClassificacao(),
-                  telaPaises(),
-                  telaAtor(),
-                ],
+                icon: const Icon(
+                  Icons.home,
+                  color: Colors.white70,
+                  size: 24,
+                ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget telaIntro() {
     return Padding(
@@ -168,6 +192,7 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   Widget telaGeneros() {
+    final formProvider = context.watch<FormProvider>();
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -197,16 +222,11 @@ class _SecondScreenState extends State<SecondScreen> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     children: generos.map((genero) {
-                      bool selecionado = generosSelecionados.contains(genero);
+                      bool selecionado = formProvider.generosSelecionados
+                          .contains(genero);
                       return GestureDetector(
                         onTap: () {
-                          setState(() {
-                            if (selecionado) {
-                              generosSelecionados.remove(genero);
-                            } else {
-                              generosSelecionados.add(genero);
-                            }
-                          });
+                          formProvider.toggleGenero(genero);
                         },
 
                         child: Container(
@@ -238,6 +258,7 @@ class _SecondScreenState extends State<SecondScreen> {
   }
 
   Widget telaDuracao() {
+    final formProvider = context.watch<FormProvider>();
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -261,12 +282,11 @@ class _SecondScreenState extends State<SecondScreen> {
 
                   Column(
                     children: duracoes.map((duracao) {
-                      bool selecionado = duracaoSelecionada == duracao;
+                      bool selecionado =
+                          formProvider.duracaoSelecionada == duracao;
                       return GestureDetector(
                         onTap: () {
-                          setState(() {
-                            duracaoSelecionada = duracao;
-                          });
+                          formProvider.setDuracao(duracao);
                         },
 
                         child: Container(
@@ -301,122 +321,117 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-Widget telaStreaming() {
-  return Padding(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      children: [
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Onde você costuma assistir?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        const SizedBox(height: 40),
-
-                        GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 2.8,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: streamings.map((streaming) {
-                            bool selecionado =
-                                streamingSelecionados.contains(streaming);
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (selecionado) {
-                                    streamingSelecionados.remove(streaming);
-                                  } else {
-                                    streamingSelecionados.add(streaming);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: selecionado ? azul : vermelho,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  streaming,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-
-                        const SizedBox(height: 25),
-
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Outro streaming",
+  Widget telaStreaming() {
+    final formProvider = context.watch<FormProvider>();
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Onde você costuma assistir?",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 26,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
 
-                        const SizedBox(height: 10),
+                          const SizedBox(height: 40),
 
-                        TextField(
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Digite outra plataforma de streaming...",
-                            hintStyle:
-                                const TextStyle(color: Colors.white54),
-                            filled: true,
-                            fillColor: vermelho,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding:
-                                const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 18,
+                          GridView.count(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 2.8,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: streamings.map((streaming) {
+                              bool selecionado = formProvider
+                                  .streamingSelecionados
+                                  .contains(streaming);
+                              return GestureDetector(
+                                onTap: () {
+                                  formProvider.toggleStreaming(streaming);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: selecionado ? azul : vermelho,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    streaming,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+
+                          const SizedBox(height: 25),
+
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Outro streaming",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+
+                          const SizedBox(height: 10),
+
+                          TextField(
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              hintText:
+                                  "Digite outra plataforma de streaming...",
+                              hintStyle: const TextStyle(color: Colors.white54),
+                              filled: true,
+                              fillColor: vermelho,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-        navegacao(),
-      ],
-    ),
-  );
-}
+          navegacao(),
+        ],
+      ),
+    );
+  }
 
   Widget telaOpcional() {
     return Padding(
@@ -483,6 +498,7 @@ Widget telaStreaming() {
   }
 
   Widget telaClassificacao() {
+    final formProvider = context.watch<FormProvider>();
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -506,12 +522,11 @@ Widget telaStreaming() {
 
                   Column(
                     children: classificacao.map((item) {
-                      bool selecionado = classificacaoSelecionada == item;
+                      bool selecionado =
+                          formProvider.classificacaoSelecionada == item;
                       return GestureDetector(
                         onTap: () {
-                          setState(() {
-                            classificacaoSelecionada = item;
-                          });
+                          formProvider.setClassificacao(item);
                         },
                         child: Container(
                           width: double.infinity,
@@ -544,124 +559,118 @@ Widget telaStreaming() {
     );
   }
 
-Widget telaPaises() {
-  return Padding(
-    padding: const EdgeInsets.all(20),
-    child: Column(
-      children: [
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: constraints.maxHeight,
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          "Tem preferência por algum país?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        const SizedBox(height: 40),
-
-                        GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 2.8,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: paises.map((pais) {
-                            bool selecionado =
-                                paisesSelecionados.contains(pais);
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  if (selecionado) {
-                                    paisesSelecionados.remove(pais);
-                                  } else {
-                                    paisesSelecionados.add(pais);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: selecionado ? azul : vermelho,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  pais,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-
-                        const SizedBox(height: 25),
-
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Outro país",
+  Widget telaPaises() {
+    final formProvider = context.watch<FormProvider>();
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Text(
+                            "Tem preferência por algum país?",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 26,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
 
-                        const SizedBox(height: 10),
+                          const SizedBox(height: 40),
 
-                        TextField(
-                          style: const TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            hintText: "Digite outro país...",
-                            hintStyle:
-                                const TextStyle(color: Colors.white54),
-                            filled: true,
-                            fillColor: vermelho,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding:
-                                const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 18,
+                          GridView.count(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 12,
+                            mainAxisSpacing: 12,
+                            childAspectRatio: 2.8,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: paises.map((pais) {
+                              bool selecionado = formProvider.paisesSelecionados
+                                  .contains(pais);
+                              return GestureDetector(
+                                onTap: () {
+                                  formProvider.togglePais(pais);
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: selecionado ? azul : vermelho,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    pais,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+
+                          const SizedBox(height: 25),
+
+                          const Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Outro país",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+
+                          const SizedBox(height: 10),
+
+                          TextField(
+                            style: const TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              hintText: "Digite outro país...",
+                              hintStyle: const TextStyle(color: Colors.white54),
+                              filled: true,
+                              fillColor: vermelho,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide.none,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-        navegacao(),
-      ],
-    ),
-  );
-}
+          navegacao(),
+        ],
+      ),
+    );
+  }
 
   Widget telaAtor() {
+    final formProvider = context.watch<FormProvider>();
     return Padding(
       padding: const EdgeInsets.all(25),
       child: Column(
@@ -692,10 +701,11 @@ Widget telaPaises() {
                   const SizedBox(height: 30),
 
                   TextField(
-                    controller: atorController,
-                    style: const TextStyle(color: Colors.white),
+                    onChanged: formProvider.setAtor,
                     decoration: InputDecoration(
-                      hintText: "Ex: Fernanda Montenegro",
+                      hintText: formProvider.ator.isEmpty
+                          ? "Ex: Fernanda Montenegro"
+                          : formProvider.ator,
                       hintStyle: const TextStyle(color: Colors.white),
                       filled: true,
                       fillColor: vermelho,
@@ -755,19 +765,20 @@ Widget telaPaises() {
   }
 
   void enviarFormulario() {
-    if (generosSelecionados.isEmpty) {
+    final formProvider = context.watch<FormProvider>();
+    if (formProvider.generosSelecionados.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Selecione pelo menos um gênero")),
       );
       return;
     }
-    if (duracaoSelecionada == null) {
+    if (formProvider.duracaoSelecionada == null) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Selecione uma duração")));
       return;
     }
-    if (streamingSelecionados.isEmpty) {
+    if (formProvider.streamingSelecionados.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Selecione pelo menos uma plataforma de streaming"),
@@ -791,14 +802,7 @@ Widget telaPaises() {
   }
 
   void limparFormulario() {
-    setState(() {
-      generosSelecionados.clear();
-      duracaoSelecionada = null;
-      streamingSelecionados.clear();
-      paisesSelecionados.clear();
-      classificacaoSelecionada = null;
-      atorController.clear();
-    });
+    context.read<FormProvider>().limparFormulario();
     controller.jumpToPage(0);
   }
 
