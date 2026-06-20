@@ -23,7 +23,7 @@ public class ListaService {
     private FilmeRepository filmeRepository;
 
     public Lista criarLista(Long idUsuario, String nomeLista) {
-        Usuario usuario =usuarioRepository.findById(idUsuario).orElseThrow();
+        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
         Lista lista = new Lista();
         lista.setNome_lista(nomeLista);
         lista.setUsuario(usuario);
@@ -32,12 +32,16 @@ public class ListaService {
 
     public Lista adicionarFilme(Long idLista, Long idFilme) {
         Lista lista = listaRepository.findById(idLista).orElseThrow();
-        Filme filme =filmeRepository.findById(idFilme).orElseThrow();
+        Filme filme = filmeRepository.findById(idFilme).orElseThrow();
         lista.getFilmes().add(filme);
         return listaRepository.save(lista);
     }
-    
+
     public Iterable<Lista> listarListas() {
         return listaRepository.findAll();
+    }
+
+    public List<Lista> buscarListasUsuario(Long idUsuario) {
+        return listaRepository.buscarPorUsuario(idUsuario);
     }
 }

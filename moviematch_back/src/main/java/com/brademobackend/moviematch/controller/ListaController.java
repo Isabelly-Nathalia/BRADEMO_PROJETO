@@ -1,5 +1,7 @@
 package com.brademobackend.moviematch.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,7 @@ public class ListaController {
     private ListaService listaService;
 
     @PostMapping("/{idUsuario}")
-    public Lista criarLista(@PathVariable Long idUsuario,@RequestBody Lista lista) {
+    public Lista criarLista(@PathVariable Long idUsuario, @RequestBody Lista lista) {
         return listaService.criarLista(idUsuario, lista.getNome_lista());
     }
 
@@ -27,4 +29,10 @@ public class ListaController {
     public Iterable<Lista> listarListas() {
         return listaService.listarListas();
     }
+
+    @GetMapping("/usuario/{idUsuario}")
+    public List<Lista> buscarListasUsuario(@PathVariable Long idUsuario) {
+        return listaService.buscarListasUsuario(idUsuario);
+    }
+
 }

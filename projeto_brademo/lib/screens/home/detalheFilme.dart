@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviematch/model/lista.dart';
 import '../perfil/conta.dart';
 import '../form/form.dart';
 import '../../../widgets/button.dart';
@@ -9,6 +10,7 @@ import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
 import '../../../service/usuarioService.dart';
 import '../../../config/sessaoUsuario.dart';
+import '../../../service/listaService.dart';
 
 class DetalheFilme extends StatefulWidget {
   final int idFilme;
@@ -46,16 +48,32 @@ class _DetalheFilmeState extends State<DetalheFilme> {
   final Color azul = const Color(0xFF001C30);
   final TextEditingController controllerLista = TextEditingController();
   final UsuarioService usuarioService = UsuarioService();
+  final ListaService listaService = ListaService();
 
-  List<String> listas = ["Favoritos", "Assistir depois"];
+  List<Lista> listas = [];
   bool mostrarCampo = false;
-  String? listaSelecionada;
+  Lista? listaSelecionada;
   bool curtido = false;
 
   @override
   void initState() {
     super.initState();
     verificarCurtida();
+    carregarListas();
+  }
+
+  Future<void> carregarListas() async {
+    if (SessaoUsuario.usuarioLogado == null) {
+      return;
+    }
+
+    final resultado = await listaService.buscarListasUsuario(
+      SessaoUsuario.usuarioLogado!.idUsuario,
+    );
+
+    setState(() {
+      listas = resultado;
+    });
   }
 
   Future<void> verificarCurtida() async {
@@ -228,65 +246,60 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                             //   );
                             // },
                             onTap: () async {
-                            if (SessaoUsuario.usuarioLogado == null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SemLogin(),
-                                ),
-                              );
-                              return;
-                            }
-
-                            bool sucesso;
-
-                            if (curtido) {
-
-                              sucesso =
-                                  await usuarioService.removerCurtida(
-                                SessaoUsuario.usuarioLogado!.idUsuario,
-                                widget.idFilme,
-                              );
-
-                              if (sucesso) {
-                                setState(() {
-                                  curtido = false;
-                                });
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: azul,
-                                    content: const Text(
-                                      'Filme removido dos curtidos',
-                                    ),
+                              if (SessaoUsuario.usuarioLogado == null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SemLogin(),
                                   ),
                                 );
+                                return;
                               }
 
-                            } else {
+                              bool sucesso;
 
-                              sucesso =
-                                  await usuarioService.curtirFilme(
-                                SessaoUsuario.usuarioLogado!.idUsuario,
-                                widget.idFilme,
-                              );
-
-                              if (sucesso) {
-                                setState(() {
-                                  curtido = true;
-                                });
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: azul,
-                                    content: const Text(
-                                      'Filme adicionado aos curtidos',
-                                    ),
-                                  ),
+                              if (curtido) {
+                                sucesso = await usuarioService.removerCurtida(
+                                  SessaoUsuario.usuarioLogado!.idUsuario,
+                                  widget.idFilme,
                                 );
+
+                                if (sucesso) {
+                                  setState(() {
+                                    curtido = false;
+                                  });
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: azul,
+                                      content: const Text(
+                                        'Filme removido dos curtidos',
+                                      ),
+                                    ),
+                                  );
+                                }
+                              } else {
+                                sucesso = await usuarioService.curtirFilme(
+                                  SessaoUsuario.usuarioLogado!.idUsuario,
+                                  widget.idFilme,
+                                );
+
+                                if (sucesso) {
+                                  setState(() {
+                                    curtido = true;
+                                  });
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: azul,
+                                      content: const Text(
+                                        'Filme adicionado aos curtidos',
+                                      ),
+                                    ),
+                                  );
+                                }
                               }
-                            }
-                          },
+                            },
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               decoration: BoxDecoration(
@@ -554,7 +567,7 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                       const SizedBox(height: 20),
 
                       ...listas.map((lista) {
-                        final selecionada = listaSelecionada == lista;
+                        final selecionada = listaSelecionada?.idLista == lista.idLista;
                         return ListTile(
                           leading: Icon(
                             selecionada
@@ -563,7 +576,7 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                             color: selecionada ? azul : Colors.white54,
                           ),
                           title: Text(
-                            lista,
+                            lista.nomeLista,
                             style: const TextStyle(color: Colors.white),
                           ),
                           onTap: () {
@@ -607,14 +620,28 @@ class _DetalheFilmeState extends State<DetalheFilme> {
 
                       Botao(
                         text: "Salvar",
-                        onPressed: () {
+                        onPressed: () async {
                           if (controllerLista.text.isNotEmpty) {
-                            setState(() {
-                              listas.add(controllerLista.text);
-                              listaSelecionada = controllerLista.text;
-                            });
-                            controllerLista.clear();
+                            final listaCriada = await listaService.criarLista(
+                              SessaoUsuario.usuarioLogado!.idUsuario,
+                              controllerLista.text,
+                            );
+                            if (listaCriada != null) {
+                              await listaService.adicionarFilme(listaCriada.idLista, widget.idFilme,);
+                              setState(() {
+                                listas.add(listaCriada);
+                                listaSelecionada = listaCriada;
+                              });
+                              controllerLista.clear();
+                            }
                           }
+                          else if (listaSelecionada != null) {
+                            await listaService.adicionarFilme(
+                              listaSelecionada!.idLista,
+                              widget.idFilme,
+                            );
+                          }
+
                           if (listaSelecionada != null) {
                             Navigator.pop(context);
                             showDialog(
@@ -627,7 +654,7 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                                     style: TextStyle(color: Colors.white),
                                   ),
                                   content: Text(
-                                    'O filme foi adicionado em "$listaSelecionada".',
+                                    'O filme foi adicionado em "${listaSelecionada!.nomeLista}".',
                                     style: const TextStyle(color: Colors.white),
                                   ),
                                   actions: [
