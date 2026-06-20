@@ -77,76 +77,70 @@ class _SecondScreenState extends State<SecondScreen> {
     );
   }
 
-@override
-Widget build(BuildContext context) {
-  final formProvider = context.read<FormProvider>();
+  @override
+  Widget build(BuildContext context) {
+    final formProvider = context.read<FormProvider>();
 
-  return Scaffold(
-    backgroundColor: cinza,
-    body: SafeArea(
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: LinearProgressIndicator(
-                  value: (paginaAtual + 1) / 8,
-                  backgroundColor: Colors.white24,
-                  color: vermelho,
+    return Scaffold(
+      backgroundColor: cinza,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: LinearProgressIndicator(
+                    value: (paginaAtual + 1) / 8,
+                    backgroundColor: Colors.white24,
+                    color: vermelho,
+                  ),
                 ),
-              ),
 
-              Expanded(
-                child: PageView(
-                  controller: controller,
-                  physics: const NeverScrollableScrollPhysics(),
-                  onPageChanged: (value) {
-                    setState(() {
-                      paginaAtual = value;
-                    });
-                  },
-                  children: [
-                    telaIntro(),
-                    telaGeneros(),
-                    telaDuracao(),
-                    telaStreaming(),
-                    telaOpcional(),
-                    telaClassificacao(),
-                    telaPaises(),
-                    telaAtor(),
-                  ],
+                Expanded(
+                  child: PageView(
+                    controller: controller,
+                    physics: const NeverScrollableScrollPhysics(),
+                    onPageChanged: (value) {
+                      setState(() {
+                        paginaAtual = value;
+                      });
+                    },
+                    children: [
+                      telaIntro(),
+                      telaGeneros(),
+                      telaDuracao(),
+                      telaStreaming(),
+                      telaOpcional(),
+                      telaClassificacao(),
+                      telaPaises(),
+                      telaAtor(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-
-          if (paginaAtual > 0)
-            Positioned(
-              top: 25,
-              left: 10,
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Home(),
-                    ),
-                    (route) => false,
-                  );
-                },
-                icon: const Icon(
-                  Icons.home,
-                  color: Colors.white70,
-                  size: 24,
-                ),
-              ),
+              ],
             ),
-        ],
+
+            if (paginaAtual > 0)
+              Positioned(
+                top: 25,
+                left: 10,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Home()),
+                      (route) => false,
+                    );
+                  },
+                  icon: const Icon(Icons.home, color: Colors.white70, size: 24),
+                ),
+              ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget telaIntro() {
     return Padding(
@@ -795,10 +789,13 @@ Widget build(BuildContext context) {
     //   "classificacao": classificacaoSelecionada,
     //   "ator": atorController.text,
     // };
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const SugestaoFilmes()),
-    );
+    ).then((_) {
+      formProvider.limparFormulario();
+    });
   }
 
   void limparFormulario() {

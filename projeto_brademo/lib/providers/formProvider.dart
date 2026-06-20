@@ -62,8 +62,12 @@ class FormProvider extends ChangeNotifier {
   }
 
   void setClassificacao(String? classificacao) {
-    classificacaoSelecionada = classificacao;
-    hive.salvar('classificacao', classificacao);
+    if (classificacaoSelecionada == classificacao) {
+      classificacaoSelecionada = null;
+    } else {
+      classificacaoSelecionada = classificacao;
+    }
+    hive.salvar('classificacao', classificacaoSelecionada);
     notifyListeners();
   }
 
