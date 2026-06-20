@@ -16,11 +16,9 @@ class SugestaoFilmes extends StatefulWidget {
 
   @override
   State<SugestaoFilmes> createState() => _SugestaoFilmesState();
-  
 }
 
 class _SugestaoFilmesState extends State<SugestaoFilmes> {
-  
   final Color cinza = const Color(0xFF222425);
 
   final FilmeService filmeService = FilmeService();
@@ -35,7 +33,7 @@ class _SugestaoFilmesState extends State<SugestaoFilmes> {
 
   Future<void> carregarFilmes() async {
     final resultado = await filmeService.buscarTodosFilmes();
-print("Filmes encontrados: ${resultado.length}");
+    print("Filmes encontrados: ${resultado.length}");
     setState(() {
       filmes = resultado;
     });
@@ -133,7 +131,16 @@ print("Filmes encontrados: ${resultado.length}");
                             Row(
                               children: [
                                 GestureDetector(
-                                  onTap: () => Navigator.pop(context),
+                                  onTap: () {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SecondScreen(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  },
                                   child: const Icon(
                                     Icons.arrow_back,
                                     color: Colors.white,

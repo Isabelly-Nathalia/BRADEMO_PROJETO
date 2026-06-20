@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'inicial.dart';
+import '../../../service/hiveUsuarioService.dart';
+import '../../../config/sessaoUsuario.dart';
+import '../form/form.dart';
 
 class Transicao extends StatefulWidget {
   const Transicao({super.key});
@@ -12,19 +15,29 @@ class Transicao extends StatefulWidget {
 class _TransicaoState extends State<Transicao> {
 
   @override
-  void initState() {
-    super.initState();
+@override
+void initState() {
+  super.initState();
 
-    Timer(const Duration(seconds: 3), () {
+  Timer(const Duration(seconds: 3), () {
+    final usuarioHive = HiveUsuarioService();
+    final usuario = usuarioHive.buscarUsuario();
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Apresentacao(),
-        ),
-      );
-    });
-  }
+    Widget destino = const Apresentacao();
+
+    if (usuario != null) {
+      SessaoUsuario.usuarioLogado = usuario;
+      destino = const SecondScreen();
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => destino,
+      ),
+    );
+  });
+}
 
   @override
   Widget build(BuildContext context) {

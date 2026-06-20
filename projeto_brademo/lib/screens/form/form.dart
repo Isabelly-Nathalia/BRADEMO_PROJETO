@@ -696,6 +696,8 @@ class _SecondScreenState extends State<SecondScreen> {
 
                   TextField(
                     onChanged: formProvider.setAtor,
+                    style: const TextStyle(color: Colors.white),
+                    cursorColor: Colors.white,
                     decoration: InputDecoration(
                       hintText: formProvider.ator.isEmpty
                           ? "Ex: Fernanda Montenegro"

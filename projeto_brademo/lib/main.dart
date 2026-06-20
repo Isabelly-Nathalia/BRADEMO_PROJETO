@@ -10,6 +10,8 @@ void main() async {
   await inicializarNotificacoes();
   await Hive.initFlutter();
   await Hive.openBox('formulario');
+  await Hive.openBox('usuario');
+  
   runApp(
   ChangeNotifierProvider(
     create: (_) => FormProvider(),

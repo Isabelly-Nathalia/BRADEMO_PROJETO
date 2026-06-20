@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../config/sessaoUsuario.dart';
 import '../../../model/usuario.dart';
 import '../../../service/usuarioService.dart';
+import '../../../service/hiveUsuarioService.dart';
 
 class EditarConta extends StatefulWidget {
   const EditarConta({super.key});
@@ -452,6 +453,23 @@ class _EditarContaState extends State<EditarConta> {
                 text: 'Excluir conta',
                 onPressed: () {
                   mostrarPopupConfirmarSenha();
+                },
+              ),
+
+              const SizedBox(height: 15),
+
+              Botao(
+                text: 'Sair da conta',
+                onPressed: () {
+                  HiveUsuarioService().limparUsuario();
+                  SessaoUsuario.usuarioLogado = null;
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Apresentacao(),
+                    ),
+                    (route) => false,
+                  );
                 },
               ),
             ],

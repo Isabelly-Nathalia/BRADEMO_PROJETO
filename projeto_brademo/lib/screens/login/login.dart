@@ -7,6 +7,7 @@ import 'esqueciSenha.dart';
 import '../adm/acessoDesenvolvedor.dart';
 import 'semLogin.dart';
 import '../../../service/usuarioService.dart';
+import '../../../service/hiveUsuarioService.dart';
 import '../../../model/usuario.dart';
 import '../../../config/sessaoUsuario.dart';
 
@@ -18,6 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final UsuarioService usuarioService = UsuarioService();
+  final usuarioHive = HiveUsuarioService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
   bool ocultarSenha = true;
@@ -135,17 +137,12 @@ class _LoginState extends State<Login> {
 
                     if (usuario != null) {
                       SessaoUsuario.usuarioLogado = usuario;
+                      usuarioHive.salvarUsuario(usuario);
                       if (!mounted) return;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SecondScreen(),
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('E-mail ou senha inválidos'),
                         ),
                       );
                     }
