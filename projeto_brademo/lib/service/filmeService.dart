@@ -69,4 +69,17 @@ class FilmeService {
       return [];
     }
   }
+
+  Future<List<Filme>> buscarTodosFilmes() async {
+    try {
+      final response = await http.get(Uri.parse('${ApiConfig.baseUrl}/filmes'));
+      if (response.statusCode == 200) {
+        final List<dynamic> dados = jsonDecode(response.body);
+        return dados.map((filme) => Filme.fromJson(filme)).toList();
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  }
 }

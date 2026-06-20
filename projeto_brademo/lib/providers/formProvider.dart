@@ -17,8 +17,8 @@ class FormProvider extends ChangeNotifier {
 
   void carregarDados() {
     generosSelecionados = List<String>.from(hive.buscar('generos') ?? []);
-    streamingSelecionados = List<String>.from(hive.buscar('streamings') ?? []);
-    paisesSelecionados = List<String>.from(hive.buscar('paises') ?? []);
+    streamingSelecionados = List<String>.from(hive.buscar('streaming') ?? []);
+    paisesSelecionados = List<String>.from(hive.buscar('pais') ?? []);
     duracaoSelecionada = hive.buscar('duracao');
     classificacaoSelecionada = hive.buscar('classificacao');
     ator = hive.buscar('ator') ?? '';

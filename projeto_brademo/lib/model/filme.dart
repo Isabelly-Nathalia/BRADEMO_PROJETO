@@ -9,6 +9,9 @@ class Filme {
   final String fotoDiretor;
   final String atores;
   final double nota;
+  final String nacionalidade;
+  final String classificacao;
+  final List<String> generos;
 
   Filme({
     required this.idFilme,
@@ -21,6 +24,9 @@ class Filme {
     required this.fotoDiretor,
     required this.atores,
     required this.nota,
+    required this.nacionalidade,
+    required this.classificacao,
+    required this.generos,
   });
 
   factory Filme.fromJson(Map<String, dynamic> json) {
@@ -35,6 +41,9 @@ class Filme {
       fotoDiretor: json['imagemDiretor_filme'],
       atores: json['atorEspecifico_filme'],
       nota: (json['nota_filme'] as num).toDouble(),
+      nacionalidade: json['nacionalidade_filme'],
+      classificacao: json['classificacao_filme'],
+      generos: List<String>.from(json['generos'] ?? []),
     );
   }
 }

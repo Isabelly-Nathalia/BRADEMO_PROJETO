@@ -79,7 +79,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
 @override
 Widget build(BuildContext context) {
-  final formProvider = context.watch<FormProvider>();
+  final formProvider = context.read<FormProvider>();
 
   return Scaffold(
     backgroundColor: cinza,
@@ -765,7 +765,7 @@ Widget build(BuildContext context) {
   }
 
   void enviarFormulario() {
-    final formProvider = context.watch<FormProvider>();
+    final formProvider = context.read<FormProvider>();
     if (formProvider.generosSelecionados.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Selecione pelo menos um gênero")),
