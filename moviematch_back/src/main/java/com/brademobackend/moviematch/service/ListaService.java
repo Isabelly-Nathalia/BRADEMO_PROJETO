@@ -33,7 +33,11 @@ public class ListaService {
     public Lista adicionarFilme(Long idLista, Long idFilme) {
         Lista lista = listaRepository.findById(idLista).orElseThrow();
         Filme filme = filmeRepository.findById(idFilme).orElseThrow();
-        lista.getFilmes().add(filme);
+
+        boolean jaExiste = lista.getFilmes().stream().anyMatch(f -> f.getId_filme().equals(idFilme));
+        if (!jaExiste) {
+            lista.getFilmes().add(filme);
+        }
         return listaRepository.save(lista);
     }
 
@@ -43,5 +47,15 @@ public class ListaService {
 
     public List<Lista> buscarListasUsuario(Long idUsuario) {
         return listaRepository.buscarPorUsuario(idUsuario);
+    }
+
+    public List<Lista> buscarListasDoFilme(Long idUsuario, Long idFilme) {
+        return listaRepository.buscarListasDoFilme(idUsuario, idFilme);
+    }
+
+    public Lista removerFilme(Long idLista, Long idFilme) {
+        Lista lista = listaRepository.findById(idLista).orElseThrow();
+        lista.getFilmes().removeIf(filme -> filme.getId_filme().equals(idFilme));
+        return listaRepository.save(lista);
     }
 }

@@ -35,4 +35,14 @@ public class ListaController {
         return listaService.buscarListasUsuario(idUsuario);
     }
 
+    @GetMapping("/filme/{idFilme}/usuario/{idUsuario}")
+    public List<Lista> buscarListasDoFilme(@PathVariable Long idFilme, @PathVariable Long idUsuario) {
+        return listaService.buscarListasDoFilme(idUsuario, idFilme);
+    }
+
+    @DeleteMapping("/{idLista}/filme/{idFilme}")
+    public Lista removerFilme(@PathVariable Long idLista, @PathVariable Long idFilme) {
+        return listaService.removerFilme(idLista, idFilme);
+    }
+
 }

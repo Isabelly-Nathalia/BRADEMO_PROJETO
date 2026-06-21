@@ -9,7 +9,6 @@ import '../../../service/filmeService.dart';
 import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
 import '../../../service/usuarioService.dart';
-import '../../../config/sessaoUsuario.dart';
 import '../../../service/listaService.dart';
 
 class DetalheFilme extends StatefulWidget {
@@ -54,6 +53,8 @@ class _DetalheFilmeState extends State<DetalheFilme> {
   bool mostrarCampo = false;
   Lista? listaSelecionada;
   bool curtido = false;
+  List<int> listasMarcadas = [];
+  List<int> listasDoFilmeOriginal = [];
 
   @override
   void initState() {
@@ -71,8 +72,15 @@ class _DetalheFilmeState extends State<DetalheFilme> {
       SessaoUsuario.usuarioLogado!.idUsuario,
     );
 
+    final listasFilme = await listaService.buscarListasDoFilme(
+      SessaoUsuario.usuarioLogado!.idUsuario,
+      widget.idFilme,
+    );
+
     setState(() {
       listas = resultado;
+      listasMarcadas = listasFilme.map((e) => e.idLista).toList();
+      listasDoFilmeOriginal = List.from(listasMarcadas);
     });
   }
 
@@ -218,33 +226,6 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                         SizedBox(
                           width: 160,
                           child: GestureDetector(
-                            // onTap: () {
-                            //   if (SessaoUsuario.usuarioLogado == null) {
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => const SemLogin(),
-                            //       ),
-                            //     );
-                            //     return;
-                            //   }
-
-                            //   setState(() {
-                            //     curtido = !curtido;
-                            //   });
-
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //     SnackBar(
-                            //       backgroundColor: azul,
-                            //       content: Text(
-                            //         curtido
-                            //             ? 'Filme adicionado aos curtidos'
-                            //             : 'Filme removido dos curtidos',
-                            //       ),
-                            //       duration: const Duration(seconds: 2),
-                            //     ),
-                            //   );
-                            // },
                             onTap: () async {
                               if (SessaoUsuario.usuarioLogado == null) {
                                 Navigator.push(
@@ -567,7 +548,9 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                       const SizedBox(height: 20),
 
                       ...listas.map((lista) {
-                        final selecionada = listaSelecionada?.idLista == lista.idLista;
+                        final selecionada = listasMarcadas.contains(
+                          lista.idLista,
+                        );
                         return ListTile(
                           leading: Icon(
                             selecionada
@@ -581,6 +564,12 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                           ),
                           onTap: () {
                             setModalState(() {
+                              if (listasMarcadas.contains(lista.idLista)) {
+                                listasMarcadas.remove(lista.idLista);
+                              } else {
+                                listasMarcadas.add(lista.idLista);
+                              }
+
                               listaSelecionada = lista;
                             });
                           },
@@ -627,50 +616,66 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                               controllerLista.text,
                             );
                             if (listaCriada != null) {
-                              await listaService.adicionarFilme(listaCriada.idLista, widget.idFilme,);
                               setState(() {
                                 listas.add(listaCriada);
+                                listasMarcadas.add(listaCriada.idLista);
                                 listaSelecionada = listaCriada;
                               });
                               controllerLista.clear();
                             }
                           }
-                          else if (listaSelecionada != null) {
-                            await listaService.adicionarFilme(
-                              listaSelecionada!.idLista,
-                              widget.idFilme,
+                          for (final lista in listas) {
+                            final estavaAntes = listasDoFilmeOriginal.contains(
+                              lista.idLista,
                             );
+                            final estaAgora = listasMarcadas.contains(
+                              lista.idLista,
+                            );
+
+                            if (estavaAntes && !estaAgora) {
+                              await listaService.removerFilme(
+                                lista.idLista,
+                                widget.idFilme,
+                              );
+                            }
+                            if (!estavaAntes && estaAgora) {
+                              await listaService.adicionarFilme(
+                                lista.idLista,
+                                widget.idFilme,
+                              );
+                            }
                           }
 
-                          if (listaSelecionada != null) {
-                            Navigator.pop(context);
-                            showDialog(
-                              context: this.context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: cinza,
-                                  title: const Text(
-                                    'Filme salvo!',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  content: Text(
-                                    'O filme foi adicionado em "${listaSelecionada!.nomeLista}".',
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  actions: [
-                                    Center(
-                                      child: Botao(
-                                        text: "OK",
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
+                          await carregarListas();
+
+                          Navigator.pop(context);
+
+                          showDialog(
+                            context: this.context,
+                            builder: (context) {
+                              return AlertDialog(
+                                backgroundColor: cinza,
+                                title: const Text(
+                                  'Filme salvo!',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                content: const Text(
+                                  'Alterações salvas com sucesso!',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                actions: [
+                                  Center(
+                                    child: Botao(
+                                      text: "OK",
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
                                     ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                       ),
                     ],
