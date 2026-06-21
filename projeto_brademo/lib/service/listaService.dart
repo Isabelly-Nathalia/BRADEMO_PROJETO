@@ -76,4 +76,33 @@ class ListaService {
       return false;
     }
   }
+
+  Future<Lista?> editarLista(int idLista, String nomeLista) async {
+    try {
+      final response = await http.put(
+        Uri.parse('${ApiConfig.baseUrl}/listas/$idLista'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'nome_lista': nomeLista}),
+      );
+
+      if (response.statusCode == 200) {
+        return Lista.fromJson(jsonDecode(response.body));
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<bool> excluirLista(int idLista) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('${ApiConfig.baseUrl}/listas/$idLista'),
+      );
+
+      return response.statusCode == 200 || response.statusCode == 204;
+    } catch (e) {
+      return false; 
+    }
+  }
 }

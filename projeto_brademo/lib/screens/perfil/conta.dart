@@ -10,7 +10,9 @@ import '../../../widgets/button.dart';
 import '../../../config/sessaoUsuario.dart';
 import 'dart:io';
 import '../../../service/usuarioService.dart';
+import '../../../service/listaService.dart';
 import '../../../model/filme.dart';
+import '../../../model/lista.dart';
 
 class Conta extends StatefulWidget {
   const Conta({super.key});
@@ -28,10 +30,12 @@ class _ContaState extends State<Conta> {
   void initState() {
     super.initState();
     carregarCurtidos();
+    carregarListas();
   }
 
   int abaSelecionada = 0;
   int? listaEditando;
+  final TextEditingController editarListaController = TextEditingController();
 
   Future<void> carregarCurtidos() async {
     if (SessaoUsuario.usuarioLogado == null) {
@@ -44,202 +48,21 @@ class _ContaState extends State<Conta> {
       filmesCurtidos = resultado;
     });
   }
+
+  Future<void> carregarListas() async {
+    final resultado = await listaService.buscarListasUsuario(
+      SessaoUsuario.usuarioLogado!.idUsuario,
+    );
+
+    setState(() {
+      minhasListas = resultado;
+    });
+  }
+
   final UsuarioService usuarioService = UsuarioService();
+  final ListaService listaService = ListaService();
   List<Filme> filmesCurtidos = [];
-
-  final List<Map<String, dynamic>> minhasListas = [
-    {
-      "tituloLista": "Ver Depois",
-      "cor": const Color(0xFF222425),
-      "filmes": [
-        {
-          "titulo": "Her",
-          "imagem": "https://upload.wikimedia.org/wikipedia/pt/9/9b/Her.jpg",
-          "descricao":
-              "Um homem solitário desenvolve uma relação com uma inteligência artificial.",
-          "nota": "5",
-          "duracao": "2h 06m",
-          "diretor": "Spike Jonze",
-          "fotoDiretor":
-              "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
-          "streaming": "HBO Max",
-          "elenco": ["Joaquin Phoenix", "Scarlett Johansson"],
-        },
-        {
-          "imagem":
-              "https://upload.wikimedia.org/wikipedia/pt/thumb/5/57/Ainda_Estou_Aqui_2024_poster.jpg/250px-Ainda_Estou_Aqui_2024_poster.jpg",
-          "titulo": "Ainda Estou Aqui",
-          "nota": "5",
-          "duracao": "2h17min",
-          "diretor": "Walter Salles",
-          "streaming": "GloboPlay",
-          "fotoDiretor":
-              "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-          "descricao":
-              "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar e traçar um novo caminho para si e para seus filhos depois que a vida de sua família é impactada por um ato violento e arbitrário.",
-          "elenco": [
-            "Fernanda Torres (Eunice Paiva)",
-            "Selton Mello (Rubens Paiva)",
-            "Fernanda Montenegro (Eunice Paiva)",
-          ],
-        },
-        {
-          "imagem":
-              "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
-          "titulo": "Cidade de Deus",
-          "nota": "5",
-          "duracao": "2h10min",
-          "diretor": "Fernando Meirelles",
-          "streaming": "HBO MAX",
-          "fotoDiretor":
-              "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
-          "descricao":
-              "Um jovem cresce em uma comunidade dominada pelo crime no Rio de Janeiro e tenta seguir um caminho diferente, enquanto acompanha a ascensão violenta de traficantes e a dura realidade da favela.",
-          "elenco": [
-            "Alice Braga (Angélica)",
-            "Alexandre Rodrigues (Buscapé)",
-            "Douglas Silva (Zé Pequeno)",
-          ],
-        },
-      ],
-    },
-
-    {
-      "tituloLista": "Favoritos",
-      "cor": const Color(0xFF222425),
-      "filmes": [
-        {
-          "imagem":
-              "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
-          "titulo": "Central do Brasil",
-          "nota": "5",
-          "duracao": "1h50min",
-          "diretor": "Walter Salles",
-          "streaming": "Netflix",
-          "fotoDiretor":
-              "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-          "descricao":
-              "Uma ex-professora que escreve cartas para analfabetos conhece um menino que acaba de perder a mãe e decide ajudá-lo a encontrar o pai, iniciando uma jornada emocionante que transforma a vida de ambos.",
-          "elenco": [
-            "Fernanda Montenegro (Dora)",
-            "Vinícius de Oliveira (Josué)",
-            "Marília Pêra (Irene)",
-          ],
-        },
-        {
-          "imagem":
-              "https://upload.wikimedia.org/wikipedia/pt/thumb/5/57/Ainda_Estou_Aqui_2024_poster.jpg/250px-Ainda_Estou_Aqui_2024_poster.jpg",
-          "titulo": "Ainda Estou Aqui",
-          "nota": "5",
-          "duracao": "2h17min",
-          "diretor": "Walter Salles",
-          "streaming": "GloboPlay",
-          "fotoDiretor":
-              "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-          "descricao":
-              "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar e traçar um novo caminho para si e para seus filhos depois que a vida de sua família é impactada por um ato violento e arbitrário.",
-          "elenco": [
-            "Fernanda Torres (Eunice Paiva)",
-            "Selton Mello (Rubens Paiva)",
-            "Fernanda Montenegro (Eunice Paiva)",
-          ],
-        },
-        {
-          "imagem":
-              "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
-          "titulo": "Cidade de Deus",
-          "nota": "5",
-          "duracao": "2h10min",
-          "diretor": "Fernando Meirelles",
-          "streaming": "HBO MAX",
-          "fotoDiretor":
-              "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
-          "descricao":
-              "Um jovem cresce em uma comunidade dominada pelo crime no Rio de Janeiro e tenta seguir um caminho diferente, enquanto acompanha a ascensão violenta de traficantes e a dura realidade da favela.",
-          "elenco": [
-            "Alice Braga (Angélica)",
-            "Alexandre Rodrigues (Buscapé)",
-            "Douglas Silva (Zé Pequeno)",
-          ],
-        },
-      ],
-    },
-
-    {
-      "tituloLista": "Vencedores do Oscar",
-      "cor": const Color(0xFF222425),
-      "filmes": [
-        {
-          "titulo": "La La Land",
-          "imagem":
-              "https://i5.walmartimages.com/seo/Rolled-Poster-La-La-Land-Movie-24-x-36-Poster_20f02811-01b4-4aea-9bb2-a79942bd2642_1.856c035d66f8fd216f6d933259bc3dfb.jpeg",
-          "descricao":
-              "Um pianista e uma atriz vivem um romance enquanto perseguem seus sonhos.",
-          "nota": "4",
-          "duracao": "2h 08m",
-          "diretor": "Damien Chazelle",
-          "fotoDiretor":
-              "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
-          "streaming": "Prime Video",
-          "elenco": ["Ryan Gosling", "Emma Stone"],
-        },
-        {
-          "imagem":
-              "https://m.media-amazon.com/images/M/MV5BMWI3YTg2YmItY2QzYi00NTc2LWExNTQtYWE4ZmIzNjE3ZjMyXkEyXkFqcGc@._V1_.jpg",
-          "titulo": "Central do Brasil",
-          "nota": "5",
-          "duracao": "1h50min",
-          "diretor": "Walter Salles",
-          "streaming": "Netflix",
-          "fotoDiretor":
-              "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-          "descricao":
-              "Uma ex-professora que escreve cartas para analfabetos conhece um menino que acaba de perder a mãe e decide ajudá-lo a encontrar o pai, iniciando uma jornada emocionante que transforma a vida de ambos.",
-          "elenco": [
-            "Fernanda Montenegro (Dora)",
-            "Vinícius de Oliveira (Josué)",
-            "Marília Pêra (Irene)",
-          ],
-        },
-        {
-          "imagem":
-              "https://upload.wikimedia.org/wikipedia/pt/thumb/5/57/Ainda_Estou_Aqui_2024_poster.jpg/250px-Ainda_Estou_Aqui_2024_poster.jpg",
-          "titulo": "Ainda Estou Aqui",
-          "nota": "5",
-          "duracao": "2h17min",
-          "diretor": "Walter Salles",
-          "streaming": "GloboPlay",
-          "fotoDiretor":
-              "https://upload.wikimedia.org/wikipedia/commons/8/80/Walter_Salles_in_2024.jpg",
-          "descricao":
-              "Uma mulher casada com um ex-político durante a ditadura militar no Brasil é forçada a se reinventar e traçar um novo caminho para si e para seus filhos depois que a vida de sua família é impactada por um ato violento e arbitrário.",
-          "elenco": [
-            "Fernanda Torres (Eunice Paiva)",
-            "Selton Mello (Rubens Paiva)",
-            "Fernanda Montenegro (Eunice Paiva)",
-          ],
-        },
-        {
-          "imagem":
-              "https://upload.wikimedia.org/wikipedia/pt/thumb/1/10/CidadedeDeus.jpg/250px-CidadedeDeus.jpg",
-          "titulo": "Cidade de Deus",
-          "nota": "5",
-          "duracao": "2h10min",
-          "diretor": "Fernando Meirelles",
-          "streaming": "HBO MAX",
-          "fotoDiretor":
-              "https://s2.glbimg.com/Z__UfzReUwJbUEjcSCE2ZkPBXzE=/540x300/e.glbimg.com/og/ed/f/original/2014/03/21/fernando_meirelles.jpg",
-          "descricao":
-              "Um jovem cresce em uma comunidade dominada pelo crime no Rio de Janeiro e tenta seguir um caminho diferente, enquanto acompanha a ascensão violenta de traficantes e a dura realidade da favela.",
-          "elenco": [
-            "Alice Braga (Angélica)",
-            "Alexandre Rodrigues (Buscapé)",
-            "Douglas Silva (Zé Pequeno)",
-          ],
-        },
-      ],
-    },
-  ];
+  List<Lista> minhasListas = [];
 
   @override
   Widget build(BuildContext context) {
@@ -428,16 +251,14 @@ class _ContaState extends State<Conta> {
                       itemCount: minhasListas.length,
                       itemBuilder: (context, index) {
                         final lista = minhasListas[index];
-                        final filmesLista = lista["filmes"] as List;
+                        final filmesLista = lista.filmes;
                         return Container(
                           margin: const EdgeInsets.only(bottom: 40),
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: lista["cor"],
+                            color: const Color(0xFF222425),
                             borderRadius: BorderRadius.circular(15),
-                            border: lista["cor"] == const Color(0xFF222425)
-                                ? Border.all(color: Colors.white24)
-                                : null,
+                            border: Border.all(color: Colors.white24),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -446,25 +267,48 @@ class _ContaState extends State<Conta> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    lista["tituloLista"],
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                  listaEditando == index
+                                      ? SizedBox(
+                                          width: 200,
+                                          child: TextField(
+                                            controller: editarListaController,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                      : Text(
+                                          lista.nomeLista,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
 
                                   Row(
                                     children: [
                                       IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            listaEditando =
-                                                listaEditando == index
-                                                ? null
-                                                : index;
-                                          });
+                                        onPressed: () async {
+                                          if (listaEditando == index) {
+                                            await listaService.editarLista(
+                                              lista.idLista,
+                                              editarListaController.text,
+                                            );
+
+                                            await carregarListas();
+
+                                            setState(() {
+                                              listaEditando = null;
+                                            });
+                                          } else {
+                                            editarListaController.text =
+                                                lista.nomeLista;
+
+                                            setState(() {
+                                              listaEditando = index;
+                                            });
+                                          }
                                         },
                                         icon: Icon(
                                           listaEditando == index
@@ -479,67 +323,13 @@ class _ContaState extends State<Conta> {
                                           Icons.delete,
                                           color: Colors.white,
                                         ),
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                backgroundColor: cinza,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                title: const Text(
-                                                  "Excluir lista",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                content: const Text(
-                                                  "Deseja realmente excluir esta lista?",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Botao(
-                                                          text: "Cancelar",
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                              context,
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
+                                        onPressed: () async {
+                                          bool sucesso = await listaService
+                                              .excluirLista(lista.idLista);
 
-                                                      const SizedBox(width: 10),
-
-                                                      Expanded(
-                                                        child: Botao(
-                                                          text: "Excluir",
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              minhasListas
-                                                                  .removeAt(
-                                                                    index,
-                                                                  );
-                                                            });
-
-                                                            Navigator.pop(
-                                                              context,
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
+                                          if (sucesso) {
+                                            await carregarListas();
+                                          }
                                         },
                                       ),
                                     ],
@@ -557,16 +347,42 @@ class _ContaState extends State<Conta> {
                                   itemBuilder: (context, i) {
                                     return Stack(
                                       children: [
-                                        CardFilme(filme: filmesLista[i]),
+                                        CardFilme(
+                                          filme: {
+                                            "idFilme": filmesLista[i].idFilme,
+                                            "titulo": filmesLista[i].titulo,
+                                            "imagem": filmesLista[i].imagem,
+                                            "descricao":
+                                                filmesLista[i].descricao,
+                                            "nota": filmesLista[i].nota
+                                                .toString(),
+                                            "duracao": filmesLista[i].duracao,
+                                            "diretor": filmesLista[i].diretor,
+                                            "fotoDiretor":
+                                                filmesLista[i].fotoDiretor,
+                                            "streaming":
+                                                filmesLista[i].streaming,
+                                            "elenco": [filmesLista[i].atores],
+                                          },
+                                        ),
                                         if (listaEditando == index)
                                           Positioned(
                                             top: 5,
                                             right: 10,
                                             child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  filmesLista.removeAt(i);
-                                                });
+                                              onTap: () async {
+                                                bool
+                                                sucesso = await listaService
+                                                    .removerFilme(
+                                                      lista.idLista,
+                                                      filmesLista[i].idFilme,
+                                                    );
+
+                                                if (sucesso) {
+                                                  setState(() {
+                                                    filmesLista.removeAt(i);
+                                                  });
+                                                }
                                               },
                                               child: const Icon(
                                                 Icons.close,
