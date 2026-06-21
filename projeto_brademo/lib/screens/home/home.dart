@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moviematch/service/publicidadeService.dart';
 import '../perfil/conta.dart';
 import '../form/form.dart';
 import 'notificacao.dart';
@@ -9,7 +10,9 @@ import '../../../widgets/headerRotas.dart';
 import '../../../widgets/cardFilme.dart';
 
 import '../../../service/filmeService.dart';
+import '../../../service/publicidadeService.dart';
 import '../../../model/filme.dart';
+import '../../../model/publicidade.dart';
 
 import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
@@ -38,31 +41,27 @@ class HomeState extends State<Home> {
     });
   }
 
-  // carrosel ad fotos
-  final List<String> imagensCarrossel = [
-    "https://www.gov.br/cultura/pt-br/assuntos/noticias/tela-brasil-a-plataforma-publica-de-streaming-comeca-a-funcionar-neste-sabado-30/37ebd366-06a1-4075-91b1-a031b8ed8451.png",
-    "https://www.gamersegames.com.br/wp-content/uploads/2026/03/O-Agente-Secreto-na-Netflix-.webp",
-    "https://img.youtube.com/vi/E2xtmPkuksA/maxresdefault.jpg",
-  ];
+  final PublicidadeService publicidadeService = PublicidadeService();
+  List<Publicidade> publicidades = [];
 
   final Color Cinza = const Color(0xFF222425);
   final Color vermelho = const Color(0xFF681F10);
 
   bool notificacaoEnviada = false;
-  static bool notificacaoJaEnviada = false;
+  
 
   @override
   void initState() {
     super.initState();
-
+    carregarPublicidades();
     carregarFilmes();
+  }
 
-    if (!notificacaoJaEnviada) {
-      notificacaoJaEnviada = true;
-      Future.delayed(const Duration(seconds: 3), () {
-        mostrarNotificacao();
-      });
-    }
+  Future<void> carregarPublicidades() async {
+    final resultado = await publicidadeService.buscarPublicidades();
+    setState(() {
+      publicidades = resultado;
+    });
   }
 
   @override
@@ -147,7 +146,7 @@ class HomeState extends State<Home> {
                             height: 260,
                             child: PageView.builder(
                               controller: controladorCarrossel,
-                              itemCount: imagensCarrossel.length,
+                              itemCount: publicidades.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   margin: const EdgeInsets.only(right: 10),
@@ -155,7 +154,7 @@ class HomeState extends State<Home> {
                                     borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        imagensCarrossel[index],
+                                        publicidades[index].linkImagem,
                                       ),
                                       fit: BoxFit.cover,
                                     ),

@@ -33,4 +33,6 @@ public class Usuario {
     @ManyToMany
     @JoinTable(name = "usuario_filmes_curtidos", joinColumns = @JoinColumn(name = "usuario_fk"), inverseJoinColumns = @JoinColumn(name = "filme_fk"))
     private List<Filme> filmesCurtidos;
+
+    
 }

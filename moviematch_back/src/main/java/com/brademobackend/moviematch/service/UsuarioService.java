@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import com.brademobackend.moviematch.model.Filme;
+import com.brademobackend.moviematch.model.Lista;
 import com.brademobackend.moviematch.model.Usuario;
 import com.brademobackend.moviematch.repository.UsuarioRepository;
 import com.brademobackend.moviematch.repository.FilmeRepository;
+import com.brademobackend.moviematch.repository.ListaRepository;
 
 @Service
 public class UsuarioService {
@@ -19,6 +21,9 @@ public class UsuarioService {
 
     @Autowired
     private FilmeRepository filmeRepository;
+
+    @Autowired
+    private ListaRepository listaRepository;
 
     public Usuario salvarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
@@ -37,6 +42,8 @@ public class UsuarioService {
     }
 
     public void deletarUsuario(Long id) {
+        List<Lista> listas = listaRepository.buscarPorUsuario(id);
+        listaRepository.deleteAll(listas);
         usuarioRepository.deleteById(id);
     }
 

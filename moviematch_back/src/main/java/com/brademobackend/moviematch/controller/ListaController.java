@@ -45,4 +45,13 @@ public class ListaController {
         return listaService.removerFilme(idLista, idFilme);
     }
 
+    @PutMapping("/{idLista}")
+    public Lista editarLista(@PathVariable Long idLista, @RequestBody Lista lista) {
+        return listaService.editarLista(idLista, lista.getNome_lista());
+    }
+
+    @DeleteMapping("/{idLista}")
+    public void excluirLista(@PathVariable Long idLista) {
+        listaService.excluirLista(idLista);
+    }
 }

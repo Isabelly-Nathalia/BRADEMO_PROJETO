@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../widgets/button.dart';
 import 'login.dart';
 import '../form/form.dart';
+import '../../../service/usuarioService.dart';
+import '../../../config/sessaoUsuario.dart';
 
 class NovaSenha extends StatefulWidget {
   final bool exclusao;
@@ -16,6 +18,7 @@ class _NovaSenhaState extends State<NovaSenha> {
   final TextEditingController senhaController = TextEditingController();
   final TextEditingController confirmarSenhaController =
       TextEditingController();
+  final UsuarioService usuarioService = UsuarioService();
 
   bool ocultarSenha = true;
   bool ocultarConfirmarSenha = true;
@@ -170,7 +173,7 @@ class _NovaSenhaState extends State<NovaSenha> {
 
                 Botao(
                   text: 'Salvar nova senha',
-                  onPressed: () {
+                  onPressed: () async {
                     if (senhaController.text != confirmarSenhaController.text) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -180,6 +183,31 @@ class _NovaSenhaState extends State<NovaSenha> {
                       return;
                     }
 
+                    else {
+                      final usuario = SessaoUsuario.usuarioLogado!;
+
+                      final usuarioAtualizado = await usuarioService
+                          .atualizarUsuario(
+                            id: usuario.idUsuario,
+                            nome: usuario.nome,
+                            nomeUsuario: usuario.nomeUsuario,
+                            email: usuario.email,
+                            senha: senhaController.text,
+                            fotoPerfil: usuario.fotoPerfil,
+                            dataNascimento: usuario.dataNascimento,
+                          );
+
+                      if (usuarioAtualizado == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Erro ao alterar senha'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      SessaoUsuario.usuarioLogado = usuarioAtualizado;
+                    }
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -200,13 +228,8 @@ class _NovaSenhaState extends State<NovaSenha> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                   if (widget.exclusao) {
-                                    Navigator.pop(
-                                      context,
-                                    );
-                                    Navigator.pop(
-                                      context,
-                                      true,
-                                    );
+                                    Navigator.pop(context);
+                                    Navigator.pop(context, true);
                                   } else {
                                     Navigator.pushAndRemoveUntil(
                                       context,

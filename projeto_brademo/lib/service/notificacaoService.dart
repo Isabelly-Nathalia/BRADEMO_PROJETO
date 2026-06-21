@@ -37,7 +37,7 @@ Future<void> inicializarNotificacoes() async {
 Future<void> mostrarNotificacao() async {
   await flutterLocalNotificationsPlugin.show(
     0,
-    'Atenção! Novos filmes adicionados ao nosso catálogo',
+    'Atenção! Não perca as novidades.',
     'Responda o formulário para receber novas sugestões.',
     notificationDetails,
   );

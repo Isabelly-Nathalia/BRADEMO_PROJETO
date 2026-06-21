@@ -58,4 +58,14 @@ public class ListaService {
         lista.getFilmes().removeIf(filme -> filme.getId_filme().equals(idFilme));
         return listaRepository.save(lista);
     }
+
+    public Lista editarLista(Long idLista, String nomeLista) {
+        Lista lista = listaRepository.findById(idLista).orElseThrow();
+        lista.setNome_lista(nomeLista);
+        return listaRepository.save(lista);
+    }
+
+    public void excluirLista(Long idLista) {
+        listaRepository.deleteById(idLista);
+    }
 }

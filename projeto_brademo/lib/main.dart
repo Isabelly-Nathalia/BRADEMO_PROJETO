@@ -4,6 +4,19 @@ import 'screens/inicio/transicao.dart';
 import 'service/notificacaoService.dart';
 import 'package:provider/provider.dart';
 import 'providers/formProvider.dart';
+import 'config/sessaoUsuario.dart';
+
+class LifecycleEventHandler extends WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.detached) {
+      if (SessaoUsuario.usuarioLogado != null) {
+        mostrarNotificacao();
+      }
+    }
+  }
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,13 +24,11 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox('formulario');
   await Hive.openBox('usuario');
-  
+  WidgetsBinding.instance.addObserver(LifecycleEventHandler());
+
   runApp(
-  ChangeNotifierProvider(
-    create: (_) => FormProvider(),
-    child: const MyApp(),
-  ),
-);
+    ChangeNotifierProvider(create: (_) => FormProvider(), child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
