@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: moviematch-back
-    env: java
-    rootDir: moviematch_back
-    buildCommand: ./mvnw clean package
-    startCommand: java -jar target/*.jar
