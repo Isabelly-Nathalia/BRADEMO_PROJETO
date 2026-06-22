@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Filme {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_filme;
     private String titulo_filme;
     private String descricao_filme;

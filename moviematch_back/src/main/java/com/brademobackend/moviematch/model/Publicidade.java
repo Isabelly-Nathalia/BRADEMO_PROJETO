@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Publicidade {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_publicidade;
     private String descricao;
     private String link_imagem;

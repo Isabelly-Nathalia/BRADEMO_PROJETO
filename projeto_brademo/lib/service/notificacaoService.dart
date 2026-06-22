@@ -8,11 +8,13 @@ late NotificationDetails notificationDetails;
 Future<void> inicializarNotificacoes() async {
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin
+      >()
       ?.requestNotificationsPermission();
 
-  const androidInitializationSettings =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const androidInitializationSettings = AndroidInitializationSettings(
+    '@mipmap/ic_launcher',
+  );
 
   const initializationSettings = InitializationSettings(
     android: androidInitializationSettings,
@@ -25,13 +27,9 @@ Future<void> inicializarNotificacoes() async {
     priority: Priority.high,
   );
 
-  notificationDetails = const NotificationDetails(
-    android: androidDetails,
-  );
+  notificationDetails = const NotificationDetails(android: androidDetails);
 
-  await flutterLocalNotificationsPlugin.initialize(
-    initializationSettings,
-  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
 Future<void> mostrarNotificacao() async {

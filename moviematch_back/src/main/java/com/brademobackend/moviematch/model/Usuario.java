@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario;
     private String nome_usuario;
     private String email_usuario;
@@ -34,5 +34,5 @@ public class Usuario {
     @JoinTable(name = "usuario_filmes_curtidos", joinColumns = @JoinColumn(name = "usuario_fk"), inverseJoinColumns = @JoinColumn(name = "filme_fk"))
     private List<Filme> filmesCurtidos;
 
-    
+
 }

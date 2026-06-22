@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Lista {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_lista;
     private String nome_lista;
 
