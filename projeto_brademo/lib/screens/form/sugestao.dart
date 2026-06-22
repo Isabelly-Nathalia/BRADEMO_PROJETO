@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../model/filme.dart';
 import '../../../service/filmeService.dart';
-import '../../../providers/formProvider.dart';
+import '../../provider/formProvider.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../config/sessaoUsuario.dart';
 import '../home/detalheFilme.dart';

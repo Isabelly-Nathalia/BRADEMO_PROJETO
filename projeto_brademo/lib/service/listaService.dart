@@ -102,7 +102,7 @@ class ListaService {
 
       return response.statusCode == 200 || response.statusCode == 204;
     } catch (e) {
-      return false; 
+      return false;
     }
   }
 }

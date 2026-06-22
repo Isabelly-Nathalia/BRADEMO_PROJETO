@@ -1,7 +1,6 @@
 package com.brademobackend.moviematch.model;
 
 import java.util.List;
-
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +30,6 @@ public class Filme {
     private String linkImagemFilme_filme;
     private String atorEspecifico_filme;
     private double nota_filme;
-    
 
     @ElementCollection
     private List<String> generos;

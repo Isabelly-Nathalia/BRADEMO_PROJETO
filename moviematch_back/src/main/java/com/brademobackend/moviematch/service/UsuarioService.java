@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 import com.brademobackend.moviematch.model.Filme;
 import com.brademobackend.moviematch.model.Lista;
 import com.brademobackend.moviematch.model.Usuario;

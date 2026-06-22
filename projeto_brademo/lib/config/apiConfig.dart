@@ -1,4 +1,3 @@
 class ApiConfig {
-  static const String baseUrl = 'http://:8080';
-///////mudar ip aqui, entre  / e :
+  static const String baseUrl = 'https://moviematch-apkx.onrender.com';
 }

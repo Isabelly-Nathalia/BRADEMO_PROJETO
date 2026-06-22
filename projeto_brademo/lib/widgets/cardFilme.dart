@@ -100,9 +100,7 @@ class CardFilme extends StatelessWidget {
                       const SizedBox(width: 3),
 
                       Text(
-                        FilmeService.formatarDuracao(
-                          filme["duracao"],
-                        ),
+                        FilmeService.formatarDuracao(filme["duracao"]),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,

@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Publicidade {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_publicidade;

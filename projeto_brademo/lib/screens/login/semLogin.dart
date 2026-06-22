@@ -19,15 +19,11 @@ class SemLogin extends StatelessWidget {
                 const CircleAvatar(
                   radius: 55,
                   backgroundColor: Colors.white24,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                    size: 60,
-                  ),
+                  child: Icon(Icons.person, color: Colors.white, size: 60),
                 ),
                 const SizedBox(height: 30),
                 const Text(
-                  "Você não está logado", 
+                  "Você não está logado",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
@@ -41,10 +37,7 @@ class SemLogin extends StatelessWidget {
                 const Text(
                   "Entre na sua conta para acessar todas as funcinoalidades do seu perfil.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 15,
-                  ),
+                  style: TextStyle(color: Colors.white70, fontSize: 15),
                 ),
 
                 const SizedBox(height: 40),
@@ -54,9 +47,7 @@ class SemLogin extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const Login(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const Login()),
                     );
                   },
                 ),

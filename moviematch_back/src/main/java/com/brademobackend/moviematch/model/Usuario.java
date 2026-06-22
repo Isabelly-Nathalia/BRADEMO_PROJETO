@@ -2,7 +2,6 @@ package com.brademobackend.moviematch.model;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +18,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Usuario {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario;
@@ -33,6 +31,4 @@ public class Usuario {
     @ManyToMany
     @JoinTable(name = "usuario_filmes_curtidos", joinColumns = @JoinColumn(name = "usuario_fk"), inverseJoinColumns = @JoinColumn(name = "filme_fk"))
     private List<Filme> filmesCurtidos;
-
-
 }

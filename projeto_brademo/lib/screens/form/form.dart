@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../widgets/button.dart';
 import 'sugestao.dart';
 import '../home/home.dart';
-import '../../../providers/formProvider.dart';
+import '../../provider/formProvider.dart';
 
 class SecondScreen extends StatefulWidget {
   const SecondScreen({super.key});
@@ -782,15 +782,6 @@ class _SecondScreenState extends State<SecondScreen> {
       );
       return;
     }
-    // implementar
-    //final dadosFormulario = {
-    //   "generos": generosSelecionados,
-    //   "duracao": duracaoSelecionada,
-    //   "streamings": streamingSelecionados,
-    //   "paises": paisesSelecionados,
-    //   "classificacao": classificacaoSelecionada,
-    //   "ator": atorController.text,
-    // };
 
     Navigator.push(
       context,

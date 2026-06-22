@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'screens/inicio/transicao.dart';
 import 'service/notificacaoService.dart';
 import 'package:provider/provider.dart';
-import 'providers/formProvider.dart';
+import 'provider/formProvider.dart';
 import 'config/sessaoUsuario.dart';
 
 class LifecycleEventHandler extends WidgetsBindingObserver {

@@ -48,7 +48,6 @@ class HomeState extends State<Home> {
   final Color vermelho = const Color(0xFF681F10);
 
   bool notificacaoEnviada = false;
-  
 
   @override
   void initState() {

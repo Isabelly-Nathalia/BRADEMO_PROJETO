@@ -20,10 +20,7 @@ class Notificacao extends StatelessWidget {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
+                    child: const Icon(Icons.arrow_back, color: Colors.white),
                   ),
 
                   const SizedBox(width: 15),
@@ -58,9 +55,7 @@ class Notificacao extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xFF222425),
                     borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                      color: Colors.white24,
-                    ),
+                    border: Border.all(color: Colors.white24),
                   ),
                   child: Row(
                     children: [
@@ -82,10 +77,7 @@ class Notificacao extends StatelessWidget {
                       const Expanded(
                         child: Text(
                           'Atenção!\nNovos filmes adicionados ao nosso catálogo, responda o formulário para receber novas sugestões.',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                          ),
+                          style: TextStyle(color: Colors.white, fontSize: 13),
                         ),
                       ),
                     ],

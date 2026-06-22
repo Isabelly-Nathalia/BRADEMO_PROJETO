@@ -8,7 +8,6 @@ class Apresentacao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final largura = MediaQuery.of(context).size.width;
     final altura = MediaQuery.of(context).size.height;
 
@@ -23,11 +22,8 @@ class Apresentacao extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
             children: [
-
-              // GRID DOS FILMES
               Column(
                 children: const [
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -61,10 +57,8 @@ class Apresentacao extends StatelessWidget {
                 ],
               ),
 
-              // TEXOS
               Column(
                 children: [
-
                   const Text(
                     "Bem-vindo(a) ao MovieMatch",
                     textAlign: TextAlign.center,
@@ -90,16 +84,13 @@ class Apresentacao extends StatelessWidget {
                 ],
               ),
 
-              // BOTAO
               Botao(
                 text: "Fazer Login",
 
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const Login(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const Login()),
                   );
                 },
               ),
@@ -125,14 +116,12 @@ class Apresentacao extends StatelessWidget {
 }
 
 class MovieCard extends StatelessWidget {
-
   final String imagePath;
 
   const MovieCard(this.imagePath, {super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final largura = MediaQuery.of(context).size.width;
 
     return SizedBox(
@@ -142,10 +131,7 @@ class MovieCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
 
-        child: Image.asset(
-          imagePath,
-          fit: BoxFit.cover,
-        ),
+        child: Image.asset(imagePath, fit: BoxFit.cover),
       ),
     );
   }

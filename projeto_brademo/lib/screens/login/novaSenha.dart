@@ -181,9 +181,7 @@ class _NovaSenhaState extends State<NovaSenha> {
                         ),
                       );
                       return;
-                    }
-
-                    else {
+                    } else {
                       final usuario = SessaoUsuario.usuarioLogado!;
 
                       final usuarioAtualizado = await usuarioService

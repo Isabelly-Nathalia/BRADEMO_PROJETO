@@ -4,11 +4,7 @@ class Botao extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const Botao({
-    super.key,
-    required this.text,
-    required this.onPressed,
-  });
+  const Botao({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +20,7 @@ class Botao extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 16),
-        ),
+        child: Text(text, style: const TextStyle(fontSize: 16)),
       ),
     );
   }

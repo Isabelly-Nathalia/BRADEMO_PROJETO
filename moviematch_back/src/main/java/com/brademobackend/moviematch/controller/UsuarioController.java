@@ -79,5 +79,4 @@ public class UsuarioController {
     public Usuario removerCurtida(@PathVariable Long idUsuario, @PathVariable Long idFilme) {
         return usuarioService.removerCurtida(idUsuario, idFilme);
     }
-
 }

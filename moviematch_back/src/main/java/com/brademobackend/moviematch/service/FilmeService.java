@@ -2,7 +2,6 @@ package com.brademobackend.moviematch.service;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +37,4 @@ public class FilmeService {
     public List<Filme> pesquisarFilmes(String titulo) {
         return filmeRepository.pesquisarFilmes(titulo);
     }
-
 }
