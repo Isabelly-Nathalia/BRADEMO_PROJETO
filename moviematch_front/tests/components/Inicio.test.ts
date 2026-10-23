@@ -38,6 +38,8 @@ describe('Início', () => {
     expect(wrapper.find('h1').text()).toBe('Olá!')
     expect(wrapper.text()).toContain('Encontre o filme perfeito para sua noite')
     expect(wrapper.findAll('.carrossel .slide')).toHaveLength(3)
+    // Rolável pelo teclado: os slides não têm nada focável.
+    expect(wrapper.find('.carrossel').attributes('tabindex')).toBe('0')
     expect(wrapper.findAll('.filmes a')).toHaveLength(5)
     expect(wrapper.findAll('.streamings a')).toHaveLength(8)
   })

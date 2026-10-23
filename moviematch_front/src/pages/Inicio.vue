@@ -64,7 +64,12 @@ const sugestoes = useRecurso(
         mensagem-vazio="Nenhuma novidade no momento."
         @tentar-novamente="publicidades.recarregar"
       >
-        <ul class="carrossel">
+        <!-- Focável: os slides não têm links, e sem isso o teclado não rola o carrossel. -->
+        <ul
+          class="carrossel"
+          tabindex="0"
+          aria-labelledby="titulo-em-alta"
+        >
           <li
             v-for="publicidade in publicidades.dados.value?.itens"
             :key="publicidade.id"
