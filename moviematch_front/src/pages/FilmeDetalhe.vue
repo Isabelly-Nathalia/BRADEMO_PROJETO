@@ -119,6 +119,7 @@ function tentarNovamente() {
 <style scoped>
 .detalhe {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-4);
   max-width: 720px;
   margin: 0 auto;

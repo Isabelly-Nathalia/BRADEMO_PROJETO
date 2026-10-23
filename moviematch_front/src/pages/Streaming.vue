@@ -67,6 +67,7 @@ watchEffect(() => {
 <style scoped>
 .streaming {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-4);
   padding: var(--espaco-4);
 }

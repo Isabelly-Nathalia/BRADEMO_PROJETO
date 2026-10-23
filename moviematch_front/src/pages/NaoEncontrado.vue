@@ -11,6 +11,7 @@
 <style scoped>
 .nao-encontrado {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-4);
   justify-items: center;
   padding: var(--espaco-6) var(--espaco-4);

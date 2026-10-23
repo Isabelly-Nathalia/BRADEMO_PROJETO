@@ -267,6 +267,7 @@ const NAVEGACAO = new Set([2, 3, 4, 6, 7])
 <style scoped>
 .questionario {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
   gap: var(--espaco-5);
   max-width: 720px;

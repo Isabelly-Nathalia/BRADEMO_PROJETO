@@ -44,6 +44,11 @@ describe('Pesquisa', () => {
     expect(pesquisarMock).not.toHaveBeenCalled()
   })
 
+  it('tem um título de página (h1) para leitores de tela', async () => {
+    const { wrapper } = await abrir('/pesquisa')
+    expect(wrapper.findAll('h1').map((h) => h.text())).toEqual(['Pesquisar filmes'])
+  })
+
   it('enviar pesquisa coloca o termo na URL e mostra resultados', async () => {
     const { wrapper, router } = await abrir('/pesquisa')
     await buscar(wrapper, 'ação')

@@ -138,15 +138,13 @@ const sugestoes = useRecurso(
 </template>
 
 <style scoped>
+/* minmax(0, 1fr): a coluna nunca passa da largura da tela, mesmo que um filho tenha largura
+   mínima maior (listas roláveis, campo de pesquisa no Chromium móvel). */
 .inicio {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-5);
   padding: var(--espaco-4);
-}
-
-/* Itens de grid têm min-width: auto; sem isto, as listas roláveis esticam a página. */
-.secao {
-  min-width: 0;
 }
 
 .cabecalho {

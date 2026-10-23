@@ -38,6 +38,9 @@ function enviar() {
 
 <template>
   <div class="pesquisa">
+    <h1 class="visualmente-oculto">
+      Pesquisar filmes
+    </h1>
     <form
       class="busca"
       role="search"
@@ -116,8 +119,11 @@ function enviar() {
 </template>
 
 <style scoped>
+/* minmax(0, 1fr): a coluna nunca passa da largura da tela, mesmo que um filho tenha largura
+   mínima maior (listas roláveis, campo de pesquisa no Chromium móvel). */
 .pesquisa {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-4);
   max-width: 720px;
   margin: 0 auto;

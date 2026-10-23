@@ -55,6 +55,7 @@ onMounted(() => usePrimeiraVisita().marcarVisita())
 <style scoped>
 .boas-vindas {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-5);
   justify-items: center;
   max-width: 480px;

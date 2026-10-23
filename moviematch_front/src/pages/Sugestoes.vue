@@ -91,6 +91,7 @@ function refazer() {
 <style scoped>
 .sugestoes {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-5);
   max-width: 720px;
   margin: 0 auto;
