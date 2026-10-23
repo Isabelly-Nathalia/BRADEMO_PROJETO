@@ -7,6 +7,8 @@
 //   GET /usuarios e /listas existem aqui só para provar que o proxy as bloqueia.
 // Controle (alcançável só na rede de teste, nunca pela allowlist do front):
 //   GET /__saude · POST /__cenario?nome=… · GET|DELETE /__requisicoes
+//   Porta de controle separada (CONTROLE_PORT, perfil E): POST /__parar fecha a porta de dados
+//   (o proxy passa a receber conexão recusada, como com a API fora do ar); POST /__retomar reabre.
 // Cenário por requisição: cabeçalho `x-mock-cenario` (tem prioridade sobre o global).
 import { createServer } from 'node:http'
 import { readFileSync } from 'node:fs'
@@ -133,12 +135,62 @@ export function criarServidor({ fixtures }) {
   }
 }
 
+/**
+ * Servidor de controle que liga e desliga a porta de dados sem encerrar o processo (o estado,
+ * inclusive o registro de requisições, é preservado).
+ * @param {import('node:http').Server} servidor
+ * @param {number} porta
+ */
+export function criarControle(servidor, porta) {
+  const ouvir = () =>
+    new Promise((resolver, rejeitar) => {
+      servidor.once('error', rejeitar)
+      servidor.listen(porta, '0.0.0.0', () => {
+        servidor.off('error', rejeitar)
+        resolver()
+      })
+    })
+  const parar = () =>
+    new Promise((resolver) => {
+      servidor.close(() => resolver())
+      servidor.closeAllConnections()
+    })
+
+  return createServer(async (req, res) => {
+    const responder = (status, corpo) => {
+      res.writeHead(status, { 'content-type': 'application/json; charset=utf-8' })
+      res.end(JSON.stringify(corpo))
+    }
+    if (req.method !== 'POST') return responder(405, { erro: 'use POST' })
+    try {
+      if (req.url === '/__parar') {
+        if (servidor.listening) await parar()
+        return responder(200, { dados: 'parado' })
+      }
+      if (req.url === '/__retomar') {
+        if (!servidor.listening) await ouvir()
+        return responder(200, { dados: 'ouvindo' })
+      }
+      return responder(404, { erro: 'rota de controle desconhecida' })
+    } catch (erro) {
+      return responder(500, { erro: String(erro) })
+    }
+  })
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const porta = Number(process.env.PORT ?? 8081)
   const fixtures = process.env.FIXTURES ?? fileURLToPath(new URL('../../tests/fixtures', import.meta.url))
   const { servidor } = criarServidor({ fixtures })
   servidor.listen(porta, '0.0.0.0', () => console.log(`mock-api ouvindo em :${porta}`))
-  const encerrar = () => servidor.close(() => process.exit(0))
+  const portaControle = Number(process.env.CONTROLE_PORT ?? 0)
+  const controle = portaControle ? criarControle(servidor, porta) : null
+  controle?.listen(portaControle, '0.0.0.0', () => console.log(`controle ouvindo em :${portaControle}`))
+  const encerrar = () => {
+    controle?.close()
+    servidor.close(() => process.exit(0))
+    servidor.closeAllConnections()
+  }
   process.on('SIGTERM', encerrar)
   process.on('SIGINT', encerrar)
 }

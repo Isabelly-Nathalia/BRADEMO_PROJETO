@@ -9,6 +9,8 @@
 #   scripts/perfil.sh c              backend ORIGINAL + MySQL descartável (autorizado na F6-T01):
 #                                    egresso → evidências → seed → contrato → E2E
 #   scripts/perfil.sh d              proxy e segurança (tests/proxy)
+#   scripts/perfil.sh e              navegador e resiliência (tests/e2e/e): lentidão, timeout, API
+#                                    parada e retomada, concorrência, acessibilidade, desempenho
 #   scripts/perfil.sh limpar <id>    remove só os recursos de uma execução interrompida
 #
 # Perfis com containers: projeto Compose e label únicos por execução, rede `internal`, nenhuma
@@ -178,12 +180,13 @@ case "${1:-}" in
     # Os testes não rodam no perfil A: dependem da pilha. Lint/sintaxe são cobertos pelo ESLint.
     perfil_compose d sonda
     ;;
+  e) perfil_compose e e2e-e ;;
   limpar)
     [[ -n "${2:-}" ]] || { printf 'uso: scripts/perfil.sh limpar <id-da-execucao>\n' >&2; exit 2; }
     limpar "$2"
     ;;
   *)
-    printf 'uso: scripts/perfil.sh a|smoke|b|c|d|limpar <id>\n' >&2
+    printf 'uso: scripts/perfil.sh a|smoke|b|c|d|e|limpar <id>\n' >&2
     exit 2
     ;;
 esac

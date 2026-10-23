@@ -1,4 +1,4 @@
-# Ambientes de teste do frontend (perfis B, D, E e smoke). Use via scripts/perfil.sh, que define
+# Ambientes de teste do frontend (perfis B, C, D, E e smoke). Use via scripts/perfil.sh, que define
 # MMF_RUN_ID (nome de projeto e label únicos por execução) e faz a limpeza.
 # Rede `internal`: sem saída para a internet e sem portas publicadas no host.
 
@@ -17,6 +17,7 @@ services:
     command: ["node", "/mock/server.mjs"]
     environment:
       PORT: "8081"
+      CONTROLE_PORT: "8082"
       FIXTURES: /fixtures
     volumes:
       - ./mock-api:/mock:ro
@@ -106,6 +107,29 @@ services:
     command: ["sh", "-c", "npx playwright test tests/e2e/b $${MMF_E2E_ARGS:-}"]
     environment:
       BASE_URL: http://front:8080
+      HOME: /tmp
+      CI: "1"
+      MMF_E2E_ARGS: ${MMF_E2E_ARGS:-}
+    volumes:
+      - ..:/w
+    shm_size: 1gb
+    networks: [interna]
+    labels: *rotulo
+    depends_on:
+      front:
+        condition: service_healthy
+
+  # Perfil E: navegador e resiliência. Um worker: /__parar derruba a API para todos os testes.
+  e2e-e:
+    image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:47b510dd9230bf0b9bfc9b20102241e577ea7a99334ab4c3ca19f19770e9b8ea
+    profiles: [e]
+    user: "${MMF_UID:-1000}:${MMF_GID:-1000}"
+    working_dir: /w
+    command: ["sh", "-c", "npx playwright test tests/e2e/e --project desktop --workers 1 $${MMF_E2E_ARGS:-}"]
+    environment:
+      BASE_URL: http://front:8080
+      MOCK: http://mock-api:8081
+      MOCK_CONTROLE: http://mock-api:8082
       HOME: /tmp
       CI: "1"
       MMF_E2E_ARGS: ${MMF_E2E_ARGS:-}
