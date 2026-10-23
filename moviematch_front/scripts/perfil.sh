@@ -89,7 +89,10 @@ perfil_compose() {
 case "${1:-}" in
   a) perfil_a ;;
   smoke) perfil_compose smoke smoke ;;
-  d) perfil_compose d sonda ;;
+  d)
+    # Os testes não rodam no perfil A: dependem da pilha. Lint/sintaxe são cobertos pelo ESLint.
+    perfil_compose d sonda
+    ;;
   limpar)
     [[ -n "${2:-}" ]] || { printf 'uso: scripts/perfil.sh limpar <id-da-execucao>\n' >&2; exit 2; }
     limpar "$2"

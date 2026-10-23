@@ -32,6 +32,13 @@ server {
         return 200 "ok\n";
     }
 
+    # O Nginx escolhe a location pelo caminho NORMALIZADO (/api/usuarios/../filmes → /api/filmes),
+    # mas repassa ao upstream o caminho BRUTO. Para que proxy e backend não interpretem o mesmo
+    # caminho de formas diferentes, recusa segmentos "." / ".." (literais ou %2e) e barras duplas.
+    if ($request_uri ~* "^/api[^?]*(?:/(?:\.|%2e){1,2}(?:/|\?|$)|//)") {
+        return 404;
+    }
+
     # Allowlist da API (gerada de api-allowlist.json).
     include /etc/nginx/moviematch/allowlist.inc;
 

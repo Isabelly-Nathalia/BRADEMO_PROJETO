@@ -65,18 +65,36 @@ services:
       front:
         condition: service_healthy
 
+  # Perfil D: front apontando para um upstream inexistente (API fora do ar).
+  front-sem-api:
+    image: moviematch-front:teste
+    profiles: [d]
+    environment:
+      API_UPSTREAM: http://api-inexistente:8081
+      API_HOST: api-inexistente:8081
+    networks: [interna]
+    labels: *rotulo
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:$${PORT}/healthz"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
   # Perfil D: proxy e segurança (tests/proxy, node:test).
   sonda:
     <<: *node
     profiles: [d]
-    command: ["node", "--test", "--test-concurrency=1", "--test-reporter=spec", "/testes/"]
+    command: ["node", "--test", "--test-concurrency=1", "--test-reporter=spec", "/testes/*.test.mjs"]
     environment:
       FRONT: http://front:8080
+      FRONT_SEM_API: http://front-sem-api:8080
       MOCK: http://mock-api:8081
     volumes:
       - ../tests/proxy:/testes:ro
     depends_on:
       front:
+        condition: service_healthy
+      front-sem-api:
         condition: service_healthy
 
 networks:
