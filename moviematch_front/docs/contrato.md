@@ -35,7 +35,7 @@ O backend sobe **só com variáveis de ambiente** (`SPRING_DATASOURCE_URL`, `_US
 Hipóteses do plano resolvidas:
 - **Todo texto é `VARCHAR(255)`**: CONFIRMADO. Uma foto de perfil em base64 não caberia.
 - **`nota_filme` nunca é nula**: CONFIRMADO, porque é `double` primitivo.
-- **`duracao_filme` pode ser nula**: CONFIRMADO, porque é `Integer`. Ver a decisão A-07 abaixo.
+- **`duracao_filme` pode ser nula**: CONFIRMADO, porque é `Integer`. Ver a decisão A-07 abaixo (seção 5).
 
 ## 3. Respostas (CONFIRMADO_EM_EXECUCAO)
 
@@ -65,16 +65,13 @@ O MySQL 8.4 usa por padrão a collation `utf8mb4_0900_ai_ci`, que **ignora maiú
 - `AppleTV` × `Apple TV`: **é problema**. A diferença é um espaço, que a collation não ignora: filmes gravados como `AppleTV` caem em "Outros" e não aparecem na página "Apple TV".
 - **A collation do Aiven (produção) não foi verificada.** Se for binária ou sensível a maiúsculas, o comportamento é o do mock.
 
-## 5. Decisão pendente
+## 5. Decisão tomada
 
-**A-07: filme com `duracao_filme` nula.** O banco aceita. Pela A-01, o front descarta o filme. Quando ele é o **único** item de uma resposta (por exemplo, uma pesquisa), a regra "lista não vazia sem itens válidos = erro sistêmico" mostra "Os dados recebidos estão em um formato inesperado" em vez de "Filme não localizado". No Flutter, o mesmo filme faria a lista inteira falhar (cast de `null` para `int`).
+**A-07: filme com `duracao_filme` nula (decidido em 2026-10-23: opção "aceitar como não informada").** O banco aceita duração nula. O front mostra o filme normalmente, com a duração "não informada", e esse filme não pontua por duração nas sugestões. Duração em texto, fracionária ou negativa continua invalidando o filme (A-01).
 
-Alternativas:
-- (a) aceitar duração nula como "não informada": o filme aparece e não pontua por duração;
-- (b) manter o descarte, mas tratar "todos descartados" como vazio quando a resposta for pequena;
-- (c) manter como está.
+O comportamento anterior era descartar o filme. Quando ele era o único resultado de uma pesquisa, a interface mostrava erro de formato. No Flutter, o mesmo filme faria a lista inteira falhar.
 
-O comportamento atual (c) está documentado em `tests/e2e/c/backend-real.spec.ts`.
+Coberto em `tests/unit/mapeadores.test.ts`, `duracao.test.ts`, `recomendacao.test.ts`, `tests/components/MovieCard.test.ts` e `tests/e2e/c/backend-real.spec.ts` (contra o backend original).
 
 ## 6. O que continua não verificado
 

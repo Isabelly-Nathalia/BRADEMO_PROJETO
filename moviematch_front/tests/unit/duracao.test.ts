@@ -14,3 +14,9 @@ describe('formatarDuracao (paridade com filmeService.dart:50-55)', () => {
     expect(formatarDuracao(minutos)).toBe(texto)
   })
 })
+
+describe('formatarDuracao com duração não informada (A-07)', () => {
+  it('null → "não informada"', () => {
+    expect(formatarDuracao(null)).toBe('não informada')
+  })
+})

@@ -15,7 +15,9 @@ export type FilmePontuavel = Pick<
   'generos' | 'duracaoMin' | 'streaming' | 'classificacao' | 'nacionalidade' | 'diretor' | 'atores'
 >
 
-function duracaoNaFaixa(faixa: RespostasLeitura['duracao'], minutos: number): boolean {
+function duracaoNaFaixa(faixa: RespostasLeitura['duracao'], minutos: number | null): boolean {
+  // A-07: sem duração informada, o filme não pontua por duração.
+  if (minutos === null) return false
   switch (faixa) {
     case 'Até 1h30':
       return minutos <= 90

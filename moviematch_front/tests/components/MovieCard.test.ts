@@ -44,6 +44,11 @@ describe('MovieCard', () => {
     expect(wrapper.find('.meta [aria-label]').exists()).toBe(false)
   })
 
+  it('A-07: duração nula aparece como "não informada"', () => {
+    const [, duracao] = montar(0, { duracao_filme: null }).findAll('.meta > span')
+    expect(duracao!.text().replace(/\s+/g, ' ')).toBe('Duração não informada')
+  })
+
   it('título com HTML é exibido como texto', () => {
     const wrapper = montar(0, { titulo_filme: '<img src=x onerror=alert(1)>' })
     expect(wrapper.find('.titulo').text()).toBe('<img src=x onerror=alert(1)>')

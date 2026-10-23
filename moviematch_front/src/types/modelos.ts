@@ -6,7 +6,8 @@ export interface Filme {
   descricao: string
   /** URL https do pôster, ou null. */
   imagem: string | null
-  duracaoMin: number
+  /** Minutos; null quando o banco não informa (A-07: o schema permite duracao_filme nula). */
+  duracaoMin: number | null
   streaming: string
   nacionalidade: string
   classificacao: string

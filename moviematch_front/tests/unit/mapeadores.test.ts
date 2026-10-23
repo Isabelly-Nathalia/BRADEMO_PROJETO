@@ -52,6 +52,7 @@ describe('mapearFilme', () => {
     ['título vazio', { titulo_filme: '' }],
     ['título só espaços', { titulo_filme: '   ' }],
     ['duração texto', { duracao_filme: '120' }],
+    ['duração objeto', { duracao_filme: {} }],
     ['duração negativa', { duracao_filme: -5 }],
     ['duração fracionária', { duracao_filme: 90.5 }],
     ['nota nula', { nota_filme: null }],
@@ -67,6 +68,10 @@ describe('mapearFilme', () => {
 
   it.each([null, undefined, 'texto', 42, [], [BASE]])('descarta item que não é objeto: %j', (item) => {
     expect(mapearFilme(item)).toBeNull()
+  })
+
+  it.each([null, undefined])('A-07: duração %s é aceita como não informada', (duracao) => {
+    expect(mapearFilme({ ...BASE, duracao_filme: duracao })?.duracaoMin).toBeNull()
   })
 
   it('aceita opcionais nulos ou ausentes, convertendo para vazio', () => {

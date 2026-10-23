@@ -30,7 +30,9 @@ export function mapearFilme(bruto: unknown): Filme | null {
   const { id_filme: id, titulo_filme: titulo, duracao_filme: duracao, nota_filme: nota, generos } = bruto
   if (!ehIdValido(id)) return null
   if (typeof titulo !== 'string' || titulo.trim() === '') return null
-  if (!Number.isInteger(duracao) || (duracao as number) < 0) return null
+  // A-07: duração nula é aceita como "não informada"; texto, fração ou negativo invalidam.
+  const duracaoMin = duracao === null || duracao === undefined ? null : duracao
+  if (duracaoMin !== null && (!Number.isInteger(duracaoMin) || (duracaoMin as number) < 0)) return null
   if (typeof nota !== 'number' || !Number.isFinite(nota)) return null
 
   let listaGeneros: string[]
@@ -51,7 +53,7 @@ export function mapearFilme(bruto: unknown): Filme | null {
     titulo,
     descricao: descricao!,
     imagem: urlHttpsOuNull(bruto.linkImagemFilme_filme),
-    duracaoMin: duracao as number,
+    duracaoMin: duracaoMin as number | null,
     streaming: streaming!,
     nacionalidade: nacionalidade!,
     classificacao: classificacao!,

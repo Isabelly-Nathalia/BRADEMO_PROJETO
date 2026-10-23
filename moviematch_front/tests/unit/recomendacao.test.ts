@@ -67,6 +67,10 @@ describe('calcularPontuacao', () => {
     expect(Object.values(PESOS).reduce((a, b) => a + b, 0)).toBe(12)
   })
 
+  it.each(['Até 1h30', '1h30 - 2h', '2h - 3h', '3h+'] as const)('A-07: duração não informada não pontua em "%s"', (faixa) => {
+    expect(calcularPontuacao(filme({ duracaoMin: null }), respostas({ duracao: faixa }))).toBe(0)
+  })
+
   it('respostas vazias não pontuam um filme neutro', () => {
     expect(calcularPontuacao(filme(), respostasVazias())).toBe(0)
   })

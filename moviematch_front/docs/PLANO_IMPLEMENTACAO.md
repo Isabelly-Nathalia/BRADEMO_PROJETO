@@ -297,6 +297,7 @@ Qualquer `String` pode ser `null`: não há `@NotNull` nem `nullable=false` (CON
 | A-03 | Remover do questionário o que **comprovadamente** não pontua | **Reinterpretada com base na evidência.** CONFIRMADO que não pontuam: os campos livres "Outro streaming" e "Outro país" (`TextField` sem `controller`/`onChanged` em `form.dart`), que serão removidos. **Não removidas**: as opções `AppleTV` e `GloboPlay`. Que elas nunca casem com os dados é BLOQUEADO até haver dados (perfil C ou produção); até lá vale a paridade (A-05) |
 | A-04 | Sem espera de 3 s; boas-vindas só na primeira visita | Mantida (persistência na seção 4.6) |
 | A-05 | Valores de streaming idênticos aos do Flutter (Home para o filtro, questionário para a pontuação) | Mantida; a tabela `domain/streamings.ts` guarda os dois valores separadamente |
+| A-07 | Duração nula aceita como "não informada" (não pontua por duração) | **Nova, decidida em 2026-10-23** após o perfil C mostrar que o schema real permite `duracao_filme` nula (`docs/contrato.md`, seção 5) |
 | A-06 | Notificações fora do MVP | **Nova.** A tela do Flutter é um texto fixo atrás de um ícone de sino, o que promete uma função inexistente |
 
 ### 6.2 Recomendação (paridade com `sugestao.dart`)
@@ -1128,6 +1129,6 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F6-T02 | `perfil.sh c` em etapas com `return` explícito | `set -e` é ignorado em funções chamadas com `||`: sem isso, o seed rodaria mesmo com o egresso reprovado |
 | F6-T02 | Variáveis do banco com `:-` em vez de `:?` no Compose | O Compose interpola o arquivo inteiro: `:?` quebraria os outros perfis e a limpeza |
 | F6-T03 | Testes de contrato em `tests/contrato/contrato.test.mjs` | Backend direto, sem proxy; 12 casos |
-| F6-T04 | Nenhum ajuste de código feito | Divergências documentadas em `docs/contrato.md`; A-07 aguarda decisão |
+| F6-T04 | Ajuste A-07: duração nula aceita | Decisão do usuário após o perfil C; demais divergências só documentadas |
 | F6-T05 | E2E do perfil C reaproveita `tests/e2e/b/navegacao` e `fluxos` (`--grep-invert @so-mock`) + `tests/e2e/c` | Os mesmos fluxos contra o backend real; o que depende do mock fica marcado |
-| F6-T05 | Teste do filme com duração nula documenta o comportamento ATUAL | Pendente da decisão A-07 |
+| F6-T05 | Teste do filme com duração nula cobre a decisão A-07 | Pesquisa e detalhe mostram "não informada" contra o backend original |
