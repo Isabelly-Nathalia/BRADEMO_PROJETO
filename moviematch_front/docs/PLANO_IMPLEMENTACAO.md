@@ -1123,3 +1123,11 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F5-T06 | Projetos `celular` (Pixel 7) e `desktop` (1280×800) | A rolagem horizontal da F4 só apareceu em tela estreita |
 | F5-T06 | Fixture automática: CSP, erros de JS e rolagem horizontal | Cada E2E reprova se houver violação de CSP ou erro de JavaScript |
 | F5-T06 | Lib DOM no `tsconfig.node.json` | Código executado no navegador via `page.evaluate` |
+| F6-T02 | Execução exploratória antes do perfil definitivo (recursos temporários, removidos) | Descobrir o schema real criado pelo backend em vez de adivinhar nomes de tabelas |
+| F6-T02 | Seed gerado por `scripts/seed-perfil-c.mjs` a partir das fixtures (não um `.sql` versionado) | Uma fonte de dados para todos os perfis; `utf8mb4` explícito (o primeiro seed manual gravou acentos corrompidos) |
+| F6-T02 | `perfil.sh c` em etapas com `return` explícito | `set -e` é ignorado em funções chamadas com `||`: sem isso, o seed rodaria mesmo com o egresso reprovado |
+| F6-T02 | Variáveis do banco com `:-` em vez de `:?` no Compose | O Compose interpola o arquivo inteiro: `:?` quebraria os outros perfis e a limpeza |
+| F6-T03 | Testes de contrato em `tests/contrato/contrato.test.mjs` | Backend direto, sem proxy; 12 casos |
+| F6-T04 | Nenhum ajuste de código feito | Divergências documentadas em `docs/contrato.md`; A-07 aguarda decisão |
+| F6-T05 | E2E do perfil C reaproveita `tests/e2e/b/navegacao` e `fluxos` (`--grep-invert @so-mock`) + `tests/e2e/c` | Os mesmos fluxos contra o backend real; o que depende do mock fica marcado |
+| F6-T05 | Teste do filme com duração nula documenta o comportamento ATUAL | Pendente da decisão A-07 |
