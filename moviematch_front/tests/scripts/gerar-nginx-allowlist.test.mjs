@@ -20,6 +20,11 @@ test('mudar a allowlist muda o arquivo gerado', () => {
   assert.notEqual(gerarConfiguracao(outra), gerarConfiguracao(allowlist))
 })
 
+test('a regex vai entre aspas (chaves de quantificador não podem abrir bloco no Nginx)', () => {
+  const linha = gerarConfiguracao(allowlist).split('\n').find((l) => l.startsWith('location'))
+  assert.match(linha, /^location ~ "\^\/api\/.*\$" \{$/)
+})
+
 test('o bloco só libera GET/HEAD e inclui o proxy', () => {
   const conf = gerarConfiguracao(allowlist)
   assert.match(conf, /limit_except GET \{\s+deny all;\s+\}/)

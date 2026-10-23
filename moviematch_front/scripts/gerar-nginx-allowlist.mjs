@@ -42,7 +42,8 @@ export function gerarConfiguracao(allowlist) {
   return [
     '# GERADO por scripts/gerar-nginx-allowlist.mjs a partir de api-allowlist.json.',
     '# Não edite à mão: altere api-allowlist.json e rode `npm run gerar:allowlist`.',
-    `location ~ ${regexDasRotas(allowlist.rotas)} {`,
+    // Entre aspas: sem elas o parser do Nginx lê o "{" de quantificadores como início de bloco.
+    `location ~ "${regexDasRotas(allowlist.rotas)}" {`,
     '    limit_except GET {',
     '        deny all;',
     '    }',
