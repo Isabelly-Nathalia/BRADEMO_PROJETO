@@ -3,6 +3,7 @@
 // (http, javascript:, data:, relativa, vazia) ou falha de carga vira um marcador neutro.
 // Imagens locais do projeto usam <img> comum, não este componente.
 import { computed, ref, watch } from 'vue'
+import { urlHttpsOuNull } from '../services/url'
 
 const props = defineProps<{ src: string | null | undefined; alt: string }>()
 
@@ -14,15 +15,7 @@ watch(
   },
 )
 
-const urlSegura = computed(() => {
-  if (!props.src) return null
-  try {
-    const url = new URL(props.src)
-    return url.protocol === 'https:' ? url.href : null
-  } catch {
-    return null
-  }
-})
+const urlSegura = computed(() => urlHttpsOuNull(props.src))
 
 const exibirImagem = computed(() => urlSegura.value !== null && !falhou.value)
 </script>
