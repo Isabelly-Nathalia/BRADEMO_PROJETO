@@ -1132,3 +1132,9 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F6-T04 | Ajuste A-07: duração nula aceita | Decisão do usuário após o perfil C; demais divergências só documentadas |
 | F6-T05 | E2E do perfil C reaproveita `tests/e2e/b/navegacao` e `fluxos` (`--grep-invert @so-mock`) + `tests/e2e/c` | Os mesmos fluxos contra o backend real; o que depende do mock fica marcado |
 | F6-T05 | Teste do filme com duração nula cobre a decisão A-07 | Pesquisa e detalhe mostram "não informada" contra o backend original |
+| F7-R01..R06 | Responsividade ampliada (pedido do usuário em 23/10): 6 commits fora da lista original da F7 | Auditoria no navegador: estouro em `/pesquisa` a 375 px, navegação de celular no desktop, pôster distorcido no detalhe, alvos de toque pequenos |
+| F7-R01 | Estouro de `/pesquisa` só aparece com emulação móvel (`isMobile`) | O Chromium móvel dá ao `input type="search"` largura mínima de 239 px; o projeto `desktop` não reproduzia. O E2E responsivo emula toque abaixo de 900 px |
+| F7-R01 | `h1` visualmente oculto em `/pesquisa` | A página não tinha título; o E2E responsivo nem chegava a medir a rota |
+| F7-R02 | `BottomNav` renomeado para `NavegacaoPrincipal` e movido para antes do `<main>` | A partir de 900 px é cabeçalho no topo; o nome antigo deixou de descrever o componente |
+| F7-R04 | Links "Voltar ao início" viram `BaseButton` com `para` | Alvo de 45 px de altura; continuam sendo links |
+| F7-R06 | Primeira rodada do E2E responsivo mal lida (12 "imagens distorcidas") | Eram linhas de código citadas no relatório do Playwright, não falhas; a linha de base correta é 29 de 60 falhando |
