@@ -6,6 +6,8 @@
 #   scripts/perfil.sh smoke          pilha mínima (front + mock) sobe, conversa e é removida
 #   scripts/perfil.sh b              E2E com Playwright contra a imagem de produção e o mock
 #                                    (MMF_E2E_ARGS repassa opções, ex.: --repeat-each=3)
+#   scripts/perfil.sh c              backend ORIGINAL + MySQL descartável (autorizado na F6-T01):
+#                                    egresso → evidências → seed → contrato → E2E
 #   scripts/perfil.sh d              proxy e segurança (tests/proxy)
 #   scripts/perfil.sh limpar <id>    remove só os recursos de uma execução interrompida
 #
@@ -93,10 +95,85 @@ perfil_compose() {
   return "$codigo"
 }
 
+segredo() {
+  head -c 32 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24
+}
+
+etapas_c() {
+  local id="$1"
+  local -a dc=(docker compose -f "$COMPOSE" -p "$id" --profile c)
+
+  printf '1/6 subindo MySQL descartável e backend original…\n'
+  "${dc[@]}" up -d --wait --quiet-pull mysql backend >/dev/null || return 1
+
+  printf '2/6 controle de egresso no namespace do backend (antes de qualquer dado)…\n'
+  "${dc[@]}" run --rm --no-deps egresso || { printf 'egresso REPROVADO: seed e testes não serão executados\n' >&2; return 1; }
+
+  printf '3/6 evidências de conexão local…\n'
+  local ip_backend menciona_aiven conexoes
+  ip_backend="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$("${dc[@]}" ps -q backend)")" || return 1
+  menciona_aiven="$("${dc[@]}" logs backend 2>&1 | grep -ci aivencloud || true)"
+  conexoes="$("${dc[@]}" exec -T -e MYSQL_PWD="$MMF_DB_SENHA" mysql mysql -u mm -N -e \
+    "SELECT COUNT(*) FROM information_schema.processlist WHERE user='mm' AND db='moviematch' AND host LIKE '${ip_backend}:%'")" || return 1
+  printf '    backend %s: %s conexões no MySQL local; menções a aivencloud no log: %s\n' "$ip_backend" "$conexoes" "$menciona_aiven"
+  if [[ "$conexoes" -lt 1 || "$menciona_aiven" -ne 0 ]]; then
+    printf 'evidência de conexão local REPROVADA\n' >&2
+    return 1
+  fi
+
+  printf '4/6 seed sintético…\n'
+  "$front/scripts/npm.sh" node scripts/seed-perfil-c.mjs |
+    "${dc[@]}" exec -T -e MYSQL_PWD="$MMF_DB_SENHA" mysql mysql --default-character-set=utf8mb4 -u mm moviematch || return 1
+
+  printf '5/6 contrato contra o backend original…\n'
+  "${dc[@]}" run --rm --no-deps contrato || return 1
+
+  printf '6/6 E2E pelo front contra o backend original…\n'
+  "${dc[@]}" up -d --wait --no-deps front-c >/dev/null || return 1
+  "${dc[@]}" run --rm --no-deps e2e-c || return 1
+}
+
+# Perfil C: sequência em etapas; qualquer falha interrompe antes da etapa seguinte.
+perfil_c() {
+  local id
+  id="mmf-c-$(date -u +%Y%m%dt%H%M%S)-${RANDOM}"
+  local inicio=$SECONDS
+  local antes
+  antes="$(estado_externo)"
+  printf 'construindo moviematch-front:teste…\n'
+  docker build -q -f "$front/docker/Dockerfile" -t moviematch-front:teste --label "$LABEL=imagem" "$front" >/dev/null
+
+  export MMF_RUN_ID="$id" MMF_UID MMF_GID MMF_DB_SENHA MMF_DB_SENHA_ROOT
+  MMF_UID="$(id -u)"
+  MMF_GID="$(id -g)"
+  MMF_DB_SENHA="$(segredo)"
+  MMF_DB_SENHA_ROOT="$(segredo)"
+
+  local codigo=0
+  trap 'limpar "'"$id"'" || true' EXIT
+  # Sem `set -e` aqui (o bash o ignora em funções chamadas com ||): cada etapa falha explicitamente,
+  # para que nada (em especial o seed) rode depois de um controle reprovado.
+  etapas_c "$id" || codigo=$?
+
+  trap - EXIT
+  limpar "$id" || codigo=1
+  if [[ "$(estado_externo)" != "$antes" ]]; then
+    printf 'ATENÇÃO: recursos Docker de fora dos testes mudaram durante a execução\n' >&2
+    codigo=1
+  fi
+  if [[ "$codigo" -eq 0 ]]; then
+    printf 'perfil c ok em %ds\n' "$((SECONDS - inicio))"
+  else
+    printf 'perfil c FALHOU (código %s) em %ds\n' "$codigo" "$((SECONDS - inicio))" >&2
+  fi
+  return "$codigo"
+}
+
 case "${1:-}" in
   a) perfil_a ;;
   smoke) perfil_compose smoke smoke ;;
   b) perfil_compose b e2e ;;
+  c) perfil_c ;;
   d)
     # Os testes não rodam no perfil A: dependem da pilha. Lint/sintaxe são cobertos pelo ESLint.
     perfil_compose d sonda
@@ -106,7 +183,7 @@ case "${1:-}" in
     limpar "$2"
     ;;
   *)
-    printf 'uso: scripts/perfil.sh a|smoke|b|d|limpar <id>\n' >&2
+    printf 'uso: scripts/perfil.sh a|smoke|b|c|d|limpar <id>\n' >&2
     exit 2
     ;;
 esac

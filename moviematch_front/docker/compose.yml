@@ -118,6 +118,97 @@ services:
       front:
         condition: service_healthy
 
+  # ---------------------------------------------------------------------------------------------
+  # Perfil C: backend ORIGINAL (imagem não modificada) + MySQL descartável. Nunca alcança o Aiven:
+  # rede interna, credenciais aleatórias por execução e controle de egresso antes do seed.
+  mysql:
+    image: mysql:8.4.13@sha256:76f0358884cb92d9a086d24e5671c38048d3fef40f2588703d73eb55392d6b69
+    profiles: [c]
+    environment:
+      MYSQL_DATABASE: moviematch
+      MYSQL_USER: mm
+      MYSQL_PASSWORD: ${MMF_DB_SENHA:-}
+      MYSQL_ROOT_PASSWORD: ${MMF_DB_SENHA_ROOT:-}
+    tmpfs:
+      - /var/lib/mysql
+    networks: [interna]
+    labels: *rotulo
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_PASSWORD mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --silent"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+
+  backend:
+    image: moviematch-back:baseline
+    profiles: [c]
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/moviematch?sslMode=DISABLED&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: mm
+      SPRING_DATASOURCE_PASSWORD: ${MMF_DB_SENHA:-}
+      DB_PASSWORD: ${MMF_DB_SENHA:-}
+      PORT: "8080"
+    networks: [interna]
+    labels: *rotulo
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      # A imagem não tem curl/wget; o Tomcat só abre a porta depois do contexto do Spring.
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 3s
+      timeout: 3s
+      retries: 60
+
+  egresso:
+    image: node:24.22.1-alpine3.24@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+    user: node
+    profiles: [c]
+    network_mode: "service:backend"
+    command: ["node", "/testes/egresso.mjs"]
+    volumes:
+      - ../tests/contrato:/testes:ro
+    labels: *rotulo
+
+  contrato:
+    <<: *node
+    profiles: [c]
+    command: ["node", "--test", "--test-concurrency=1", "--test-reporter=spec", "/testes/*.test.mjs"]
+    environment:
+      BACKEND: http://backend:8080
+    volumes:
+      - ../tests/contrato:/testes:ro
+
+  front-c:
+    image: moviematch-front:teste
+    profiles: [c]
+    environment:
+      API_UPSTREAM: http://backend:8080
+      API_HOST: backend:8080
+    networks: [interna]
+    labels: *rotulo
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:$${PORT}/healthz"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  e2e-c:
+    image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:47b510dd9230bf0b9bfc9b20102241e577ea7a99334ab4c3ca19f19770e9b8ea
+    profiles: [c]
+    user: "${MMF_UID:-1000}:${MMF_GID:-1000}"
+    working_dir: /w
+    command: ["sh", "-c", "npx playwright test tests/e2e/b/navegacao.spec.ts tests/e2e/b/fluxos.spec.ts tests/e2e/c --grep-invert @so-mock"]
+    environment:
+      BASE_URL: http://front-c:8080
+      HOME: /tmp
+      CI: "1"
+    volumes:
+      - ..:/w
+    shm_size: 1gb
+    networks: [interna]
+    labels: *rotulo
+
 networks:
   interna:
     internal: true
