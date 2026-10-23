@@ -6,8 +6,8 @@
 
 | # | Pré-requisito | Situação em 2026-10-23 |
 |---|---|---|
-| 1 | API de produção respondendo | **Não atendido:** `https://moviematch-apkx.onrender.com` não respondia (timeout) em 22/10 |
-| 2 | Contrato validado contra a produção (somente leitura) | **Pendente.** Validado só contra o backend original com banco descartável (perfil C, [contrato.md](contrato.md)). Falta conferir na produção a collation, os dados reais (nulos, grafias de streaming) e o tamanho de `GET /filmes` |
+| 1 | API de produção respondendo | **Não atendido:** `https://moviematch-apkx.onrender.com` aceita a conexão TLS, mas não responde (timeout de até 120 s) em 22/10 e de novo em 23/10, em `/publicidades` e `/filmes` (ver [contrato.md](contrato.md), seção 7) |
+| 2 | Contrato validado contra a produção (somente leitura) | **Pendente** (tentativa autorizada em 23/10 sem resposta). Validado só contra o backend original com banco descartável (perfil C, [contrato.md](contrato.md)). Falta conferir na produção a collation, os dados reais (nulos, grafias de streaming) e o tamanho de `GET /filmes` |
 | 3 | Fork do repositório | **Pendente.** O `origin` atual é o repositório original (`Isabelly-Nathalia/BRADEMO_PROJETO`), que não é do usuário |
 | 4 | Gate da F8 verde | **Atendido** (perfis A, smoke, B, C, D e E; integridade do histórico) |
 

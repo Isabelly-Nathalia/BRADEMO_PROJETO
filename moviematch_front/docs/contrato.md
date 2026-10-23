@@ -77,3 +77,17 @@ Coberto em `tests/unit/mapeadores.test.ts`, `duracao.test.ts`, `recomendacao.tes
 
 - A produção (Render + Aiven): disponibilidade, collation, volume e tamanho real de `GET /filmes` (o limite de 5 MB do cliente segue como HIPÓTESE), e dados reais (nulos, grafias de streaming).
 - Comportamento sob carga e com o cold start do Render.
+
+## 7. Tentativa de validação na produção (2026-10-23, autorizada)
+
+Autorização do usuário: **somente `GET`** nas rotas da allowlist, sem escrita, push, PR ou deploy. Três requisições, todas sem resposta:
+
+| Horário (UTC) | Rota | Resultado |
+|---|---|---|
+| 22:10:19 | `GET /publicidades` | timeout de 120 s, 0 bytes recebidos |
+| 22:12:27 | `GET /publicidades` | timeout de 90 s; DNS 0,05 s, TCP 0,06 s, TLS 1.3 + HTTP/2 em 0,10 s; pedido enviado, nenhum byte de resposta |
+| 22:14:07 | `GET /filmes` | timeout de 90 s; TLS em 0,26 s, nenhum byte de resposta |
+
+**Conclusão:** a borda do Render aceita a conexão, mas o serviço não responde, nas duas rotas, com até 120 s de espera (cold start normal do plano gratuito leva menos de um minuto). O mesmo aconteceu em 22/10. A causa não pode ser vista de fora: o serviço pode estar falhando ao iniciar (por exemplo, sem conseguir conectar ao banco do Aiven), parado ou sem recursos. Diagnosticar exige acesso ao painel e aos logs do Render, fora da autorização concedida.
+
+**O contrato continua não validado na produção.** Os itens da seção 6 seguem em aberto, e o deploy do front continua bloqueado (ver [PUBLICACAO.md](PUBLICACAO.md)).
