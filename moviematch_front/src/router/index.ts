@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw, type RouterHistory } from 'vue-router'
 import NaoEncontrado from '../pages/NaoEncontrado.vue'
 import { usePrimeiraVisita } from '../composables/usePrimeiraVisita'
+import { useQuestionario } from '../composables/useQuestionario'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -57,6 +58,8 @@ export const rotas: RouteRecordRaw[] = [
     path: '/sugestoes',
     name: 'sugestoes',
     component: () => import('../pages/Sugestoes.vue'),
+    // Sem as respostas mínimas (gênero, duração, streaming) não há o que sugerir.
+    beforeEnter: () => useQuestionario().validar() === null || { name: 'questionario', params: { passo: '1' } },
     meta: { titulo: 'Sugestões' },
   },
   {

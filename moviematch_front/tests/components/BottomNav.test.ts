@@ -3,6 +3,7 @@ import { mount, flushPromises } from '@vue/test-utils'
 import { createMemoryHistory } from 'vue-router'
 import App from '../../src/App.vue'
 import { criarRouter } from '../../src/router'
+import { useQuestionario } from '../../src/composables/useQuestionario'
 
 async function montarEm(caminho: string) {
   const router = criarRouter(createMemoryHistory())
@@ -13,13 +14,24 @@ async function montarEm(caminho: string) {
 }
 
 describe('navegação inferior', () => {
-  it.each(['/inicio', '/pesquisa', '/sugestoes', '/filmes/1', '/streaming/netflix', '/nao/existe'])(
+  it.each(['/inicio', '/pesquisa', '/filmes/1', '/streaming/netflix', '/nao/existe'])(
     'aparece em %s',
     async (caminho) => {
       const { wrapper } = await montarEm(caminho)
       expect(wrapper.find('nav[aria-label="Navegação principal"]').exists()).toBe(true)
     },
   )
+
+  it('aparece em /sugestoes quando há respostas mínimas', async () => {
+    const q = useQuestionario()
+    q.alternarGenero('Drama')
+    q.definirDuracao('3h+')
+    q.alternarStreaming('Netflix')
+    const { wrapper, router } = await montarEm('/sugestoes')
+    expect(router.currentRoute.value.name).toBe('sugestoes')
+    expect(wrapper.find('nav[aria-label="Navegação principal"]').exists()).toBe(true)
+    q.limpar()
+  })
 
   it.each(['/boas-vindas', '/questionario', '/questionario/3'])('fica oculta em %s', async (caminho) => {
     const { wrapper } = await montarEm(caminho)

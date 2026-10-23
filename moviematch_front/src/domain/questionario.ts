@@ -63,6 +63,11 @@ export interface Respostas {
   ator: string
 }
 
+/** Respostas para quem só lê (ex.: a regra de recomendação), sem exigir listas mutáveis. */
+export type RespostasLeitura = {
+  readonly [K in keyof Respostas]: Respostas[K] extends Array<infer U> ? readonly U[] : Respostas[K]
+}
+
 export function respostasVazias(): Respostas {
   return { generos: [], duracao: null, streamings: [], classificacao: null, paises: [], ator: '' }
 }

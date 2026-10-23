@@ -5,7 +5,7 @@
 //   - filmes com 0 ponto entram no top 3;
 //   - empate preserva a ordem de entrada (sort estável). No Dart a estabilidade não é garantida,
 //     então isto é uma definição, não uma equivalência comprovada.
-import type { Respostas } from './questionario'
+import type { RespostasLeitura } from './questionario'
 import type { Filme } from '../types/modelos'
 
 export const PESOS = Object.freeze({ genero: 3, duracao: 2, streaming: 3, classificacao: 2, pais: 1, atorOuDiretor: 1 })
@@ -15,7 +15,7 @@ export type FilmePontuavel = Pick<
   'generos' | 'duracaoMin' | 'streaming' | 'classificacao' | 'nacionalidade' | 'diretor' | 'atores'
 >
 
-function duracaoNaFaixa(faixa: Respostas['duracao'], minutos: number): boolean {
+function duracaoNaFaixa(faixa: RespostasLeitura['duracao'], minutos: number): boolean {
   switch (faixa) {
     case 'Até 1h30':
       return minutos <= 90
@@ -30,7 +30,7 @@ function duracaoNaFaixa(faixa: Respostas['duracao'], minutos: number): boolean {
   }
 }
 
-export function calcularPontuacao(filme: FilmePontuavel, respostas: Respostas): number {
+export function calcularPontuacao(filme: FilmePontuavel, respostas: RespostasLeitura): number {
   const contem = (lista: readonly string[], valor: string) => lista.includes(valor)
   let pontos = 0
 
@@ -49,7 +49,7 @@ export function calcularPontuacao(filme: FilmePontuavel, respostas: Respostas): 
 }
 
 /** Os `quantidade` filmes de maior pontuação, em ordem decrescente; empate mantém a ordem de entrada. */
-export function ordenarSugestoes<T extends FilmePontuavel>(filmes: readonly T[], respostas: Respostas, quantidade = 3): T[] {
+export function ordenarSugestoes<T extends FilmePontuavel>(filmes: readonly T[], respostas: RespostasLeitura, quantidade = 3): T[] {
   return filmes
     .map((filme) => ({ filme, pontos: calcularPontuacao(filme, respostas) }))
     .sort((a, b) => b.pontos - a.pontos)
