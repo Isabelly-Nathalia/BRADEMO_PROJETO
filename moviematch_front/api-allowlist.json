@@ -1,0 +1,11 @@
+{
+  "versao": 1,
+  "metodos": ["GET", "HEAD"],
+  "rotas": [
+    "/filmes",
+    "/filmes/aleatorios",
+    "/filmes/streaming/{segmento}",
+    "/filmes/pesquisa/{segmento}",
+    "/publicidades"
+  ]
+}

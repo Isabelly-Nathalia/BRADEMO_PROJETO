@@ -14,7 +14,8 @@
     "lint": "eslint --max-warnings 0 .",
     "test": "vitest run",
     "test:lint": "node --test \"tests/lint/*.test.mjs\"",
-    "verificar": "npm run lint && npm run typecheck && npm test && npm run test:lint && npm run build"
+    "test:scripts": "node --test \"tests/scripts/*.test.mjs\"",
+    "verificar": "npm run lint && npm run typecheck && npm test && npm run test:lint && npm run test:scripts && npm run build"
   },
   "dependencies": {
     "vue": "3.5.44",
