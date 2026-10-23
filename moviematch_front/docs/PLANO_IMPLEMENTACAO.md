@@ -1138,3 +1138,12 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F7-R02 | `BottomNav` renomeado para `NavegacaoPrincipal` e movido para antes do `<main>` | A partir de 900 px é cabeçalho no topo; o nome antigo deixou de descrever o componente |
 | F7-R04 | Links "Voltar ao início" viram `BaseButton` com `para` | Alvo de 45 px de altura; continuam sendo links |
 | F7-R06 | Primeira rodada do E2E responsivo mal lida (12 "imagens distorcidas") | Eram linhas de código citadas no relatório do Playwright, não falhas; a linha de base correta é 29 de 60 falhando |
+| F7-T01 | "Mock parado" por porta de controle (8082: `/__parar`, `/__retomar`), não por `docker stop` | O container do Playwright não tem acesso ao Docker. Fechar a porta de dados dá ao Nginx a mesma conexão recusada de uma API fora do ar e preserva o registro de requisições |
+| F7-T01 | Perfil E com 1 worker e só o projeto `desktop` | `/__parar` derruba a API para todos os testes em andamento |
+| F7-T01 | Teste de concorrência validado por mutação | Com o cache do catálogo desligado (TTL 0) o teste falha com 5 requisições em vez de 1 |
+| F7-T02 | axe em 1280 e 375 px (54 casos) e correção do carrossel (`6ef21cb`) | A navegação muda de lugar conforme a largura; o carrossel sem links não era rolável pelo teclado (`scrollable-region-focusable`) |
+| F7-T03 | Entregue como F7-R06 em `tests/e2e/b/responsivo.spec.ts`, não em `tests/e2e/e` | Feita antes, a pedido do usuário, com 6 larguras em vez de 3 e emulação de toque |
+| F7-T04 | Imagens verificadas no perfil A (`assets.test.mjs`, já existente) e `/healthz` medido manualmente | O container do Playwright não vê `dist/` nem controla o ciclo de vida do front; números em `docs/metricas.md` |
+| F7-T04 | Achado: Nginx sem compressão gzip | Meta cumprida mesmo assim (55 KB gzip; 124 KB transferidos). Ligar gzip fica como pendência |
+| F7-T05 | Comandos do README executados como escritos, com a API simulada no lugar da produção | Sem autorização para acessar a produção. **Pendente:** a verificação por um terceiro, que só o usuário pode providenciar |
+| F7-T06 | Registro: clone limpo de `c6961d4` (`--no-hardlinks`, em `$HOME`), perfis A (352 testes unitários e de componentes), B (108) e D verdes; `git status` vazio depois do `npm ci` (lockfile inalterado); clone removido | Em `$HOME` porque o Docker do snap não monta `/tmp` |
