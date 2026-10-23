@@ -47,6 +47,12 @@ describe('navegação inferior', () => {
     expect(wrapper.findAll('nav a[aria-current]')).toHaveLength(0)
   })
 
+  it('fica oculta antes de a primeira rota ser resolvida (não pisca)', () => {
+    const router = criarRouter(createMemoryHistory())
+    const wrapper = mount(App, { global: { plugins: [router] } })
+    expect(wrapper.find('nav').exists()).toBe(false)
+  })
+
   it('oferece atalho para pular ao conteúdo', async () => {
     const { wrapper } = await montarEm('/inicio')
     expect(wrapper.find('a[href="#conteudo"]').exists()).toBe(true)

@@ -7,7 +7,9 @@ import BottomNav from './BottomNav.vue'
 const ROTAS_SEM_NAVEGACAO = new Set(['boas-vindas', 'questionario'])
 
 const rota = useRoute()
-const comNavegacao = computed(() => !ROTAS_SEM_NAVEGACAO.has(String(rota.name)))
+// Antes da primeira rota ser resolvida (matched vazio), a navegação fica oculta: evita piscar
+// nas telas que não a exibem.
+const comNavegacao = computed(() => rota.matched.length > 0 && !ROTAS_SEM_NAVEGACAO.has(String(rota.name)))
 </script>
 
 <template>

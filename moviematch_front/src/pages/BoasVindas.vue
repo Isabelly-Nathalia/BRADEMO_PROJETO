@@ -68,12 +68,13 @@ onMounted(() => usePrimeiraVisita().marcarVisita())
   height: auto;
 }
 
+/* 3 colunas × 2 linhas (o Flutter usa 2 × 3): mantém os botões visíveis sem rolar no celular. */
 .mosaico {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   width: 100%;
-  max-width: 320px;
+  max-width: 360px;
 }
 
 .mosaico img {

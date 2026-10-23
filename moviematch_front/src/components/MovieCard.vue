@@ -61,7 +61,10 @@ defineProps<{ filme: Filme }>()
 </template>
 
 <style scoped>
+/* position: relative contém os textos .visualmente-oculto (absolutos); sem isso eles escapam
+   do recorte das listas roláveis e alargam a página. */
 .cartao {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;

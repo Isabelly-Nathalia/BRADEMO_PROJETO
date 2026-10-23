@@ -144,6 +144,11 @@ const sugestoes = useRecurso(
   padding: var(--espaco-4);
 }
 
+/* Itens de grid têm min-width: auto; sem isto, as listas roláveis esticam a página. */
+.secao {
+  min-width: 0;
+}
+
 .cabecalho {
   display: flex;
   gap: var(--espaco-4);
