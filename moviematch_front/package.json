@@ -15,7 +15,9 @@
     "test": "vitest run",
     "test:lint": "node --test \"tests/lint/*.test.mjs\"",
     "test:scripts": "node --test \"tests/scripts/*.test.mjs\"",
-    "verificar": "npm run lint && npm run typecheck && npm test && npm run test:lint && npm run test:scripts && npm run build"
+    "gerar:allowlist": "node scripts/gerar-nginx-allowlist.mjs",
+    "check:allowlist": "node scripts/gerar-nginx-allowlist.mjs --verificar",
+    "verificar": "npm run check:allowlist && npm run lint && npm run typecheck && npm test && npm run test:lint && npm run test:scripts && npm run build"
   },
   "dependencies": {
     "vue": "3.5.44",
