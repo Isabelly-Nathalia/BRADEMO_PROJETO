@@ -51,12 +51,15 @@ const lento = useAvisoLentidao(carregando)
       </BaseButton>
     </div>
 
-    <p
+    <div
       v-else-if="estado === 'vazio'"
-      class="mensagem secundario"
+      class="mensagem"
     >
-      {{ mensagemVazio }}
-    </p>
+      <p class="secundario">
+        {{ mensagemVazio }}
+      </p>
+      <slot name="vazio" />
+    </div>
 
     <slot v-else />
   </div>

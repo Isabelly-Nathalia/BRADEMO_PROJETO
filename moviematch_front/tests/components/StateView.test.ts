@@ -51,6 +51,15 @@ describe('StateView', () => {
     expect(wrapper.text()).toBe('Filme não localizado no catálogo')
   })
 
+  it('vazio: aceita conteúdo extra no slot "vazio"', () => {
+    const wrapper = mount(StateView, {
+      props: { estado: 'vazio', mensagemVazio: 'Nada aqui' },
+      slots: { vazio: '<a href="/inicio">Voltar</a>', default: '<p>sucesso</p>' },
+    })
+    expect(wrapper.find('a').text()).toBe('Voltar')
+    expect(wrapper.text()).not.toContain('sucesso')
+  })
+
   it('sucesso: renderiza o conteúdo do slot e nada mais', () => {
     const wrapper = mount(StateView, {
       props: { estado: 'sucesso' },
