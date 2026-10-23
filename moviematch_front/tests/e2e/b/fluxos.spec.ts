@@ -56,7 +56,7 @@ test('pesquisa sem resultados', async ({ page }) => {
   await expect(page.getByText('Filme não localizado no catálogo')).toBeVisible()
 })
 
-test('streaming: logo da página inicial, Disney+ e "outros"', async ({ page }) => {
+test('streaming: logo da página inicial, Disney+ e "outros" @so-mock', async ({ page }) => {
   await page.goto('/inicio')
   await page.getByRole('link', { name: 'Disney+' }).click()
   await expect(page).toHaveURL(/\/streaming\/disney-plus$/)
