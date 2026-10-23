@@ -835,7 +835,7 @@ Para cada página: testes de componente para os 4 estados + E2E no perfil B (F5-
   - CSP `default-src 'self'; img-src 'self' https: data:; connect-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'`.
 - **Validação:**
   - `docker build -f docker/Dockerfile moviematch_front` (contexto = diretório do front);
-  - imagem ≤ 60 MB;
+  - imagem ≤ base + 10 MB (a base `nginx-unprivileged` já tem 91,1 MB; a meta original de 60 MB era inviável, ver `docs/ambiente.md`);
   - `docker run` efêmero com label; `/healthz` (via `docker exec wget`) responde; `id -u` = 101;
   - o template foi processado (`nginx -T` contém a porta).
 - **Aceite:** os 4 critérios; container removido.
@@ -1057,3 +1057,21 @@ Recursos preexistentes (`f0`, `lab-localstack`, `adme_redis`, `easteregg-adme_ad
 - Push, PR, deploy, CI no GitHub ou alteração de configuração global do Git e de hooks.
 - Usar Kubernetes (possível evolução futura, sem requisito atual).
 - Declarar a integração validada sem evidência de execução do perfil C ou da produção.
+
+## 16. Registro de execução e desvios
+
+Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficaram dentro de `moviematch_front/`.
+
+| Tarefa | Desvio | Motivo |
+|---|---|---|
+| F0-T04 | Script com `--no-renames` e `GIT_OPTIONAL_LOCKS=0` | Um rename de fora para dentro escondia a deleção externa, e o `git diff` podia reescrever o índice |
+| F0-T05 | Commit extra com o reteste do Docker | O `sudo snap restart docker`, executado pelo usuário, resolveu o R-01 |
+| F1-T02 | `tsconfig.app.json` adicionado (layout de solução com 3 arquivos) | O TypeScript recusa referência a projeto com `noEmit` a partir de um projeto com arquivos (TS6310) |
+| F1-T03 | `no-restricted-properties` além de `no-restricted-globals` | A regra de globais não pega `window.localStorage` |
+| F1-T04 | Testes e `vitest.config.ts` incluídos no typecheck | Erros de tipo nos testes passariam despercebidos |
+| F1-T06 | `vitest.config.ts`: `css.include` para `src/styles/` | Por padrão o Vitest devolve CSS vazio, inclusive com `?raw` |
+| F1-T06 | Texto terciário proibido sobre `--cor-destaque` | Contraste abaixo de 4,5:1 |
+| F1-T07 | Commit extra: `vitest.config.ts` importa `vite.config.ts` com extensão | Aviso do Vite sobre o carregador nativo de configuração (padrão em major futuro) |
+| F1-T07 | Lint com `--max-warnings 0`; `vue/multi-word-component-names` desligada em `src/pages/` | Avisos não podem se acumular; páginas não são usadas como tag |
+| F1-T08 | `tests/unit/app.test.ts` ajustado | O atalho "Pular para o conteúdo" passou a ser o primeiro link |
+| F1-T09 | `SafeImage` só para URLs da API; assets locais usam `<img>` | O Vite pode embutir assets locais como `data:`, que o componente recusa de propósito |
