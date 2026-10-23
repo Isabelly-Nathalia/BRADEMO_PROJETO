@@ -1093,3 +1093,19 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F3-T02 | Checagem cruzada tabela × allowlist em `tests/scripts/streamings-allowlist.test.mjs` | Usa a allowlist (Node); o Node 24 importa `.ts` direto, sem tipos de Node no código do navegador |
 | F3-T05 | Fábrica `criarQuestionario(obterArmazenamento)` + instância única `useQuestionario()` | Permite testar persistência, corrupção e bloqueio do storage sem tocar no `localStorage` real |
 | F3-T05 | Valores salvos que não são opções válidas são descartados ao carregar | Dado antigo ou adulterado no navegador não pode gerar estado impossível |
+| F4-T01 | `MovieMatch_Vert` reaproveitado nas boas-vindas; `MovieMatch_Hor` não copiado | O vertical era usado só na splash removida (A-04); o horizontal não é usado no Flutter |
+| F4-T01 | Teste `tests/scripts/assets.test.mjs` | Garante as metas de tamanho e um logo para cada streaming da tabela |
+| F4-T02 | `src/domain/nota.ts` (`4` → `"4.0"`) | Paridade com o `double.toString` do Dart |
+| F4-T02 | Rótulos "Nota" e "Duração" como texto oculto, não `aria-label` em `<span>` | ARIA 1.2 proíbe nome acessível em elemento genérico |
+| F4-T03 | `BaseButton` com prop `para` (vira link) | Navegação deve ser link, não botão |
+| F4-T04 | `src/composables/useRecurso.ts` (commit próprio) | Ciclo de carga compartilhado: cancela ao sair, ignora respostas antigas, retry manual |
+| F4-T04 | Correções vindas do teste em navegador (commit `fix`) | Texto oculto do cartão alargava a página; a navegação piscava antes da 1ª rota; o mosaico das boas-vindas (agora 3×2, no Flutter 2×3) escondia os botões |
+| F4-T05 | `BotaoVoltar` usa o estado do histórico do router | Sem histórico no app (URL direta), vai ao início em vez de sair do site |
+| F4-T05 | Slot `vazio` no `StateView` | Oferecer "Voltar ao início" no filme não encontrado |
+| F4-T06 | Termo só com espaços não pesquisa | No Flutter viraria uma busca por " ", que traz quase todo o catálogo |
+| F4-T07 | Título da aba com o nome do streaming | Diferencia as abas; slug desconhecido → 404 |
+| F4-T08 | `ChipGroup` sobre `<input>` nativos (checkbox/radio) | Teclado e leitor de tela sem código extra |
+| F4-T08 | Erro de validação como alerta abaixo dos botões (no Flutter, SnackBar) | Anunciado por `role="alert"`; não some sozinho |
+| F4-T09 | Guard no router para `/sugestoes` | Sem as respostas mínimas, redireciona ao passo 1 antes de buscar o catálogo |
+| F4-T09 | Tipo `RespostasLeitura` na regra de recomendação | A regra não altera as respostas; o estado do questionário é exposto como somente leitura |
+| F4-T09 | "Refazer questionário" limpa as respostas | Paridade com `form.dart:789-791`; o "voltar" do navegador preserva as respostas |
