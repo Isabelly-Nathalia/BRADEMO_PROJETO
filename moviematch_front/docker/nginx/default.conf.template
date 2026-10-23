@@ -1,0 +1,61 @@
+# Servidor do frontend MovieMatch. Template processado pelo envsubst da imagem oficial na
+# inicialização: ${PORT}, ${NGINX_LOCAL_RESOLVERS} (e, em api-proxy.inc, ${API_UPSTREAM} e
+# ${API_HOST}). Variáveis do Nginx ($uri, $request_uri…) não são env vars e ficam intactas.
+
+# Caminho ORIGINAL (sem decodificar) após /api e sem query string: é o que vai ao upstream,
+# para que %2B, espaços e acentos cheguem exatamente como o navegador enviou.
+map $request_uri $mm_api_caminho {
+    ~^/api(?<caminho>/[^?]*) $caminho;
+    default "";
+}
+
+server {
+    listen ${PORT};
+    server_name _;
+    server_tokens off;
+    root /usr/share/nginx/html;
+
+    # Resolve o nome do upstream em tempo de execução (proxy_pass com variável).
+    resolver ${NGINX_LOCAL_RESOLVERS} valid=30s ipv6=off;
+    resolver_timeout 5s;
+
+    # O front só faz GET: corpo de requisição não tem uso.
+    client_max_body_size 1k;
+
+    # Headers de segurança. ATENÇÃO: um add_header dentro de uma location anula os herdados do
+    # server, por isso cada location que define add_header inclui este arquivo de novo.
+    include /etc/nginx/moviematch/cabecalhos.inc;
+
+    location = /healthz {
+        access_log off;
+        default_type text/plain;
+        return 200 "ok\n";
+    }
+
+    # Allowlist da API (gerada de api-allowlist.json).
+    include /etc/nginx/moviematch/allowlist.inc;
+
+    # Todo o resto da API: bloqueado (inclui /api/usuarios, /api/listas e escritas).
+    location = /api {
+        return 404;
+    }
+    location /api/ {
+        return 404;
+    }
+
+    location /assets/ {
+        include /etc/nginx/moviematch/cabecalhos.inc;
+        add_header Cache-Control "public, max-age=31536000, immutable" always;
+        try_files $uri =404;
+    }
+
+    location = /index.html {
+        include /etc/nginx/moviematch/cabecalhos.inc;
+        add_header Cache-Control "no-cache" always;
+    }
+
+    # SPA: qualquer outra rota cai no index.html (o router do Vue decide, inclusive o 404).
+    location / {
+        try_files $uri /index.html;
+    }
+}
