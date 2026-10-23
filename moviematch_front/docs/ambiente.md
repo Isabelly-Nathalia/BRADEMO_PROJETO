@@ -37,3 +37,16 @@ Hipótese R-05 confirmada: a imagem `nginx-unprivileged` contém `/docker-entryp
    - **projetar os perfis para encerramento por dentro**: executores (Playwright, sondas, npm) rodam até o fim com `--rm`; serviços longos (nginx, mock, mysql, backend) recebem um comando de encerramento via `docker exec` antes do `docker compose down`.
 2. **A meta de imagem final ≤ 60 MB (F5-T03) é inviável**: a base já tem 91,1 MB. Meta corrigida: até 10 MB acima da base.
 3. Os controles de egresso da rede `internal` funcionam no host (DNS e TCP bloqueados). Eles serão repetidos no perfil C, no namespace do backend.
+
+## Reteste após `sudo snap restart docker` (2026-10-23, executado pelo usuário)
+
+Depois do reinício, o servidor Docker passou a reportar a versão 29.8.0; o cliente continua em 29.7.2.
+
+| # | Verificação | Resultado |
+|---|---|---|
+| R1 | `docker stop -t 5` em container em execução | ok em 0,19 s; saída com código 0 |
+| R2 | `docker rm -f` em container em execução | ok |
+| R3 | Remanescentes com a label de teste | nenhum |
+| R4 | Recursos de outros projetos | intactos |
+
+**R-01 resolvido no host.** Os perfis podem usar o ciclo normal (`docker compose down`), sem encerramento por dentro. Se o problema voltar (por exemplo, depois de uma atualização do snap), o mesmo reinício resolve, e o `perfil.sh` deve parar com mensagem clara em vez de deixar recursos para trás.
