@@ -13,7 +13,7 @@ async function montarEm(caminho: string) {
   return { wrapper, router }
 }
 
-describe('navegação inferior', () => {
+describe('navegação principal', () => {
   it.each(['/inicio', '/pesquisa', '/filmes/1', '/streaming/netflix', '/nao/existe'])(
     'aparece em %s',
     async (caminho) => {
@@ -63,6 +63,12 @@ describe('navegação inferior', () => {
     const router = criarRouter(createMemoryHistory())
     const wrapper = mount(App, { global: { plugins: [router] } })
     expect(wrapper.find('nav[aria-label="Navegação principal"]').exists()).toBe(false)
+  })
+
+  it('vem antes do conteúdo no documento (cabeçalho no desktop)', async () => {
+    const { wrapper } = await montarEm('/inicio')
+    const html = wrapper.html()
+    expect(html.indexOf('Navegação principal')).toBeLessThan(html.indexOf('id="conteudo"'))
   })
 
   it('oferece atalho para pular ao conteúdo', async () => {

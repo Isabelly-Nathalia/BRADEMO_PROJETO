@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BottomNav from './BottomNav.vue'
+import NavegacaoPrincipal from './NavegacaoPrincipal.vue'
 
-// Telas de fluxo próprio, sem navegação inferior (como no Flutter).
+// Telas de fluxo próprio, sem navegação principal (como no Flutter).
 const ROTAS_SEM_NAVEGACAO = new Set(['boas-vindas', 'questionario'])
 
 const rota = useRoute()
@@ -17,6 +17,7 @@ const comNavegacao = computed(() => rota.matched.length > 0 && !ROTAS_SEM_NAVEGA
     class="pular visualmente-oculto"
     href="#conteudo"
   >Pular para o conteúdo</a>
+  <NavegacaoPrincipal v-if="comNavegacao" />
   <main
     id="conteudo"
     class="conteudo"
@@ -25,7 +26,6 @@ const comNavegacao = computed(() => rota.matched.length > 0 && !ROTAS_SEM_NAVEGA
   >
     <slot />
   </main>
-  <BottomNav v-if="comNavegacao" />
 </template>
 
 <style scoped>
@@ -35,8 +35,11 @@ const comNavegacao = computed(() => rota.matched.length > 0 && !ROTAS_SEM_NAVEGA
   outline: none;
 }
 
-.com-navegacao {
-  padding-bottom: var(--altura-navegacao);
+/* Abaixo de 900 px a navegação é fixa no rodapé: reserva o espaço dela no fim da página. */
+@media (max-width: 899.98px) {
+  .com-navegacao {
+    padding-bottom: var(--altura-navegacao);
+  }
 }
 
 .pular:focus {

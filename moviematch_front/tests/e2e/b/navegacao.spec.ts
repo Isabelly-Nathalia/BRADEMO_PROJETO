@@ -38,7 +38,7 @@ test('voltar do navegador entre páginas', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Olá!' })).toBeVisible()
 })
 
-test('navegação inferior leva ao início e ao questionário', async ({ page }) => {
+test('navegação principal leva ao início e ao questionário', async ({ page }) => {
   await page.goto('/pesquisa')
   const nav = page.getByRole('navigation', { name: 'Navegação principal' })
   await nav.getByRole('link', { name: 'Questionário' }).click()
