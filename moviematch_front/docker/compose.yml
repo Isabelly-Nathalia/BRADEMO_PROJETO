@@ -1,0 +1,85 @@
+# Ambientes de teste do frontend (perfis B, D, E e smoke). Use via scripts/perfil.sh, que define
+# MMF_RUN_ID (nome de projeto e label únicos por execução) e faz a limpeza.
+# Rede `internal`: sem saída para a internet e sem portas publicadas no host.
+
+x-rotulo: &rotulo
+  br.moviematch.front.teste: ${MMF_RUN_ID:?use scripts/perfil.sh}
+
+x-node: &node
+  image: node:24.22.1-alpine3.24@sha256:06d7adf3e0ef61a13f1d28682726366f97a15aa1888c934d3ecec86c33918b53
+  user: node
+  networks: [interna]
+  labels: *rotulo
+
+services:
+  mock-api:
+    <<: *node
+    command: ["node", "/mock/server.mjs"]
+    environment:
+      PORT: "8081"
+      FIXTURES: /fixtures
+    volumes:
+      - ./mock-api:/mock:ro
+      - ../tests/fixtures:/fixtures:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8081/__saude"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  front:
+    image: moviematch-front:teste
+    environment:
+      API_UPSTREAM: http://mock-api:8081
+      API_HOST: mock-api:8081
+    networks: [interna]
+    labels: *rotulo
+    depends_on:
+      mock-api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:$${PORT}/healthz"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  # Perfil "smoke": prova que a pilha sobe, conversa e é removida.
+  smoke:
+    <<: *node
+    profiles: [smoke]
+    command:
+      - node
+      - -e
+      - |
+        const ok = (cond, msg) => { if (!cond) { console.error('FALHOU: ' + msg); process.exit(1) } console.log('ok ' + msg) }
+        const front = 'http://front:8080', mock = 'http://mock-api:8081'
+        ;(async () => {
+          ok((await fetch(front + '/healthz')).status === 200, 'healthz')
+          const filmes = await fetch(front + '/api/filmes')
+          ok(filmes.status === 200 && (await filmes.json()).length === 13, '/api/filmes pelo proxy')
+          ok((await fetch(front + '/api/usuarios')).status === 404, '/api/usuarios bloqueado')
+          const recebidas = await (await fetch(mock + '/__requisicoes')).json()
+          ok(recebidas.every((r) => !r.url.startsWith('/usuarios')), 'mock não recebeu /usuarios')
+        })().catch((e) => { console.error(e); process.exit(1) })
+    depends_on:
+      front:
+        condition: service_healthy
+
+  # Perfil D: proxy e segurança (tests/proxy, node:test).
+  sonda:
+    <<: *node
+    profiles: [d]
+    command: ["node", "--test", "--test-concurrency=1", "--test-reporter=spec", "/testes/"]
+    environment:
+      FRONT: http://front:8080
+      MOCK: http://mock-api:8081
+    volumes:
+      - ../tests/proxy:/testes:ro
+    depends_on:
+      front:
+        condition: service_healthy
+
+networks:
+  interna:
+    internal: true
+    labels: *rotulo
