@@ -1,0 +1,33 @@
+/* Tokens visuais. Cores de origem: projeto_brademo (form.dart:68-71 e telas). */
+:root {
+  /* fundos */
+  --cor-fundo: #222425;
+  --cor-superficie: #2f3133;
+  --cor-azul: #001c30;
+  --cor-vermelho-escuro: #250203;
+  --cor-destaque: #681f10;
+
+  /* texto (opacidades do Flutter: Colors.white, white70, white54) */
+  --cor-texto: #ffffff;
+  --cor-texto-secundario: rgba(255, 255, 255, 0.7);
+  --cor-texto-terciario: rgba(255, 255, 255, 0.54);
+
+  --cor-foco: #ffffff;
+
+  --raio-pequeno: 15px;
+  --raio-grande: 30px;
+
+  --espaco-1: 4px;
+  --espaco-2: 8px;
+  --espaco-3: 12px;
+  --espaco-4: 16px;
+  --espaco-5: 24px;
+  --espaco-6: 32px;
+
+  --fonte: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --tamanho-texto: 1rem;
+  --tamanho-titulo: 1.375rem;
+
+  --largura-maxima: 1200px;
+  --altura-navegacao: 64px;
+}
