@@ -10,6 +10,6 @@ describe('App', () => {
     await router.push('/rota/inexistente')
     const wrapper = mount(App, { global: { plugins: [router] } })
     expect(wrapper.text()).toContain('Página não encontrada')
-    expect(wrapper.find('a').attributes('href')).toBe('/inicio')
+    expect(wrapper.find('.nao-encontrado a').attributes('href')).toBe('/inicio')
   })
 })
