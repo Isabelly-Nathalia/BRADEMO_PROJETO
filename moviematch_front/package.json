@@ -11,13 +11,14 @@
     "build": "vue-tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "vue-tsc -b",
-    "lint": "eslint .",
+    "lint": "eslint --max-warnings 0 .",
     "test": "vitest run",
     "test:lint": "node --test \"tests/lint/*.test.mjs\"",
     "verificar": "npm run lint && npm run typecheck && npm test && npm run test:lint && npm run build"
   },
   "dependencies": {
-    "vue": "3.5.44"
+    "vue": "3.5.44",
+    "vue-router": "5.4.0"
   },
   "devDependencies": {
     "@types/node": "24.19.2",

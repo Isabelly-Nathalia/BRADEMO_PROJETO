@@ -16,6 +16,13 @@ export default defineConfigWithVueTs(
     },
   },
   {
+    // Páginas só são usadas pelo router, nunca como tag, então não colidem com elementos HTML.
+    files: ['src/pages/**/*.vue'],
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
+  },
+  {
     files: ['src/**/*.{ts,vue}'],
     ignores: ['src/composables/**'],
     rules: {

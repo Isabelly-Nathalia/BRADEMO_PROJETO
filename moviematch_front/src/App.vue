@@ -1,3 +1,3 @@
 <template>
-  <main>MovieMatch</main>
+  <RouterView />
 </template>
