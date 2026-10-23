@@ -4,6 +4,7 @@
 // abrir a URL direto ou dar F5. Sem "Curtir" e "Minha Lista" (fora do MVP).
 import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import BaseButton from '../components/BaseButton.vue'
 import BotaoVoltar from '../components/BotaoVoltar.vue'
 import SafeImage from '../components/SafeImage.vue'
 import StateView from '../components/StateView.vue'
@@ -113,9 +114,9 @@ function tentarNovamente() {
       </div>
 
       <template #vazio>
-        <RouterLink :to="{ name: 'inicio' }">
+        <BaseButton :para="{ name: 'inicio' }">
           Voltar ao início
-        </RouterLink>
+        </BaseButton>
       </template>
     </StateView>
   </article>

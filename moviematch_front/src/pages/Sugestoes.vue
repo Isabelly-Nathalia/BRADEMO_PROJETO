@@ -143,11 +143,20 @@ h1 {
   gap: var(--espaco-2);
 }
 
+/* Alvo de toque de pelo menos 44 × 44 px, mesmo com título curto em uma linha. */
 .titulo {
+  display: flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
   color: var(--cor-texto);
   font-size: 1.125rem;
   font-weight: 700;
   text-decoration: none;
+}
+
+.sugestao.invertida .titulo {
+  justify-content: flex-end;
 }
 
 .titulo:hover {

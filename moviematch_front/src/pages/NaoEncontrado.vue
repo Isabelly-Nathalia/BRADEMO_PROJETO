@@ -1,10 +1,14 @@
+<script setup lang="ts">
+import BaseButton from '../components/BaseButton.vue'
+</script>
+
 <template>
   <section class="nao-encontrado">
     <h1>Página não encontrada</h1>
     <p>O endereço acessado não existe no MovieMatch.</p>
-    <RouterLink :to="{ name: 'inicio' }">
+    <BaseButton :para="{ name: 'inicio' }">
       Voltar ao início
-    </RouterLink>
+    </BaseButton>
   </section>
 </template>
 
