@@ -1087,3 +1087,9 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F2-T05 | `src/services/url.ts` extraído; `SafeImage` passou a usá-lo | Uma única regra de URL https para mapeadores e componente |
 | F2-T06 | `porStreaming('outros')` recusado | No backend, `/filmes/streaming/outros` é uma rota própria, não um streaming |
 | F2-T08 | `src/components/mensagemErro.ts` | Textos de erro por tipo, testáveis sem montar o componente |
+| F3-T01 | Tipo `Respostas` e `respostasVazias()` definidos em `domain/questionario.ts` | Ficam junto das opções que tipam; usados pela F3-T04 e pela F3-T05 |
+| F3-T01 | Teste de normalização NFC dos textos | A pontuação compara strings exatas; acentos decompostos nunca casariam com a API |
+| F3-T02 | Logo como nome-base do arquivo | Os assets só entram na F4-T01 |
+| F3-T02 | Checagem cruzada tabela × allowlist em `tests/scripts/streamings-allowlist.test.mjs` | Usa a allowlist (Node); o Node 24 importa `.ts` direto, sem tipos de Node no código do navegador |
+| F3-T05 | Fábrica `criarQuestionario(obterArmazenamento)` + instância única `useQuestionario()` | Permite testar persistência, corrupção e bloqueio do storage sem tocar no `localStorage` real |
+| F3-T05 | Valores salvos que não são opções válidas são descartados ao carregar | Dado antigo ou adulterado no navegador não pode gerar estado impossível |
