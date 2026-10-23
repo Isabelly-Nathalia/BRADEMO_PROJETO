@@ -1,6 +1,11 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createMemoryHistory } from 'vue-router'
 import { criarRouter, tituloDaPagina } from '../../src/router'
+
+const visita = vi.hoisted(() => ({ jaVisitou: false }))
+vi.mock('../../src/composables/usePrimeiraVisita', () => ({
+  usePrimeiraVisita: () => ({ jaVisitou: () => visita.jaVisitou, marcarVisita: () => {} }),
+}))
 
 function novoRouter() {
   return criarRouter(createMemoryHistory())
@@ -37,7 +42,15 @@ describe('rotas', () => {
     expect(novoRouter().resolve(caminho).name).toBe('nao-encontrado')
   })
 
-  it('a raiz redireciona para o início', async () => {
+  it('primeira visita: a raiz leva às boas-vindas (A-04)', async () => {
+    visita.jaVisitou = false
+    const router = novoRouter()
+    await router.push('/')
+    expect(router.currentRoute.value.name).toBe('boas-vindas')
+  })
+
+  it('visitas seguintes: a raiz leva ao início', async () => {
+    visita.jaVisitou = true
     const router = novoRouter()
     await router.push('/')
     expect(router.currentRoute.value.name).toBe('inicio')

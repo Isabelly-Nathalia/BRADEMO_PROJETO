@@ -1,13 +1,24 @@
 <script setup lang="ts">
 // Botão padrão do produto (equivale a projeto_brademo/lib/widgets/button.dart).
-withDefaults(defineProps<{ tipo?: 'button' | 'submit'; desabilitado?: boolean }>(), {
-  tipo: 'button',
-  desabilitado: false,
-})
+// Com `para`, renderiza um link com o mesmo visual: navegação é link, ação é botão.
+import type { RouteLocationRaw } from 'vue-router'
+
+withDefaults(
+  defineProps<{ tipo?: 'button' | 'submit'; desabilitado?: boolean; para?: RouteLocationRaw }>(),
+  { tipo: 'button', desabilitado: false, para: undefined },
+)
 </script>
 
 <template>
+  <RouterLink
+    v-if="para"
+    class="botao"
+    :to="para"
+  >
+    <slot />
+  </RouterLink>
   <button
+    v-else
     class="botao"
     :type="tipo"
     :disabled="desabilitado"
@@ -18,6 +29,9 @@ withDefaults(defineProps<{ tipo?: 'button' | 'submit'; desabilitado?: boolean }>
 
 <style scoped>
 .botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 180px;
   min-height: 45px;
   padding: 0 var(--espaco-5);
@@ -26,6 +40,7 @@ withDefaults(defineProps<{ tipo?: 'button' | 'submit'; desabilitado?: boolean }>
   background: var(--cor-destaque);
   color: var(--cor-texto);
   font-size: 1rem;
+  text-decoration: none;
   cursor: pointer;
 }
 

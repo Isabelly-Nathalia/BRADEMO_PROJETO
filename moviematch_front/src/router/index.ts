@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw, type RouterHistory } from 'vue-router'
 import NaoEncontrado from '../pages/NaoEncontrado.vue'
+import { usePrimeiraVisita } from '../composables/usePrimeiraVisita'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -10,8 +11,12 @@ declare module 'vue-router' {
 const SUFIXO_TITULO = 'MovieMatch'
 
 export const rotas: RouteRecordRaw[] = [
-  // A decisão entre boas-vindas e início (primeira visita) entra na F4-T03.
-  { path: '/', redirect: { name: 'inicio' }, meta: { titulo: SUFIXO_TITULO } },
+  // A-04: boas-vindas só na primeira visita; depois, direto para o início.
+  {
+    path: '/',
+    redirect: () => (usePrimeiraVisita().jaVisitou() ? { name: 'inicio' } : { name: 'boas-vindas' }),
+    meta: { titulo: SUFIXO_TITULO },
+  },
   {
     path: '/boas-vindas',
     name: 'boas-vindas',

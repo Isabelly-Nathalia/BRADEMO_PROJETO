@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createMemoryHistory } from 'vue-router'
+import { criarRouter } from '../../src/router'
 import BaseButton from '../../src/components/BaseButton.vue'
 
 describe('BaseButton', () => {
@@ -24,5 +26,16 @@ describe('BaseButton', () => {
     expect(wrapper.attributes('disabled')).toBeDefined()
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
+  })
+
+  it('com `para`, vira link (navegação) com o mesmo visual', () => {
+    const wrapper = mount(BaseButton, {
+      props: { para: { name: 'inicio' } },
+      slots: { default: 'Explorar' },
+      global: { plugins: [criarRouter(createMemoryHistory())] },
+    })
+    expect(wrapper.element.tagName).toBe('A')
+    expect(wrapper.attributes('href')).toBe('/inicio')
+    expect(wrapper.classes()).toContain('botao')
   })
 })
