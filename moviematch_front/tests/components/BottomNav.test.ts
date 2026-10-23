@@ -23,12 +23,12 @@ describe('navegação inferior', () => {
 
   it.each(['/boas-vindas', '/questionario', '/questionario/3'])('fica oculta em %s', async (caminho) => {
     const { wrapper } = await montarEm(caminho)
-    expect(wrapper.find('nav').exists()).toBe(false)
+    expect(wrapper.find('nav[aria-label="Navegação principal"]').exists()).toBe(false)
   })
 
   it('só aponta para rotas existentes do MVP', async () => {
     const { wrapper, router } = await montarEm('/inicio')
-    const destinos = wrapper.findAll('nav a').map((a) => a.attributes('href'))
+    const destinos = wrapper.findAll('nav[aria-label="Navegação principal"] a').map((a) => a.attributes('href'))
     expect(destinos).toEqual(['/inicio', '/questionario'])
     for (const destino of destinos) {
       expect(router.resolve(destino!).name).not.toBe('nao-encontrado')
@@ -50,7 +50,7 @@ describe('navegação inferior', () => {
   it('fica oculta antes de a primeira rota ser resolvida (não pisca)', () => {
     const router = criarRouter(createMemoryHistory())
     const wrapper = mount(App, { global: { plugins: [router] } })
-    expect(wrapper.find('nav').exists()).toBe(false)
+    expect(wrapper.find('nav[aria-label="Navegação principal"]').exists()).toBe(false)
   })
 
   it('oferece atalho para pular ao conteúdo', async () => {
