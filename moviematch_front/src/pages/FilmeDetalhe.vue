@@ -43,7 +43,10 @@ function tentarNovamente() {
       mensagem-vazio="Filme não encontrado no catálogo."
       @tentar-novamente="tentarNovamente"
     >
-      <template v-if="filme.dados.value">
+      <div
+        v-if="filme.dados.value"
+        class="ficha"
+      >
         <div class="poster">
           <SafeImage
             :src="filme.dados.value.imagem"
@@ -51,61 +54,63 @@ function tentarNovamente() {
           />
         </div>
 
-        <div class="resumo">
-          <h1>{{ filme.dados.value.titulo }}</h1>
-          <p class="meta">
-            <span><span class="visualmente-oculto">Nota</span>★ {{ formatarNota(filme.dados.value.nota) }}</span>
-            <span><span class="visualmente-oculto">Duração</span>{{ formatarDuracao(filme.dados.value.duracaoMin) }}</span>
-          </p>
+        <div class="dados">
+          <div class="resumo">
+            <h1>{{ filme.dados.value.titulo }}</h1>
+            <p class="meta">
+              <span><span class="visualmente-oculto">Nota</span>★ {{ formatarNota(filme.dados.value.nota) }}</span>
+              <span><span class="visualmente-oculto">Duração</span>{{ formatarDuracao(filme.dados.value.duracaoMin) }}</span>
+            </p>
+          </div>
+
+          <section
+            v-if="filme.dados.value.diretor"
+            class="bloco direcao"
+          >
+            <div class="foto-diretor">
+              <SafeImage
+                :src="filme.dados.value.fotoDiretor"
+                :alt="`Foto de ${filme.dados.value.diretor}`"
+              />
+            </div>
+            <div>
+              <h2>Direção</h2>
+              <p>{{ filme.dados.value.diretor }}</p>
+            </div>
+          </section>
+
+          <section
+            v-if="filme.dados.value.descricao"
+            class="bloco"
+          >
+            <h2>Descrição</h2>
+            <p>{{ filme.dados.value.descricao }}</p>
+          </section>
+
+          <section
+            v-if="filme.dados.value.streaming"
+            class="bloco"
+          >
+            <h2>Disponível em:</h2>
+            <p>{{ filme.dados.value.streaming }}</p>
+          </section>
+
+          <section
+            v-if="filme.dados.value.elenco.length > 0"
+            class="bloco"
+          >
+            <h2>Elenco</h2>
+            <ul class="elenco">
+              <li
+                v-for="(ator, i) in filme.dados.value.elenco"
+                :key="`${i}-${ator}`"
+              >
+                {{ ator }}
+              </li>
+            </ul>
+          </section>
         </div>
-
-        <section
-          v-if="filme.dados.value.diretor"
-          class="bloco direcao"
-        >
-          <div class="foto-diretor">
-            <SafeImage
-              :src="filme.dados.value.fotoDiretor"
-              :alt="`Foto de ${filme.dados.value.diretor}`"
-            />
-          </div>
-          <div>
-            <h2>Direção</h2>
-            <p>{{ filme.dados.value.diretor }}</p>
-          </div>
-        </section>
-
-        <section
-          v-if="filme.dados.value.descricao"
-          class="bloco"
-        >
-          <h2>Descrição</h2>
-          <p>{{ filme.dados.value.descricao }}</p>
-        </section>
-
-        <section
-          v-if="filme.dados.value.streaming"
-          class="bloco"
-        >
-          <h2>Disponível em:</h2>
-          <p>{{ filme.dados.value.streaming }}</p>
-        </section>
-
-        <section
-          v-if="filme.dados.value.elenco.length > 0"
-          class="bloco"
-        >
-          <h2>Elenco</h2>
-          <ul class="elenco">
-            <li
-              v-for="(ator, i) in filme.dados.value.elenco"
-              :key="`${i}-${ator}`"
-            >
-              {{ ator }}
-            </li>
-          </ul>
-        </section>
-      </template>
+      </div>
 
       <template #vazio>
         <RouterLink :to="{ name: 'inicio' }">
@@ -121,7 +126,7 @@ function tentarNovamente() {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--espaco-4);
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
   padding: var(--espaco-4);
 }
@@ -138,16 +143,41 @@ function tentarNovamente() {
   letter-spacing: 1px;
 }
 
+/* Celular: pôster centralizado e informações abaixo. A partir de 768 px: pôster à esquerda e
+   informações à direita. O pôster mantém sempre 2:3 (retrato); a imagem usa object-fit: cover. */
+.ficha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--espaco-5);
+}
+
 .poster {
-  height: min(60vh, 480px);
+  justify-self: center;
+  width: min(100%, 320px);
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: 20px;
+}
+
+.dados {
+  min-width: 0;
 }
 
 .resumo {
   display: grid;
   gap: var(--espaco-1);
-  margin-top: var(--espaco-4);
+}
+
+@media (min-width: 768px) {
+  .ficha {
+    grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+    gap: var(--espaco-6);
+    align-items: start;
+  }
+
+  .poster {
+    width: 100%;
+  }
 }
 
 h1 {
