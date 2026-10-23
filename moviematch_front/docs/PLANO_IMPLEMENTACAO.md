@@ -1109,3 +1109,17 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F4-T09 | Guard no router para `/sugestoes` | Sem as respostas mínimas, redireciona ao passo 1 antes de buscar o catálogo |
 | F4-T09 | Tipo `RespostasLeitura` na regra de recomendação | A regra não altera as respostas; o estado do questionário é exposto como somente leitura |
 | F4-T09 | "Refazer questionário" limpa as respostas | Paridade com `form.dart:789-791`; o "voltar" do navegador preserva as respostas |
+| F5-T01 | Regex do Nginx exclui segmentos `.`/`..` | O teste de equivalência mostrou que `[^/]+` aceitava o que o verificador recusa |
+| F5-T01 | Regex entre aspas na `location` (commit `fix`) | O `{1,2}` era lido como início de bloco pelo parser do Nginx; só apareceu ao subir a imagem real |
+| F5-T02 | Mock em `tests/scripts/mock-api.test.mjs` (`node --test`), não `tests/unit/` | Usa `node:http` |
+| F5-T02 | Cenário por requisição (cabeçalho `x-mock-cenario`) além do global | Testes em paralelo e E2E por estado sem interferência |
+| F5-T03 | Configuração do Nginx em 4 arquivos: `default.conf.template`, `api-proxy.inc.template`, `cabecalhos.conf`, `allowlist.conf` | Separar o que é gerado, o que depende de variável e o que é repetido em cada `location` |
+| F5-T03 | `05-verificar-ambiente.sh` no entrypoint | Sem `API_UPSTREAM`/`API_HOST` válidos, o container não sobe (mensagem clara) |
+| F5-T03 | Imagem 91,9 MB (+0,84 MB sobre a base) | Meta corrigida: até +10 MB |
+| F5-T04 | Perfil `smoke` | Prova da orquestração e da limpeza antes dos perfis completos |
+| F5-T04 | Comparação dos recursos Docker externos antes/depois em todo perfil | Garante que nada fora dos testes muda |
+| F5-T05 | Recusa de segmentos `.`/`..` (literais ou `%2e`) e `//` no caminho bruto de `/api` | O Nginx escolhe a rota pelo caminho normalizado, mas repassa o bruto: evita interpretações diferentes entre proxy e backend |
+| F5-T05 | Serviço `front-sem-api` no perfil D | Testa API fora do ar (502 rápido, healthz e SPA no ar) |
+| F5-T06 | Projetos `celular` (Pixel 7) e `desktop` (1280×800) | A rolagem horizontal da F4 só apareceu em tela estreita |
+| F5-T06 | Fixture automática: CSP, erros de JS e rolagem horizontal | Cada E2E reprova se houver violação de CSP ou erro de JavaScript |
+| F5-T06 | Lib DOM no `tsconfig.node.json` | Código executado no navegador via `page.evaluate` |
