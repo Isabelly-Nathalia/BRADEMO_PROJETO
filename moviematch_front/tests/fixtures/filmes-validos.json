@@ -1,0 +1,230 @@
+[
+  {
+    "id_filme": 1,
+    "titulo_filme": "Cidade Partida",
+    "descricao_filme": "Dois amigos seguem caminhos opostos numa cidade dividida.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/1.jpg",
+    "duracao_filme": 130,
+    "streaming_filme": "Netflix",
+    "nacionalidade_filme": "Brasil",
+    "classificacao_filme": "Não recomendável para menores de 16 anos",
+    "diretor_filme": "Ana Ribeiro",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/1.jpg",
+    "atorEspecifico_filme": "Carlos Lima, Bia Torres",
+    "nota_filme": 4.5,
+    "generos": [
+      "Drama",
+      "Ação"
+    ]
+  },
+  {
+    "id_filme": 2,
+    "titulo_filme": "O Último Trem",
+    "descricao_filme": "Uma viagem de trem atravessa a Patagônia.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/2.jpg",
+    "duracao_filme": 85,
+    "streaming_filme": "Prime Video",
+    "nacionalidade_filme": "Argentina",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Diego Paz",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/2.jpg",
+    "atorEspecifico_filme": "Lucía Gómez",
+    "nota_filme": 3.9,
+    "generos": [
+      "Aventura"
+    ]
+  },
+  {
+    "id_filme": 3,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 4,
+    "titulo_filme": "Galáxia Esquecida",
+    "descricao_filme": "Uma tripulação busca um planeta perdido.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/4.jpg",
+    "duracao_filme": 185,
+    "streaming_filme": "Disney+",
+    "nacionalidade_filme": "Estados Unidos",
+    "classificacao_filme": "Não recomendável para menores de 10 anos",
+    "diretor_filme": "Mark Hill",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/4.jpg",
+    "atorEspecifico_filme": "Sam Cole",
+    "nota_filme": 4.7,
+    "generos": [
+      "Ficção",
+      "Aventura"
+    ]
+  },
+  {
+    "id_filme": 5,
+    "titulo_filme": "Riso Solto",
+    "descricao_filme": "Uma família improvável abre um circo.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/5.jpg",
+    "duracao_filme": 90,
+    "streaming_filme": "Apple TV",
+    "nacionalidade_filme": "Canadá",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Paul Roy",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/5.jpg",
+    "atorEspecifico_filme": "Émile Tremblay",
+    "nota_filme": 3.5,
+    "generos": [
+      "Comédia"
+    ]
+  },
+  {
+    "id_filme": 6,
+    "titulo_filme": "Sombras do Vale",
+    "descricao_filme": "Um vilarejo esconde um segredo antigo.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/6.jpg",
+    "duracao_filme": 121,
+    "streaming_filme": "Globoplay",
+    "nacionalidade_filme": "Brasil",
+    "classificacao_filme": "18+",
+    "diretor_filme": "Conceição Alves",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/6.jpg",
+    "atorEspecifico_filme": "Helena Prado",
+    "nota_filme": 4.0,
+    "generos": [
+      "Terror",
+      "Mistério"
+    ]
+  },
+  {
+    "id_filme": 7,
+    "titulo_filme": "Canção do Mar",
+    "descricao_filme": "Uma cantora volta à cidade natal.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/7.jpg",
+    "duracao_filme": 120,
+    "streaming_filme": "GloboPlay",
+    "nacionalidade_filme": "Brasil",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Walter Prado",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/7.jpg",
+    "atorEspecifico_filme": "Marisa Luz",
+    "nota_filme": 3.8,
+    "generos": [
+      "Musical",
+      "Romance"
+    ]
+  },
+  {
+    "id_filme": 8,
+    "titulo_filme": "Pequenos Heróis",
+    "descricao_filme": "Crianças salvam a escola de um robô.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/8.jpg",
+    "duracao_filme": 91,
+    "streaming_filme": "AppleTV",
+    "nacionalidade_filme": "Japão",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Kenji Sato",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/8.jpg",
+    "atorEspecifico_filme": "Yui Tanaka",
+    "nota_filme": 4.2,
+    "generos": [
+      "Animação",
+      "Comédia"
+    ]
+  },
+  {
+    "id_filme": 9,
+    "titulo_filme": "Arquivo Vivo",
+    "descricao_filme": "A história de um acervo de cinema.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/9.jpg",
+    "duracao_filme": 180,
+    "streaming_filme": "Tela Brasil",
+    "nacionalidade_filme": "Brasil",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Lúcia Rocha",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/9.jpg",
+    "atorEspecifico_filme": "",
+    "nota_filme": 4.0,
+    "generos": [
+      "Documentário"
+    ]
+  },
+  {
+    "id_filme": 10,
+    "titulo_filme": "Dragão de Jade",
+    "descricao_filme": "Um guerreiro protege uma relíquia.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/10.jpg",
+    "duracao_filme": 181,
+    "streaming_filme": "Mubi",
+    "nacionalidade_filme": "China",
+    "classificacao_filme": "Não recomendável para menores de 14 anos",
+    "diretor_filme": "Li Wei",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/10.jpg",
+    "atorEspecifico_filme": "Zhang Min",
+    "nota_filme": 4.4,
+    "generos": [
+      "Fantasia",
+      "Ação"
+    ]
+  },
+  {
+    "id_filme": 11,
+    "titulo_filme": "Coração em Seul",
+    "descricao_filme": "Uma estudante se apaixona em Seul.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/11.jpg",
+    "duracao_filme": 110,
+    "streaming_filme": "Netflix",
+    "nacionalidade_filme": "Coreia do Sul",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Kim Ji",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/11.jpg",
+    "atorEspecifico_filme": "Park Seo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance"
+    ]
+  },
+  {
+    "id_filme": 12,
+    "titulo_filme": "Ação e Reação",
+    "descricao_filme": "Um físico vira detetive por acaso.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/12.jpg",
+    "duracao_filme": 95,
+    "streaming_filme": "Netflix",
+    "nacionalidade_filme": "França",
+    "classificacao_filme": "Não recomendável para menores de 14 anos",
+    "diretor_filme": "Claire Dubois",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/12.jpg",
+    "atorEspecifico_filme": "Jean Martin",
+    "nota_filme": 3.7,
+    "generos": [
+      "Ação"
+    ]
+  },
+  {
+    "id_filme": 13,
+    "titulo_filme": "Vozes de Roma",
+    "descricao_filme": "Três gerações dividem uma casa.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/13.jpg",
+    "duracao_filme": 140,
+    "streaming_filme": "Prime Video",
+    "nacionalidade_filme": "Itália",
+    "classificacao_filme": "Não recomendável para menores de 16 anos",
+    "diretor_filme": "Marco Rossi",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/13.jpg",
+    "atorEspecifico_filme": "Giulia Bianchi",
+    "nota_filme": 4.3,
+    "generos": [
+      "Drama"
+    ]
+  }
+]

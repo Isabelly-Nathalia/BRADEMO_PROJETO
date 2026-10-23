@@ -1,0 +1,17 @@
+[
+  {
+    "id_publicidade": 1,
+    "descricao": "Festival de cinema nacional",
+    "link_imagem": "https://img.exemplo.invalid/publicidade/1.jpg"
+  },
+  {
+    "id_publicidade": 2,
+    "descricao": "Mostra de animação",
+    "link_imagem": "https://img.exemplo.invalid/publicidade/2.jpg"
+  },
+  {
+    "id_publicidade": 3,
+    "descricao": "Clássicos restaurados",
+    "link_imagem": "https://img.exemplo.invalid/publicidade/3.jpg"
+  }
+]

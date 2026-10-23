@@ -1,0 +1,248 @@
+[
+  {
+    "id_filme": 1,
+    "titulo_filme": "Cidade Partida",
+    "descricao_filme": "Dois amigos seguem caminhos opostos numa cidade dividida.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/1.jpg",
+    "duracao_filme": 130,
+    "streaming_filme": "Netflix",
+    "nacionalidade_filme": "Brasil",
+    "classificacao_filme": "Não recomendável para menores de 16 anos",
+    "diretor_filme": "Ana Ribeiro",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/1.jpg",
+    "atorEspecifico_filme": "Carlos Lima, Bia Torres",
+    "nota_filme": 4.5,
+    "generos": [
+      "Drama",
+      "Ação"
+    ]
+  },
+  {
+    "id_filme": 20,
+    "titulo_filme": "Cidade Partida",
+    "descricao_filme": null,
+    "imagemDiretor_filme": null,
+    "duracao_filme": 130,
+    "streaming_filme": null,
+    "nacionalidade_filme": null,
+    "classificacao_filme": null,
+    "diretor_filme": null,
+    "linkImagemFilme_filme": null,
+    "atorEspecifico_filme": null,
+    "nota_filme": 4.5,
+    "generos": null
+  },
+  {
+    "id_filme": null,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 2,
+    "titulo_filme": "O Último Trem",
+    "descricao_filme": "Uma viagem de trem atravessa a Patagônia.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/2.jpg",
+    "duracao_filme": 85,
+    "streaming_filme": "Prime Video",
+    "nacionalidade_filme": "Argentina",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Diego Paz",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/2.jpg",
+    "atorEspecifico_filme": "Lucía Gómez",
+    "nota_filme": 3.9,
+    "generos": [
+      "Aventura"
+    ]
+  },
+  {
+    "id_filme": 21,
+    "titulo_filme": "O Último Trem",
+    "descricao_filme": "Uma viagem de trem atravessa a Patagônia.",
+    "imagemDiretor_filme": "javascript:alert(1)",
+    "duracao_filme": 85,
+    "streaming_filme": "Prime Video",
+    "nacionalidade_filme": "Argentina",
+    "classificacao_filme": "Livre",
+    "diretor_filme": "Diego Paz",
+    "linkImagemFilme_filme": "http://img.exemplo.invalid/21.jpg",
+    "atorEspecifico_filme": "Lucía Gómez",
+    "nota_filme": 3.9,
+    "generos": [
+      "Aventura"
+    ]
+  },
+  {
+    "id_filme": -1,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 1.5,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 30,
+    "titulo_filme": "",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 31,
+    "titulo_filme": null,
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 32,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": "120",
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 33,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": -5,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 34,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": null,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 35,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": "Drama"
+  },
+  "texto solto",
+  null,
+  {
+    "id_filme": 3,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  }
+]

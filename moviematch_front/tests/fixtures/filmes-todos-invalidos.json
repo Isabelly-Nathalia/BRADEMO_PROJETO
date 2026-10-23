@@ -1,0 +1,163 @@
+[
+  {
+    "id_filme": null,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": -1,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 1.5,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 30,
+    "titulo_filme": "",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 31,
+    "titulo_filme": null,
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 32,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": "120",
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 33,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": -5,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 34,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": null,
+    "generos": [
+      "Romance",
+      "Drama"
+    ]
+  },
+  {
+    "id_filme": 35,
+    "titulo_filme": "Noites de Lisboa",
+    "descricao_filme": "Um encontro casual muda dois destinos.",
+    "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/3.jpg",
+    "duracao_filme": 105,
+    "streaming_filme": "HBO Max",
+    "nacionalidade_filme": "Portugal",
+    "classificacao_filme": "Não recomendável para menores de 12 anos",
+    "diretor_filme": "Rita Sousa",
+    "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/3.jpg",
+    "atorEspecifico_filme": "João Neves, Inês Melo",
+    "nota_filme": 4.1,
+    "generos": "Drama"
+  },
+  "texto solto",
+  null
+]

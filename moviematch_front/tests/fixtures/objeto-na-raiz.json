@@ -1,0 +1,39 @@
+{
+  "filmes": [
+    {
+      "id_filme": 1,
+      "titulo_filme": "Cidade Partida",
+      "descricao_filme": "Dois amigos seguem caminhos opostos numa cidade dividida.",
+      "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/1.jpg",
+      "duracao_filme": 130,
+      "streaming_filme": "Netflix",
+      "nacionalidade_filme": "Brasil",
+      "classificacao_filme": "Não recomendável para menores de 16 anos",
+      "diretor_filme": "Ana Ribeiro",
+      "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/1.jpg",
+      "atorEspecifico_filme": "Carlos Lima, Bia Torres",
+      "nota_filme": 4.5,
+      "generos": [
+        "Drama",
+        "Ação"
+      ]
+    },
+    {
+      "id_filme": 2,
+      "titulo_filme": "O Último Trem",
+      "descricao_filme": "Uma viagem de trem atravessa a Patagônia.",
+      "imagemDiretor_filme": "https://img.exemplo.invalid/diretores/2.jpg",
+      "duracao_filme": 85,
+      "streaming_filme": "Prime Video",
+      "nacionalidade_filme": "Argentina",
+      "classificacao_filme": "Livre",
+      "diretor_filme": "Diego Paz",
+      "linkImagemFilme_filme": "https://img.exemplo.invalid/filmes/2.jpg",
+      "atorEspecifico_filme": "Lucía Gómez",
+      "nota_filme": 3.9,
+      "generos": [
+        "Aventura"
+      ]
+    }
+  ]
+}
