@@ -3,7 +3,7 @@
     "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "lib": ["ES2023"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
     "types": ["node"],
     "strict": true,
     "verbatimModuleSyntax": true,
@@ -16,5 +16,5 @@
     "noEmit": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
   },
-  "include": ["vite.config.ts", "vitest.config.ts", "scripts/allowlist.mjs", "scripts/proxy-dev.mjs", "scripts/gerar-nginx-allowlist.mjs"]
+  "include": ["vite.config.ts", "vitest.config.ts", "scripts/allowlist.mjs", "scripts/proxy-dev.mjs", "scripts/gerar-nginx-allowlist.mjs", "playwright.config.ts", "tests/e2e/**/*.ts"]
 }

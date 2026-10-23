@@ -4,6 +4,8 @@
 #   scripts/perfil.sh a              testes rápidos (sem pilha): npm ci, check da allowlist, lint,
 #                                    typecheck, unitários, regras de lint, scripts e build
 #   scripts/perfil.sh smoke          pilha mínima (front + mock) sobe, conversa e é removida
+#   scripts/perfil.sh b              E2E com Playwright contra a imagem de produção e o mock
+#                                    (MMF_E2E_ARGS repassa opções, ex.: --repeat-each=3)
 #   scripts/perfil.sh d              proxy e segurança (tests/proxy)
 #   scripts/perfil.sh limpar <id>    remove só os recursos de uma execução interrompida
 #
@@ -66,6 +68,11 @@ perfil_compose() {
   docker build -q -f "$front/docker/Dockerfile" -t moviematch-front:teste --label "$LABEL=imagem" "$front" >/dev/null
 
   # A limpeza roda em qualquer saída e preserva o código de saída dos testes.
+  # Arquivos gerados pelos testes (test-results/) ficam com o usuário do host.
+  export MMF_UID MMF_GID
+  MMF_UID="$(id -u)"
+  MMF_GID="$(id -g)"
+
   local codigo=0
   trap 'limpar "'"$id"'" || codigo=1' EXIT
   printf 'subindo %s…\n' "$id"
@@ -89,6 +96,7 @@ perfil_compose() {
 case "${1:-}" in
   a) perfil_a ;;
   smoke) perfil_compose smoke smoke ;;
+  b) perfil_compose b e2e ;;
   d)
     # Os testes não rodam no perfil A: dependem da pilha. Lint/sintaxe são cobertos pelo ESLint.
     perfil_compose d sonda
@@ -98,7 +106,7 @@ case "${1:-}" in
     limpar "$2"
     ;;
   *)
-    printf 'uso: scripts/perfil.sh a|smoke|d|limpar <id>\n' >&2
+    printf 'uso: scripts/perfil.sh a|smoke|b|d|limpar <id>\n' >&2
     exit 2
     ;;
 esac
