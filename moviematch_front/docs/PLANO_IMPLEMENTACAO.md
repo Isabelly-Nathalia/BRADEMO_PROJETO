@@ -1075,3 +1075,15 @@ Desvios em relação às tarefas, registrados à medida que ocorrem. Todos ficar
 | F1-T07 | Lint com `--max-warnings 0`; `vue/multi-word-component-names` desligada em `src/pages/` | Avisos não podem se acumular; páginas não são usadas como tag |
 | F1-T08 | `tests/unit/app.test.ts` ajustado | O atalho "Pular para o conteúdo" passou a ser o primeiro link |
 | F1-T09 | `SafeImage` só para URLs da API; assets locais usam `<img>` | O Vite pode embutir assets locais como `data:`, que o componente recusa de propósito |
+| F2-T01 | Casos da allowlist em `tests/scripts/casos-allowlist.mjs` | Serão reutilizados pelo teste do gerador do Nginx; importar um `.test.mjs` faria os testes rodarem duas vezes |
+| F2-T01 | Script `test:scripts` incluído no perfil A | Os testes `node --test` de `tests/scripts/` não rodavam automaticamente |
+| F2-T02 | Plugin com middleware próprio em vez de `bypass` (R-06) | Comportamento verificável e idêntico ao do Nginx (404/403); a chave do proxy virou regex porque `/api` casaria `/apix` |
+| F2-T02 | Teste em `tests/scripts/proxy-dev.test.mjs` (`node --test`), não em `tests/unit/` | Sobe o Vite real com `node:http`; os testes unitários não têm tipos de Node |
+| F2-T02 | Upstream em `MM_API_UPSTREAM` (sem prefixo `VITE_`) | Variáveis `VITE_*` podem vazar para o bundle do navegador |
+| F2-T02 | `allowJs` + `checkJs` no `tsconfig.node.json` para `scripts/*.mjs` | O `vite.config.ts` importa os scripts; agora eles passam pelo typecheck |
+| F2-T03 | Caso extra: corpo que trava depois dos cabeçalhos | Prova que o timeout cobre a leitura do corpo |
+| F2-T04 | Fixtures extras: `filmes-repetidos.json`, `objeto-na-raiz.json` | Cobrem os cenários "repetidos" do mock e o erro sistêmico de raiz |
+| F2-T05 | Deduplicação por `id` (mantém o primeiro, conta `repetidos`) | IDs repetidos quebrariam as chaves das listas no Vue |
+| F2-T05 | `src/services/url.ts` extraído; `SafeImage` passou a usá-lo | Uma única regra de URL https para mapeadores e componente |
+| F2-T06 | `porStreaming('outros')` recusado | No backend, `/filmes/streaming/outros` é uma rota própria, não um streaming |
+| F2-T08 | `src/components/mensagemErro.ts` | Textos de erro por tipo, testáveis sem montar o componente |
