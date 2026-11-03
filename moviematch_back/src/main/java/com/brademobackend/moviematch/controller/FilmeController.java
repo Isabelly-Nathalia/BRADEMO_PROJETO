@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.brademobackend.moviematch.model.Filme;
 import com.brademobackend.moviematch.service.FilmeService;
@@ -23,9 +24,10 @@ public class FilmeController {
     }
 
     @GetMapping("/aleatorios")
-    public List<Filme> buscarFilmesAleatorios() {
-        return filmeService.buscarFilmesAleatorios();
-    }
+public List<Filme> buscarFilmesAleatorios(
+        @RequestParam(defaultValue = "10") int quantidade) {
+    return filmeService.buscarFilmesAleatorios(quantidade);
+}
 
     @GetMapping("/streaming/{streaming}")
     public List<Filme> buscarPorStreaming(

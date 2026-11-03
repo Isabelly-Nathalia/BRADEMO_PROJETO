@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moviematch/service/publicidadeService.dart';
 import '../perfil/conta.dart';
 import '../form/form.dart';
 import 'notificacao.dart';
@@ -8,14 +7,12 @@ import 'filmeStreaming.dart';
 import '../../service/notificacaoService.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../widgets/cardFilme.dart';
-
 import '../../../service/filmeService.dart';
-import '../../../service/publicidadeService.dart';
 import '../../../model/filme.dart';
-import '../../../model/publicidade.dart';
-
 import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'detalheFilme.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -25,24 +22,142 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final PageController controladorCarrossel = PageController();
+  final PageController controladorCarrossel = PageController(
+    viewportFraction: 0.82,
+  );
   final PageController controllerFIlmes = PageController(
     viewportFraction: 0.46,
   );
+
+  List<Filme> filmesMaisAssistidos = [];
+  bool carregandoMaisAssistidos = true;
 
   final FilmeService filmeService = FilmeService();
 
   List<Filme> filmes = [];
 
+  final List<String> generos = [
+    "Romance",
+    "Ação",
+    "Aventura",
+    "Drama",
+    "Comédia",
+    "Animação",
+    "Ficção",
+    "Mistério",
+    "Fantasia",
+    "Terror",
+    "Musical",
+    "Documentário",
+    "Suspense",
+  ];
   Future<void> carregarFilmes() async {
-    final resultado = await filmeService.buscarFilmes();
+    final resultado = await filmeService.buscarTodosFilmes();
+
+    if (!mounted) return;
+
     setState(() {
       filmes = resultado;
     });
   }
 
-  final PublicidadeService publicidadeService = PublicidadeService();
-  List<Publicidade> publicidades = [];
+  String normalizarGenero(String genero) {
+    final valor = genero.trim().toLowerCase();
+    if (valor == "roamnce") {
+      return "romance";
+    }
+    return valor;
+  }
+
+  List<Filme> buscarFilmesPorGenero(String genero) {
+    return filmes.where((filme) {
+      return filme.generos.any(
+        (generoFilme) =>
+            normalizarGenero(generoFilme) == normalizarGenero(genero),
+      );
+    }).toList();
+  }
+
+  Future<void> carregarFilmesMaisAssistidos() async {
+    final resultado = await filmeService.buscarFilmes(quantidade: 10);
+
+    print('Quantidade de filmes recebidos: ${resultado.length}');
+
+    if (!mounted) return;
+
+    setState(() {
+      filmesMaisAssistidos = resultado;
+      carregandoMaisAssistidos = false;
+    });
+  }
+
+  List<Widget> construirSecoesGeneros() {
+    final generosComFilmes = generos
+        .map(
+          (genero) => {
+            "genero": genero,
+            "filmes": buscarFilmesPorGenero(genero),
+          },
+        )
+        .where((secao) => (secao["filmes"] as List<Filme>).isNotEmpty)
+        .toList();
+
+    return List.generate(generosComFilmes.length, (index) {
+      final genero = generosComFilmes[index]["genero"] as String;
+      final filmesGenero = generosComFilmes[index]["filmes"] as List<Filme>;
+
+      final conteudo = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              genero.toUpperCase(),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          SizedBox(
+            height: 295,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: filmesGenero.length,
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              itemBuilder: (context, index) {
+                final filme = filmesGenero[index];
+
+                return CardFilme(
+                  filme: {
+                    "idFilme": filme.idFilme,
+                    "titulo": filme.titulo,
+                    "imagem": filme.imagem,
+                    "descricao": filme.descricao,
+                    "nota": filme.nota.toString(),
+                    "duracao": filme.duracao,
+                    "diretor": filme.diretor,
+                    "fotoDiretor": filme.fotoDiretor,
+                    "streaming": filme.streaming,
+                    "elenco": [filme.atores],
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      );
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12, top: 8),
+        child: conteudo,
+      );
+    });
+  }
 
   final Color Cinza = const Color(0xFF222425);
   final Color vermelho = const Color(0xFF681F10);
@@ -52,15 +167,8 @@ class HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    carregarPublicidades();
+    carregarFilmesMaisAssistidos();
     carregarFilmes();
-  }
-
-  Future<void> carregarPublicidades() async {
-    final resultado = await publicidadeService.buscarPublicidades();
-    setState(() {
-      publicidades = resultado;
-    });
   }
 
   @override
@@ -139,142 +247,115 @@ class HomeState extends State<Home> {
 
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Stack(
-                        children: [
-                          SizedBox(
-                            height: 260,
-                            child: PageView.builder(
-                              controller: controladorCarrossel,
-                              itemCount: publicidades.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.only(right: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        publicidades[index].linkImagem,
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          const Positioned(
-                            top: 10,
-                            left: 10,
-                            child: Text(
-                              "Em alta",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: Text(
-                              "Publicidade",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        "Você pode gostar",
+                      child: const Text(
+                        "Confira os mais assistidos da semana!",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 12),
 
+                    SizedBox(
+                      width: double.infinity,
+                      height: largura * 1.17,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 22,
+                            bottom: 22,
+                            child: Container(color: vermelho),
+                          ),
+
+                          if (carregandoMaisAssistidos)
+                            const Center(child: CircularProgressIndicator())
+                          else if (filmesMaisAssistidos.isEmpty)
+                            const Center(
+                              child: Text(
+                                "Nenhum filme disponível",
+                                style: TextStyle(color: Colors.white70),
+                              ),
+                            )
+                          else
+                            PageView.builder(
+                              controller: controladorCarrossel,
+                              itemCount: filmesMaisAssistidos.length,
+                              itemBuilder: (context, index) {
+                                final filme = filmesMaisAssistidos[index];
+
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetalheFilme(
+                                          idFilme: filme.idFilme,
+                                          titulo: filme.titulo,
+                                          imagem: filme.imagem,
+                                          descricao: filme.descricao,
+                                          nota: filme.nota.toString(),
+                                          duracao: filme.duracao,
+                                          diretor: filme.diretor,
+                                          fotoDiretor: filme.fotoDiretor,
+                                          streaming: filme.streaming,
+                                          elenco: [filme.atores],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: largura * 0.76,
+                                      child: AspectRatio(
+                                        aspectRatio: 0.68,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                          child: CachedNetworkImage(
+                                            imageUrl: filme.imagem,
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            },
+                                            errorWidget: (context, url, error) {
+                                              return const Center(
+                                                child: Icon(
+                                                  Icons.broken_image,
+                                                  color: Colors.white,
+                                                  size: 40,
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    const SizedBox(height: 15),
+                    
                     if (filmes.isEmpty)
                       const Center(child: CircularProgressIndicator())
                     else
-                      largura < 600
-                          ? Container(
-                              width: double.infinity,
-                              height: 320,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 20,
-                                horizontal: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                color: vermelho,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: PageView.builder(
-                                controller: controllerFIlmes,
-                                padEnds: false,
-                                itemCount: filmes.length,
-                                itemBuilder: (context, index) {
-                                  final filme = filmes[index];
-                                  return CardFilme(
-                                    filme: {
-                                      "idFilme": filme.idFilme,
-                                      "titulo": filme.titulo,
-                                      "imagem": filme.imagem,
-                                      "descricao": filme.descricao,
-                                      "nota": filme.nota.toString(),
-                                      "duracao": filme.duracao,
-                                      "diretor": filme.diretor,
-                                      "fotoDiretor": filme.fotoDiretor,
-                                      "streaming": filme.streaming,
-
-                                      "elenco": [filme.atores],
-                                    },
-                                  );
-                                },
-                              ),
-                            )
-                          : Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 20,
-                                horizontal: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                color: vermelho,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                children: filmes.map((filme) {
-                                  return Expanded(
-                                    child: CardFilme(
-                                      filme: {
-                                        "idFilme": filme.idFilme,
-                                        "titulo": filme.titulo,
-                                        "imagem": filme.imagem,
-                                        "descricao": filme.descricao,
-                                        "nota": filme.nota.toString(),
-                                        "duracao": filme.duracao,
-                                        "diretor": filme.diretor,
-                                        "fotoDiretor": filme.fotoDiretor,
-                                        "streaming": filme.streaming,
-                                        "elenco": [filme.atores],
-                                      },
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
+                      ...construirSecoesGeneros(),
                     const SizedBox(height: 20),
 
                     const Padding(

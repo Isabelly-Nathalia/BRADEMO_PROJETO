@@ -1,5 +1,6 @@
 package com.brademobackend.moviematch.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,12 @@ public class FilmeService {
         return filmeRepository.findAll();
     }
 
-    public List<Filme> buscarFilmesAleatorios() {
-        List<Filme> filmes = (List<Filme>) filmeRepository.findAll();
-        Collections.shuffle(filmes);
-        return filmes.stream()
-                .limit(5)
-                .toList();
-    }
+    public List<Filme> buscarFilmesAleatorios(int quantidade) {
+    List<Filme> filmes = new ArrayList<>();
+    filmeRepository.findAll().forEach(filmes::add);
+    Collections.shuffle(filmes);
+    return filmes.stream().limit(Math.max(0, Math.min(quantidade, filmes.size()))).toList();
+}
 
     public List<Filme> buscarPorStreaming(String streaming) {
         return filmeRepository.buscarPorStreaming(streaming);
