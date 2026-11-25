@@ -10,10 +10,12 @@ import '../../../config/sessaoUsuario.dart';
 import '../login/semLogin.dart';
 import '../../../service/usuarioService.dart';
 import '../../../service/listaService.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class DetalheFilme extends StatefulWidget {
   final int idFilme;
   final String titulo;
+  final String? trailer;
   final String imagem;
   final String descricao;
   final String nota;
@@ -22,11 +24,13 @@ class DetalheFilme extends StatefulWidget {
   final List<String> elenco;
   final String fotoDiretor;
   final String streaming;
+  final bool abrirTrailerInicial;
 
   const DetalheFilme({
     super.key,
     required this.idFilme,
     required this.titulo,
+    this.trailer,
     required this.imagem,
     required this.descricao,
     required this.nota,
@@ -35,6 +39,7 @@ class DetalheFilme extends StatefulWidget {
     required this.elenco,
     required this.fotoDiretor,
     required this.streaming,
+    this.abrirTrailerInicial = false,
   });
 
   @override
@@ -48,6 +53,9 @@ class _DetalheFilmeState extends State<DetalheFilme> {
   final TextEditingController controllerLista = TextEditingController();
   final UsuarioService usuarioService = UsuarioService();
   final ListaService listaService = ListaService();
+  YoutubePlayerController? _trailerController;
+  late final PageController _paginaController;
+  bool _mostrarTrailer = false;
 
   List<Lista> listas = [];
   bool mostrarCampo = false;
@@ -56,11 +64,65 @@ class _DetalheFilmeState extends State<DetalheFilme> {
   List<int> listasMarcadas = [];
   List<int> listasDoFilmeOriginal = [];
 
+  String? _extrairVideoId(String url) {
+    final uri = Uri.tryParse(url);
+
+    if (uri == null) return null;
+
+    final videoId = uri.queryParameters['v'];
+    if (videoId != null && videoId.isNotEmpty) {
+      return videoId;
+    }
+    if (uri.host.contains('youtu.be')) {
+      return uri.pathSegments.isNotEmpty ? uri.pathSegments.first : null;
+    }
+    final segmentos = uri.pathSegments;
+
+    if (segmentos.length >= 2 &&
+        ['embed', 'shorts', 'live'].contains(segmentos.first)) {
+      return segmentos[1];
+    }
+
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
+
     verificarCurtida();
     carregarListas();
+
+    final url = widget.trailer?.trim();
+
+    if (url != null && url.isNotEmpty) {
+      final videoId = _extrairVideoId(url);
+
+      if (videoId != null && videoId.isNotEmpty) {
+        _trailerController = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: const YoutubePlayerFlags(
+            autoPlay: false,
+            mute: false,
+            controlsVisibleAtStart: true,
+          ),
+        );
+      }
+    }
+    _paginaController = PageController(
+      initialPage: widget.abrirTrailerInicial && _trailerController != null
+          ? 1
+          : 0,
+    );
+    _mostrarTrailer = widget.abrirTrailerInicial && _trailerController != null;
+  }
+
+  @override
+  void dispose() {
+    _trailerController?.dispose();
+    _paginaController.dispose();
+    controllerLista.dispose();
+    super.dispose();
   }
 
   Future<void> carregarListas() async {
@@ -140,19 +202,48 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          Container(
-                            height: 450,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(20),
-                              ),
-                              image: DecorationImage(
-                                image: NetworkImage(widget.imagem),
-                                fit: BoxFit.cover,
-                              ),
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 250),
+                            curve: Curves.easeInOut,
+                            height:
+                                _mostrarTrailer && _trailerController != null
+                                ? (MediaQuery.of(context).size.width - 32) *
+                                      9 /
+                                      16
+                                : 450,
+                            child: PageView(
+                              onPageChanged: (pagina) {
+                                setState(() {
+                                  _mostrarTrailer = pagina == 1;
+                                });
+                              },
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
+                                  child: Image.network(
+                                    widget.imagem,
+                                    width: double.infinity,
+                                    height: 450,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                if (_trailerController != null)
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: AspectRatio(
+                                      aspectRatio: 16 / 9,
+                                      child: YoutubePlayer(
+                                        controller: _trailerController!,
+                                        aspectRatio: 16 / 9,
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
+
                           Container(
                             width: double.infinity,
                             padding: const EdgeInsets.all(12),
@@ -217,6 +308,27 @@ class _DetalheFilmeState extends State<DetalheFilme> {
                         ],
                       ),
                     ),
+
+                    if (_trailerController != null) ...[
+                      const SizedBox(height: 20),
+
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Trailer',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+                    ],
 
                     const SizedBox(height: 15),
 

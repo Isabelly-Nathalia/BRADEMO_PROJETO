@@ -1,6 +1,7 @@
 class Filme {
   final int idFilme;
   final String titulo;
+  final String? trailer;
   final String descricao;
   final String imagem;
   final int duracao;
@@ -16,6 +17,7 @@ class Filme {
   Filme({
     required this.idFilme,
     required this.titulo,
+    this.trailer,
     required this.descricao,
     required this.imagem,
     required this.duracao,
@@ -33,6 +35,7 @@ class Filme {
     return Filme(
       idFilme: json['id_filme'],
       titulo: json['titulo_filme'],
+      trailer: json['trailer_filme'] as String?,
       descricao: json['descricao_filme'],
       imagem: json['linkImagemFilme_filme'],
       duracao: json['duracao_filme'],

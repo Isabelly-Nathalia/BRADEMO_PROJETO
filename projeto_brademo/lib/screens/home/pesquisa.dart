@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../service/filmeService.dart';
 import '../../../model/filme.dart';
-import '../../../widgets/cardFilme.dart';
 import 'detalheFilme.dart';
 
 class Pesquisa extends StatefulWidget {
@@ -84,6 +83,7 @@ class _PesquisaState extends State<Pesquisa> {
                               builder: (context) => DetalheFilme(
                                 idFilme: filme.idFilme,
                                 titulo: filme.titulo,
+                                trailer: filme.trailer, 
                                 imagem: filme.imagem,
                                 descricao: filme.descricao,
                                 nota: filme.nota.toString(),

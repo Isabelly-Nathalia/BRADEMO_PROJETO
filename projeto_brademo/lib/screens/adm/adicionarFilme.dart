@@ -16,6 +16,7 @@ class _AddFilmeState extends State<AddFilme> {
   final duracaoController = TextEditingController();
   final diretorController = TextEditingController();
   final streamingController = TextEditingController();
+  final trailerController = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +29,22 @@ class _AddFilmeState extends State<AddFilme> {
       duracaoController.text = widget.filme!["duracao"] ?? "";
       diretorController.text = widget.filme!["diretor"] ?? "";
       streamingController.text = widget.filme!["streaming"] ?? "";
+      trailerController.text = widget.filme!["trailer"] ?? "";
     }
+  }
+
+  @override
+  void dispose() {
+    tituloController.dispose();
+    imagemController.dispose();
+    descricaoController.dispose();
+    notaController.dispose();
+    duracaoController.dispose();
+    diretorController.dispose();
+    streamingController.dispose();
+    trailerController.dispose();
+
+    super.dispose();
   }
 
   Widget campo({
@@ -71,6 +87,7 @@ class _AddFilmeState extends State<AddFilme> {
           children: [
             const SizedBox(height: 50),
             campo(texto: "Título", controller: tituloController),
+            campo(texto: "URL do trailer no Youtube", controller: trailerController),
             campo(texto: "URL da imagem", controller: imagemController),
             campo(
               texto: "Descrição",
@@ -89,6 +106,7 @@ class _AddFilmeState extends State<AddFilme> {
               onPressed: () {
                 final novoFilme = {
                   "titulo": tituloController.text,
+                  "trailer": trailerController.text,
                   "imagem": imagemController.text,
                   "descricao": descricaoController.text,
                   "nota": notaController.text,

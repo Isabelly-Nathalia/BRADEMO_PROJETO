@@ -116,6 +116,7 @@ class _FilmeStreamingState extends State<FilmeStreaming> {
                                   filme: {
                                     "idFilme": filme.idFilme,
                                     "titulo": filme.titulo,
+                                    "trailer": filme.trailer,
                                     "imagem": filme.imagem,
                                     "descricao": filme.descricao,
                                     "nota": filme.nota.toString(),

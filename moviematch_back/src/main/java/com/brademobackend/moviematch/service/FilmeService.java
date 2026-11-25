@@ -20,11 +20,11 @@ public class FilmeService {
     }
 
     public List<Filme> buscarFilmesAleatorios(int quantidade) {
-    List<Filme> filmes = new ArrayList<>();
-    filmeRepository.findAll().forEach(filmes::add);
-    Collections.shuffle(filmes);
-    return filmes.stream().limit(Math.max(0, Math.min(quantidade, filmes.size()))).toList();
-}
+        List<Filme> filmes = new ArrayList<>();
+        filmeRepository.findAll().forEach(filmes::add);
+        Collections.shuffle(filmes);
+        return filmes.stream().limit(Math.max(0, Math.min(quantidade, filmes.size()))).toList();
+    }
 
     public List<Filme> buscarPorStreaming(String streaming) {
         return filmeRepository.buscarPorStreaming(streaming);

@@ -98,7 +98,6 @@ class _SugestaoFilmesState extends State<SugestaoFilmes> {
 
   @override
   Widget build(BuildContext context) {
-    print("ENTROU NA TELA DE SUGESTÕES");
     final formProvider = context.watch<FormProvider>();
 
     final filmesOrdenados = [...filmes];
@@ -181,7 +180,6 @@ class _SugestaoFilmesState extends State<SugestaoFilmes> {
                                         Expanded(child: _infoFilme(filme)),
 
                                       if (!esquerda) const SizedBox(width: 20),
-
                                       _cardFilmeSugestao(context, filme),
 
                                       if (esquerda) const SizedBox(width: 20),
@@ -249,6 +247,7 @@ class _SugestaoFilmesState extends State<SugestaoFilmes> {
             builder: (context) => DetalheFilme(
               idFilme: filme.idFilme,
               titulo: filme.titulo,
+              trailer: filme.trailer,
               imagem: filme.imagem,
               descricao: filme.descricao,
               nota: filme.nota.toString(),

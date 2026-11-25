@@ -234,6 +234,7 @@ class _ContaState extends State<Conta> {
                           filme: {
                             "idFilme": filme.idFilme,
                             "titulo": filme.titulo,
+                            "trailer": filme.trailer,
                             "imagem": filme.imagem,
                             "descricao": filme.descricao,
                             "nota": filme.nota.toString(),
@@ -351,6 +352,7 @@ class _ContaState extends State<Conta> {
                                           filme: {
                                             "idFilme": filmesLista[i].idFilme,
                                             "titulo": filmesLista[i].titulo,
+                                            "trailer": filmesLista[i].trailer,
                                             "imagem": filmesLista[i].imagem,
                                             "descricao":
                                                 filmesLista[i].descricao,

@@ -4,7 +4,6 @@ import '../form/form.dart';
 import 'notificacao.dart';
 import 'pesquisa.dart';
 import 'filmeStreaming.dart';
-import '../../service/notificacaoService.dart';
 import '../../../widgets/headerRotas.dart';
 import '../../../widgets/cardFilme.dart';
 import '../../../service/filmeService.dart';
@@ -51,6 +50,33 @@ class HomeState extends State<Home> {
     "Documentário",
     "Suspense",
   ];
+
+  void _abrirDetalhe(
+    BuildContext context,
+    Filme filme, {
+    bool abrirTrailer = false,
+  }) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetalheFilme(
+          idFilme: filme.idFilme,
+          titulo: filme.titulo,
+          trailer: filme.trailer,
+          imagem: filme.imagem,
+          descricao: filme.descricao,
+          nota: filme.nota.toString(),
+          duracao: filme.duracao,
+          diretor: filme.diretor,
+          fotoDiretor: filme.fotoDiretor,
+          streaming: filme.streaming,
+          elenco: [filme.atores],
+          abrirTrailerInicial: abrirTrailer,
+        ),
+      ),
+    );
+  }
+
   Future<void> carregarFilmes() async {
     final resultado = await filmeService.buscarTodosFilmes();
 
@@ -80,11 +106,7 @@ class HomeState extends State<Home> {
 
   Future<void> carregarFilmesMaisAssistidos() async {
     final resultado = await filmeService.buscarFilmes(quantidade: 10);
-
-    print('Quantidade de filmes recebidos: ${resultado.length}');
-
     if (!mounted) return;
-
     setState(() {
       filmesMaisAssistidos = resultado;
       carregandoMaisAssistidos = false;
@@ -136,6 +158,7 @@ class HomeState extends State<Home> {
                   filme: {
                     "idFilme": filme.idFilme,
                     "titulo": filme.titulo,
+                    "trailer": filme.trailer,
                     "imagem": filme.imagem,
                     "descricao": filme.descricao,
                     "nota": filme.nota.toString(),
@@ -265,6 +288,7 @@ class HomeState extends State<Home> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
+                          // Faixa vermelha ao fundo
                           Positioned(
                             left: 0,
                             right: 0,
@@ -289,58 +313,150 @@ class HomeState extends State<Home> {
                               itemBuilder: (context, index) {
                                 final filme = filmesMaisAssistidos[index];
 
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetalheFilme(
-                                          idFilme: filme.idFilme,
-                                          titulo: filme.titulo,
-                                          imagem: filme.imagem,
-                                          descricao: filme.descricao,
-                                          nota: filme.nota.toString(),
-                                          duracao: filme.duracao,
-                                          diretor: filme.diretor,
-                                          fotoDiretor: filme.fotoDiretor,
-                                          streaming: filme.streaming,
-                                          elenco: [filme.atores],
+                                return AnimatedBuilder(
+                                  animation: controladorCarrossel,
+                                  builder: (context, child) {
+                                    double paginaAtual = 0;
+
+                                    if (controladorCarrossel.hasClients &&
+                                        controladorCarrossel
+                                            .position
+                                            .haveDimensions) {
+                                      paginaAtual =
+                                          controladorCarrossel.page ??
+                                          controladorCarrossel.initialPage
+                                              .toDouble();
+                                    }
+
+                                    final distancia = (paginaAtual - index).abs();
+                                    final escala = (1 - (distancia * 0.25)).clamp(0.72, 1.0);
+                                    final estaNoCentro = distancia < 0.35;
+
+                                    return Center(
+                                      child: Transform.scale(
+                                        scale: escala,
+                                        child: SizedBox(
+                                          width: largura * 0.82,
+                                          height: largura * 1.17,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              24,
+                                            ),
+                                            child: Stack(
+                                              fit: StackFit.expand,
+                                              children: [
+                                                CachedNetworkImage(
+                                                  imageUrl: filme.imagem,
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) =>
+                                                      const Center(
+                                                        child:
+                                                            CircularProgressIndicator(),
+                                                      ),
+                                                  errorWidget:
+                                                      (context, url, error) =>
+                                                          const Icon(
+                                                            Icons.broken_image,
+                                                            color: Colors.white,
+                                                            size: 40,
+                                                          ),
+                                                ),
+                                                if (estaNoCentro)
+                                                  Positioned(
+                                                    left: 12,
+                                                    right: 12,
+                                                    bottom: 14,
+                                                    child: Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              _abrirDetalhe(
+                                                                context,
+                                                                filme,
+                                                              );
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                              backgroundColor:
+                                                                  vermelho,
+                                                              foregroundColor:
+                                                                  Colors.white,
+                                                              padding:
+                                                                  const EdgeInsets.symmetric(
+                                                                    vertical:
+                                                                        12,
+                                                                  ),
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      25,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            child: const Text(
+                                                              "Mais Informações",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+
+                                                        Expanded(
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              _abrirDetalhe(
+                                                                context,
+                                                                filme,
+                                                                abrirTrailer:
+                                                                    true,
+                                                              );
+                                                            },
+                                                            style: ElevatedButton.styleFrom(
+                                                              backgroundColor:
+                                                                  vermelho,
+                                                              foregroundColor:
+                                                                  Colors.white,
+                                                              padding:
+                                                                  const EdgeInsets.symmetric(
+                                                                    vertical:
+                                                                        12,
+                                                                  ),
+                                                              shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      25,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            child: const Text(
+                                                              "Ver trailer",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     );
                                   },
-                                  child: Center(
-                                    child: SizedBox(
-                                      width: largura * 0.76,
-                                      child: AspectRatio(
-                                        aspectRatio: 0.68,
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                          child: CachedNetworkImage(
-                                            imageUrl: filme.imagem,
-                                            fit: BoxFit.cover,
-                                            placeholder: (context, url) {
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              );
-                                            },
-                                            errorWidget: (context, url, error) {
-                                              return const Center(
-                                                child: Icon(
-                                                  Icons.broken_image,
-                                                  color: Colors.white,
-                                                  size: 40,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 );
                               },
                             ),
@@ -351,7 +467,7 @@ class HomeState extends State<Home> {
                     const SizedBox(height: 20),
 
                     const SizedBox(height: 15),
-                    
+
                     if (filmes.isEmpty)
                       const Center(child: CircularProgressIndicator())
                     else

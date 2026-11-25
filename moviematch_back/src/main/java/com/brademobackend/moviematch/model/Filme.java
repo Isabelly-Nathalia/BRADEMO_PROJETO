@@ -30,6 +30,7 @@ public class Filme {
     private String linkImagemFilme_filme;
     private String atorEspecifico_filme;
     private double nota_filme;
+    private String trailer_filme;
 
     @ElementCollection
     private List<String> generos;
