@@ -1,20 +1,17 @@
 package com.brademobackend.moviematch.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import java.util.Optional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import com.brademobackend.moviematch.model.Filme;
 import com.brademobackend.moviematch.model.Usuario;
 import com.brademobackend.moviematch.service.UsuarioService;
+import com.brademobackend.moviematch.service.AutenticacaoService;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -23,16 +20,41 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private AutenticacaoService autenticacaoService;
+
     @PostMapping
     public Usuario criarUsuario(@RequestBody Usuario usuario) {
         return usuarioService.salvarUsuario(usuario);
     }
 
     @PostMapping("/login")
-    public Usuario login(@RequestBody Usuario usuario) {
-        return usuarioService.login(
-                usuario.getEmail_usuario(),
-                usuario.getSenha_usuario());
+    public Map<String, Object> login(@RequestBody Usuario usuario) {
+
+        Usuario usuarioAutenticado =
+                autenticacaoService.realizarLogin(
+                        usuario.getEmail_usuario(),
+                        usuario.getSenha_usuario()
+                );
+
+        if (usuarioAutenticado == null) {
+            throw new RuntimeException("E-mail ou senha inválidos.");
+        }
+
+        Map<String, Object> resposta = new HashMap<>();
+
+        resposta.put("mensagem", "Login realizado com sucesso.");
+        resposta.put("id_usuario", usuarioAutenticado.getId_usuario());
+        resposta.put("nome_usuario", usuarioAutenticado.getNome_usuario());
+        resposta.put("email_usuario", usuarioAutenticado.getEmail_usuario());
+
+        return resposta;
+    }
+
+    @PostMapping("/logout")
+    public String logout() {
+        autenticacaoService.realizarLogout();
+        return "Logout realizado com sucesso.";
     }
 
     @GetMapping
@@ -61,7 +83,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/{idUsuario}/curtir/{idFilme}")
-    public Usuario curtirFilme(@PathVariable Long idUsuario, @PathVariable Long idFilme) {
+    public Usuario curtirFilme(
+            @PathVariable Long idUsuario,
+            @PathVariable Long idFilme) {
+
         return usuarioService.curtirFilme(idUsuario, idFilme);
     }
 
@@ -71,12 +96,18 @@ public class UsuarioController {
     }
 
     @GetMapping("/{idUsuario}/curtiu/{idFilme}")
-    public boolean filmeJaCurtido(@PathVariable Long idUsuario, @PathVariable Long idFilme) {
+    public boolean filmeJaCurtido(
+            @PathVariable Long idUsuario,
+            @PathVariable Long idFilme) {
+
         return usuarioService.filmeJaCurtido(idUsuario, idFilme);
     }
 
     @DeleteMapping("/{idUsuario}/curtir/{idFilme}")
-    public Usuario removerCurtida(@PathVariable Long idUsuario, @PathVariable Long idFilme) {
+    public Usuario removerCurtida(
+            @PathVariable Long idUsuario,
+            @PathVariable Long idFilme) {
+
         return usuarioService.removerCurtida(idUsuario, idFilme);
     }
 }

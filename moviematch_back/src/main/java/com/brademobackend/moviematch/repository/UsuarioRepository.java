@@ -18,4 +18,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     Optional<Usuario> login(
             @Param("email") String email,
             @Param("senha") String senha);
+
+    @Query("SELECT u FROM Usuario u WHERE u.email_usuario = :email")
+    Optional<Usuario> buscarPorEmail(@Param("email") String email);
 }

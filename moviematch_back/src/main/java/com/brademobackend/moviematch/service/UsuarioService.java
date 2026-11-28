@@ -11,6 +11,7 @@ import com.brademobackend.moviematch.model.Usuario;
 import com.brademobackend.moviematch.repository.UsuarioRepository;
 import com.brademobackend.moviematch.repository.FilmeRepository;
 import com.brademobackend.moviematch.repository.ListaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService {
@@ -51,13 +52,19 @@ public class UsuarioService {
         return usuario.orElse(null);
     }
 
+    @Transactional
     public Usuario curtirFilme(Long idUsuario, Long idFilme) {
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
-        Filme filme = filmeRepository.findById(idFilme).orElseThrow();
-        boolean jaCurtido = usuario.getFilmesCurtidos().stream().anyMatch(f -> f.getId_filme().equals(idFilme));
-        if (!jaCurtido) {
+
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        Filme filme = filmeRepository.findById(idFilme)
+                .orElseThrow(() -> new RuntimeException("Filme não encontrado."));
+
+        if (!usuario.getFilmesCurtidos().contains(filme)) {
             usuario.getFilmesCurtidos().add(filme);
         }
+
         return usuarioRepository.save(usuario);
     }
 
@@ -66,9 +73,15 @@ public class UsuarioService {
         return usuario.getFilmesCurtidos();
     }
 
+    @Transactional(readOnly = true)
     public boolean filmeJaCurtido(Long idUsuario, Long idFilme) {
-        Usuario usuario = usuarioRepository.findById(idUsuario).orElseThrow();
-        return usuario.getFilmesCurtidos().stream().anyMatch(f -> f.getId_filme().equals(idFilme));
+
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        return usuario.getFilmesCurtidos()
+                .stream()
+                .anyMatch(filme -> filme.getId_filme().equals(idFilme));
     }
 
     public Usuario removerCurtida(Long idUsuario, Long idFilme) {

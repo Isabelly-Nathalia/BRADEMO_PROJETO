@@ -1,5 +1,6 @@
 package com.brademobackend.moviematch.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.brademobackend.moviematch.model.Usuario;
 import com.brademobackend.moviematch.repository.FilmeRepository;
 import com.brademobackend.moviematch.repository.ListaRepository;
 import com.brademobackend.moviematch.repository.UsuarioRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ListaService {
@@ -29,14 +31,27 @@ public class ListaService {
         return listaRepository.save(lista);
     }
 
+    @Transactional
     public Lista adicionarFilme(Long idLista, Long idFilme) {
-        Lista lista = listaRepository.findById(idLista).orElseThrow();
-        Filme filme = filmeRepository.findById(idFilme).orElseThrow();
 
-        boolean jaExiste = lista.getFilmes().stream().anyMatch(f -> f.getId_filme().equals(idFilme));
-        if (!jaExiste) {
+        Lista lista = listaRepository.findById(idLista)
+                .orElseThrow(() -> new RuntimeException("Lista não encontrada."));
+
+        Filme filme = filmeRepository.findById(idFilme)
+                .orElseThrow(() -> new RuntimeException("Filme não encontrado."));
+
+        if (lista.getFilmes() == null) {
+            lista.setFilmes(new ArrayList<>());
+        }
+
+        boolean jaAdicionado = lista.getFilmes()
+                .stream()
+                .anyMatch(f -> f.getId_filme().equals(idFilme));
+
+        if (!jaAdicionado) {
             lista.getFilmes().add(filme);
         }
+
         return listaRepository.save(lista);
     }
 
